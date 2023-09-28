@@ -19,9 +19,9 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /** Version number is either MAJOR.MINOR, or MAJOR.MINOR.PATCH if PATCH != 0 */
-const unsigned int VERSION_MAJOR = @LUGARU_VERSION_MAJOR@;
-const unsigned int VERSION_MINOR = @LUGARU_VERSION_MINOR@;
-const unsigned int VERSION_PATCH = @LUGARU_VERSION_PATCH@;
+const unsigned int VERSION_MAJOR = 1;
+const unsigned int VERSION_MINOR = 0;
+const unsigned int VERSION_PATCH = 0;
 const std::string VERSION_NUMBER = "@LUGARU_VERSION_NUMBER@";
 
 /** Set to "" for stable (tagged) builds, "-dev" for dev builds */

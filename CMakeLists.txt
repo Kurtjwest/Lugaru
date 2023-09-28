@@ -14,16 +14,22 @@ endif()
 
 find_package(OpenGL REQUIRED)
 find_package(OpenAL REQUIRED)
-find_package(libjpeg REQUIRED)
-find_package(libpng REQUIRED)
-find_package(SDL REQUIRED)
+find_package(JPEG REQUIRED)
+find_package(PNG REQUIRED)
+find_package(SDL2 REQUIRED)
 find_package(vorbis REQUIRED)
 find_package(jsoncpp REQUIRED)
+find_package(glext REQUIRED)
+find_package(glu REQUIRED)
 
 
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS 
+	${CMAKE_CURRENT_SOURCE_DIR}/Source/*.c
 	${CMAKE_CURRENT_SOURCE_DIR}/Source/*.h 
 	${CMAKE_CURRENT_SOURCE_DIR}/Source/*.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Source/*.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/Source/*.cxx
+	${CMAKE_CURRENT_SOURCE_DIR}/Source/*.hxx
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_FILES})
@@ -37,11 +43,13 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 target_link_libraries (${PROJECT_NAME}
     PRIVATE OpenGL::GL
     PRIVATE OpenAL::OpenAL
-    PRIVATE libjpeg::libjpeg
-    PRIVATE libpng::libpng
-    PRIVATE SDL::SDL
+    PRIVATE JPEG::JPEG
+    PRIVATE PNG::PNG
+    PRIVATE SDL2::SDL2
     PRIVATE vorbis::vorbis
     PRIVATE JsonCpp::JsonCpp
+    PRIVATE glext::glext
+    PRIVATE glu::glu
 )
 
 target_include_directories(${PROJECT_NAME}

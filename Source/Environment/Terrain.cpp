@@ -1187,20 +1187,15 @@ void Terrain::drawdecals()
             decals[i].alivetime += multiplier;
             if (decals[i].type == blooddecalslow) {
                 decals[i].alivetime -= multiplier * 2 / 3;
-            }
-            if (decals[i].type == blooddecalfast) {
+            } else if (decals[i].type == blooddecalfast) {
                 decals[i].alivetime += multiplier * 4;
-            }
-            if (decals[i].type == shadowdecal) {
+            } else if (decals[i].type == shadowdecal) {
                 DeleteDecal(i);
-            }
-            if (decals[i].type == footprintdecal && decals[i].alivetime >= 5) {
+            }else if (decals[i].type == footprintdecal && decals[i].alivetime >= 5) {
                 DeleteDecal(i);
-            }
-            if (decals[i].type == bodyprintdecal && decals[i].alivetime >= 5) {
+            }else if (decals[i].type == bodyprintdecal && decals[i].alivetime >= 5) {
                 DeleteDecal(i);
-            }
-            if ((decals[i].type == blooddecal || decals[i].type == blooddecalfast || decals[i].type == blooddecalslow) && decals[i].alivetime >= 60) {
+            } else if ((decals[i].type == blooddecal || decals[i].type == blooddecalfast || decals[i].type == blooddecalslow) && decals[i].alivetime >= 60) {
                 DeleteDecal(i);
             }
         }

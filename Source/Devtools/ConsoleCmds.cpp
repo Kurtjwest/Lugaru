@@ -40,6 +40,12 @@ console_handler cmd_handlers[cmd_count] = {
 #undef DECLARE_COMMAND
 };
 
+#ifdef _MSC_VER
+
+#define strncasecmp(x,y,z) _strnicmp(x,y,z)
+
+#endif
+
 using namespace Game;
 
 /* globals */

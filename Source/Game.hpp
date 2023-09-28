@@ -40,6 +40,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Utils/ImageIO.hpp"
 #include "Utils/binio.h"
 
+#define SDL_MAIN_HANDLED
 #include <SDL.h>
 #include <fstream>
 

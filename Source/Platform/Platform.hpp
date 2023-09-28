@@ -23,9 +23,9 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Math/Random.hpp"
 
-#include <float.h>
-#include <math.h>
-#include <stdio.h>
+#include <cfloat>
+#include <cmath>
+#include <cstdio>
 
 #if defined(WIN32) && !defined(strcasecmp)
 #define strcasecmp(a, b) stricmp(a, b)
@@ -64,32 +64,5 @@ enum
 };
 
 Duration AbsoluteDeltaToDuration(AbsoluteTime& a, AbsoluteTime& b);
-
-/* Workaround missing math stuff on MSVC
- * FIXME: Check that it is still necessary nowadays.
- */
-#ifdef _MSC_VER
-inline bool isnormal(double x)
-{
-    int ret = _fpclass(x);
-    return (ret == _FPCLASS_NN || ret == _FPCLASS_PN);
-}
-
-inline float abs(float f)
-{
-    if (f < 0)
-        return -f;
-    return f;
-}
-
-inline double abs(double d)
-{
-    if (d < 0)
-        return -d;
-    return d;
-}
-#else
-#include <stdint.h>
-#endif // _MSC_VER
 
 #endif // _PLATFORM_HPP_

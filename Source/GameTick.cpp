@@ -278,7 +278,7 @@ void Game::playdialoguescenesound()
 int Game::findClosestPlayer()
 {
     int closest = -1;
-    float closestdist = std::numeric_limits<float>::max();
+    float closestdist = FLT_MAX;
 
     for (unsigned int i = 1; i < Person::players.size(); i++) {
         float distance = distsq(&Person::players[i]->coords, &Person::players[0]->coords);
@@ -293,7 +293,7 @@ int Game::findClosestPlayer()
 static int findClosestObject()
 {
     int closest = -1;
-    float closestdist = std::numeric_limits<float>::max();
+    float closestdist = FLT_MAX;
 
     for (unsigned int i = 0; i < Object::objects.size(); i++) {
         float distance = distsq(&Object::objects[i]->position,
@@ -485,7 +485,7 @@ bool Game::LoadLevel(int which)
         return LoadLevel("tutorial", true);
     } else if (which >= 0 && which <= 15) {
         char buf[32];
-        snprintf(buf, 32, "map%d", which + 1); // challenges
+        sprintf(buf, "map%d", which + 1); // challenges
         return LoadLevel(buf);
     } else {
         return LoadLevel("mapsave");
@@ -3579,7 +3579,7 @@ void Game::Tick()
                                 if (Dialog::currentScene().sound != 0) {
                                     playdialoguescenesound();
                                     if (Dialog::currentScene().sound == -5) {
-                                        Hotspot::hotspots.emplace_back(Person::players[0]->coords, -1, 10);
+                                        Hotspot::hotspots.emplace_back(Person::players[0]->coords, -1, 10.f);
                                     }
                                     if (Dialog::currentScene().sound == -6) {
                                         hostile = 1;

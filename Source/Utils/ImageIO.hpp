@@ -28,13 +28,14 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <cstdint>
 
 #ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#define Polygon WinPolygon
-#include <windows.h>
-#undef Polygon
-#include <GL/gl.h>
+//#define WIN32_LEAN_AND_MEAN
+//#define Polygon WinPolygon
+//#include <windows.h>
+//#undef Polygon
+//#include <GL/gl.h>
 #else
 #include "Graphic/gamegl.hpp"
 #endif
@@ -43,10 +44,11 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 class ImageRec
 {
 public:
-    GLubyte* data; // Image Data (Up To 32 Bits)
-    GLuint bpp;    // Image Color Depth In Bits Per Pixel.
-    GLuint sizeX;
-    GLuint sizeY;
+    uint8_t* data; // Image Data (Up To 32 Bits)
+    unsigned int bpp;    // Image Color Depth In Bits Per Pixel.
+    unsigned int sizeX;
+    unsigned int sizeY;
+
     ImageRec();
     ~ImageRec();
 
