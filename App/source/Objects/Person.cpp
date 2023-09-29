@@ -1311,7 +1311,7 @@ void Person::Reverse()
         victim->animCurrent = swordslashreversalanim;
         victim->animTarget = swordslashreversalanim;
     }
-    if (animTarget == knifeslashstartanim && distsq(&victim->coords, &coords) < 2 && (victim->id == 0 || std::rand % 4 == 0)) {
+    if (animTarget == knifeslashstartanim && distsq(&victim->coords, &coords) < 2 && (victim->id == 0 || std::rand() % 4 == 0)) {
         if (victim->hasWeapon()) {
             victim->throwtogglekeydown = 1;
             XYZ tempVelocity = victim->velocity * .2;
