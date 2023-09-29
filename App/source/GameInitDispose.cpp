@@ -551,7 +551,8 @@ void Game::InitGame()
 
     LOG("Initializing sound system...");
 
-    OPENAL_Init(44100, 32, 0);
+    // 
+    OPENAL_Init(44100, 32, 0, commandLineOptions[OPENALINFO]);
 
     OPENAL_SetSFXMasterVolume((int)(volume * 255));
     loadAllSounds();

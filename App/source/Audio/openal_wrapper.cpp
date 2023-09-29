@@ -21,7 +21,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Audio/openal_wrapper.hpp"
 
 #include "Audio/Sounds.hpp"
-#include "Game.hpp"
 #include "Math/XYZ.hpp"
 
 #include <cstdio>
@@ -137,7 +136,7 @@ AL_API signed char OPENAL_3D_SetAttributes_(int channel, const XYZ& pos)
     return true;
 }
 
-AL_API signed char OPENAL_Init(int mixrate, int maxsoftwarechannels, unsigned int flags)
+AL_API signed char OPENAL_Init(int mixrate, int maxsoftwarechannels, unsigned int flags, bool printInfo)
 {
     if (initialized) {
         return false;
@@ -165,7 +164,7 @@ AL_API signed char OPENAL_Init(int mixrate, int maxsoftwarechannels, unsigned in
     alcMakeContextCurrent(ctx);
     alcProcessContext(ctx);
 
-    if (commandLineOptions[OPENALINFO]) {
+    if (printInfo) {
         printf("AL_VENDOR: %s\n", (char*)alGetString(AL_VENDOR));
         printf("AL_RENDERER: %s\n", (char*)alGetString(AL_RENDERER));
         printf("AL_VERSION: %s\n", (char*)alGetString(AL_VERSION));

@@ -292,7 +292,7 @@ float Skeleton::DoConstraints(XYZ* coords, float* scale)
 							// FIXME: this crashes because k is not initialized!
 							// to reproduce, type 'wolfie' in console and play a while
 							// I'll just comment it out for now
-							//Object::objects[k]->model.MakeDecal(breakdecal, DoRotation(temp - Object::objects[k]->position, 0, -Object::objects[k]->yaw, 0), .4, .5, Random() % 360);
+							//Object::objects[k]->model.MakeDecal(breakdecal, DoRotation(temp - Object::objects[k]->position, 0, -Object::objects[k]->yaw, 0), .4, .5, rand() % 360);
 							Sprite::MakeSprite(cloudsprite, joints[i].position * (*scale) + *coords, joints[i].velocity * .06f, 1, 1, 1, 4, .2f);
 							breaking = false;
 							camerashake += .6f;
@@ -383,7 +383,7 @@ float Skeleton::DoConstraints(XYZ* coords, float* scale)
 								}
 								if (!Tutorial::active || id == 0) {
 									if (findLengthfast(&bounceness) > 4000 && breaking) {
-										Object::objects[k]->model.MakeDecal(breakdecal, DoRotation(temp - Object::objects[k]->position, 0, -Object::objects[k]->yaw, 0), .4f, .5f, (float)(Random() % 360));
+										Object::objects[k]->model.MakeDecal(breakdecal, DoRotation(temp - Object::objects[k]->position, 0, -Object::objects[k]->yaw, 0), .4f, .5f, (float)(rand() % 360));
 										Sprite::MakeSprite(cloudsprite, joints[i].position * (*scale) + *coords, joints[i].velocity * .06f, 1, 1, 1, 4, .2f);
 										breaking = false;
 										camerashake += .6f;

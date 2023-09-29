@@ -268,7 +268,7 @@ int Game::DrawGLScene(StereoSide side)
         //camera effects
         if (!cameramode && !freeze && !winfreeze) {
             //shake
-            glRotatef(float(Random() % 100) / 10 * camerashake /*+(woozy*woozy)/10*/, 0, 0, 1);
+            glRotatef(float(rand() % 100) / 10 * camerashake /*+(woozy*woozy)/10*/, 0, 0, 1);
             //sway
             glRotatef(pitch + sin(woozy / 2) * (Person::players[0]->damage / Person::players[0]->damagetolerance) * 5, 1, 0, 0);
             glRotatef(yaw + sin(woozy) * (Person::players[0]->damage / Person::players[0]->damagetolerance) * 5, 0, 1, 0);
@@ -279,8 +279,8 @@ int Game::DrawGLScene(StereoSide side)
         }
 
         if (environment == desertenvironment) {
-            glRotatef((float)(abs(Random() % 100)) / 3000 - 1, 1, 0, 0);
-            glRotatef((float)(abs(Random() % 100)) / 3000 - 1, 0, 1, 0);
+            glRotatef((float)(abs(rand() % 100)) / 3000 - 1, 1, 0, 0);
+            glRotatef((float)(abs(rand() % 100)) / 3000 - 1, 0, 1, 0);
         }
         SetUpLight(&light, 0);
         glPushMatrix();
@@ -288,7 +288,7 @@ int Game::DrawGLScene(StereoSide side)
         //heat blur effect in desert
         if (abs(blurness - targetblurness) < multiplier * 10 || abs(blurness - targetblurness) > 2) {
             blurness = targetblurness;
-            targetblurness = (float)(abs(Random() % 100)) / 40;
+            targetblurness = (float)(abs(rand() % 100)) / 40;
         }
         if (blurness < targetblurness) {
             blurness += multiplier * 5;
@@ -300,8 +300,8 @@ int Game::DrawGLScene(StereoSide side)
             if (detail == 2) {
                 glTexEnvf(GL_TEXTURE_FILTER_CONTROL, GL_TEXTURE_LOD_BIAS, blurness + .4);
             }
-            glRotatef((float)(abs(Random() % 100)) / 1000, 1, 0, 0);
-            glRotatef((float)(abs(Random() % 100)) / 1000, 0, 1, 0);
+            glRotatef((float)(abs(rand() % 100)) / 1000, 1, 0, 0);
+            glRotatef((float)(abs(rand() % 100)) / 1000, 0, 1, 0);
         }
         skybox->draw();
         glTexEnvf(GL_TEXTURE_FILTER_CONTROL, GL_TEXTURE_LOD_BIAS, 0);
@@ -435,7 +435,7 @@ int Game::DrawGLScene(StereoSide side)
                         glDisable(GL_BLEND);
                     }
                     if (distance >= .5) {
-                        checkpoint = DoRotation(Person::players[k]->skeleton.joints[fabs(Random() % Person::players[k]->skeleton.joints.size())].position, 0, Person::players[k]->yaw, 0) * Person::players[k]->scale + Person::players[k]->coords;
+                        checkpoint = DoRotation(Person::players[k]->skeleton.joints[fabs(rand() % Person::players[k]->skeleton.joints.size())].position, 0, Person::players[k]->yaw, 0) * Person::players[k]->scale + Person::players[k]->coords;
                         checkpoint.y += 1;
                         int i = -1;
                         if (Person::players[k]->occluded != 0) {
@@ -507,7 +507,7 @@ int Game::DrawGLScene(StereoSide side)
                     glDisable(GL_BLEND);
                 }
                 if (distance >= .5) {
-                    checkpoint = DoRotation(Person::players[k]->skeleton.joints[fabs(Random() % Person::players[k]->skeleton.joints.size())].position, 0, Person::players[k]->yaw, 0) * Person::players[k]->scale + Person::players[k]->coords;
+                    checkpoint = DoRotation(Person::players[k]->skeleton.joints[fabs(rand() % Person::players[k]->skeleton.joints.size())].position, 0, Person::players[k]->yaw, 0) * Person::players[k]->scale + Person::players[k]->coords;
                     checkpoint.y += 1;
                     int i = -1;
                     if (Person::players[k]->occluded != 0) {

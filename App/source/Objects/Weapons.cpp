@@ -164,9 +164,9 @@ void Weapon::doStuff(int i)
 		emit_sound_at(staffbreaksound, tippoint);
 		XYZ tempvel;
 		for (int j = 0; j < 40; j++) {
-			tempvel.x = float(abs(Random() % 100) - 50) / 20;
-			tempvel.y = float(abs(Random() % 100) - 50) / 20;
-			tempvel.z = float(abs(Random() % 100) - 50) / 20;
+			tempvel.x = float(abs(rand() % 100) - 50) / 20;
+			tempvel.y = float(abs(rand() % 100) - 50) / 20;
+			tempvel.z = float(abs(rand() % 100) - 50) / 20;
 			Sprite::MakeSprite(splintersprite, position + (tippoint - position) * ((float)j - 8) / 32, tempvel * .5, 115 / 255, 73 / 255, 12 / 255, .1, 1);
 		}
 		if (owner != -1) {
@@ -202,7 +202,7 @@ void Weapon::doStuff(int i)
 				whichhit = Object::objects[k]->model.LineCheck(&start, &end, &colpoint, &Object::objects[k]->position, &Object::objects[k]->yaw);
 				if (whichhit != -1) {
 					if (Object::objects[k]->type == treetrunktype) {
-						Object::objects[k]->model.MakeDecal(breakdecal, DoRotation(colpoint - Object::objects[k]->position, 0, -Object::objects[k]->yaw, 0), .1, 1, Random() % 360);
+						Object::objects[k]->model.MakeDecal(breakdecal, DoRotation(colpoint - Object::objects[k]->position, 0, -Object::objects[k]->yaw, 0), .1, 1, rand() % 360);
 						normalrot = DoRotation(Object::objects[k]->model.Triangles[whichhit].facenormal, 0, Object::objects[k]->yaw, 0);
 						velocity = 0;
 						if (type == knife) {
@@ -261,7 +261,7 @@ void Weapon::doStuff(int i)
 				if (owner == -1 && distsqflat(&position, &Person::players[j]->coords) < 1.5 &&
 					distsq(&position, &Person::players[j]->coords) < 4 && Person::players[j]->weaponstuck == -1 &&
 					!Person::players[j]->skeleton.free && (int(j) != oldowner)) {
-					if ((Person::players[j]->aitype != attacktypecutoff || abs(Random() % 6) == 0 || (Person::players[j]->animTarget != backhandspringanim && Person::players[j]->animTarget != rollanim && Person::players[j]->animTarget != flipanim && Random() % 2 == 0)) && !missed) {
+					if ((Person::players[j]->aitype != attacktypecutoff || abs(rand() % 6) == 0 || (Person::players[j]->animTarget != backhandspringanim && Person::players[j]->animTarget != rollanim && Person::players[j]->animTarget != flipanim && rand() % 2 == 0)) && !missed) {
 						if (Person::players[j]->catchKnife()) {
 							emit_sound_at(knifedrawsound, Person::players[j]->coords, 128.);
 
@@ -313,7 +313,7 @@ void Weapon::doStuff(int i)
 								}
 								Person::players[j]->damage += 200 / Person::players[j]->armorhigh;
 								Person::players[j]->deathbleeding = 1;
-								Person::players[j]->bloodloss += (200 + abs((float)(Random() % 40)) - 20) / Person::players[j]->armorhigh;
+								Person::players[j]->bloodloss += (200 + abs((float)(rand() % 40)) - 20) / Person::players[j]->armorhigh;
 								owner = j;
 								bloody = 2;
 								blooddrip = 5;
@@ -530,10 +530,10 @@ void Weapon::doStuff(int i)
 						if (findLengthfast(&bounceness) > 1) {
 							int whichsound;
 							if (type == staff) {
-								whichsound = footstepsound3 + abs(Random() % 2);
+								whichsound = footstepsound3 + abs(rand() % 2);
 							}
 							else {
-								whichsound = clank1sound + abs(Random() % 4);
+								whichsound = clank1sound + abs(rand() % 4);
 							}
 							emit_sound_at(whichsound, position, 128 * findLengthfast(&bounceness));
 						}
@@ -565,10 +565,10 @@ void Weapon::doStuff(int i)
 						if (findLengthfast(&bounceness) > 1) {
 							int whichsound;
 							if (type == staff) {
-								whichsound = footstepsound3 + abs(Random() % 2);
+								whichsound = footstepsound3 + abs(rand() % 2);
 							}
 							else {
-								whichsound = clank1sound + abs(Random() % 4);
+								whichsound = clank1sound + abs(rand() % 4);
 							}
 							emit_sound_at(whichsound, position, 128 * findLengthfast(&bounceness));
 						}
@@ -606,10 +606,10 @@ void Weapon::doStuff(int i)
 								if (findLengthfast(&bounceness) > 1) {
 									int whichsound;
 									if (type == staff) {
-										whichsound = footstepsound3 + abs(Random() % 2);
+										whichsound = footstepsound3 + abs(rand() % 2);
 									}
 									else {
-										whichsound = clank1sound + abs(Random() % 4);
+										whichsound = clank1sound + abs(rand() % 4);
 									}
 									emit_sound_at(whichsound, mid, 128 * findLengthfast(&bounceness));
 								}
@@ -646,10 +646,10 @@ void Weapon::doStuff(int i)
 								if (findLengthfast(&bounceness) > 1) {
 									int whichsound;
 									if (type == staff) {
-										whichsound = footstepsound3 + abs(Random() % 2);
+										whichsound = footstepsound3 + abs(rand() % 2);
 									}
 									else {
-										whichsound = clank1sound + abs(Random() % 4);
+										whichsound = clank1sound + abs(rand() % 4);
 									}
 									emit_sound_at(whichsound, mid, 128 * findLengthfast(&bounceness));
 								}
@@ -736,14 +736,14 @@ void Weapon::doStuff(int i)
 					int whichsound;
 					if (terrain.getOpacity(position.x, position.z) > .2) {
 						if (type == staff) {
-							whichsound = footstepsound3 + abs(Random() % 2);
+							whichsound = footstepsound3 + abs(rand() % 2);
 						}
 						else {
-							whichsound = clank1sound + abs(Random() % 4);
+							whichsound = clank1sound + abs(rand() % 4);
 						}
 					}
 					else {
-						whichsound = footstepsound + abs(Random() % 2);
+						whichsound = footstepsound + abs(rand() % 2);
 					}
 					emit_sound_at(whichsound, position,
 						findLengthfast(&bounceness) * (terrain.getOpacity(position.x, position.z) > .2 ? 128. : 32.));
@@ -804,14 +804,14 @@ void Weapon::doStuff(int i)
 					int whichsound;
 					if (terrain.getOpacity(tippoint.x, tippoint.z) > .2) {
 						if (type == staff) {
-							whichsound = footstepsound3 + abs(Random() % 2);
+							whichsound = footstepsound3 + abs(rand() % 2);
 						}
 						else {
-							whichsound = clank1sound + abs(Random() % 4);
+							whichsound = clank1sound + abs(rand() % 4);
 						}
 					}
 					else {
-						whichsound = footstepsound + abs(Random() % 2);
+						whichsound = footstepsound + abs(rand() % 2);
 					}
 					emit_sound_at(whichsound, tippoint,
 						findLengthfast(&bounceness) * (terrain.getOpacity(tippoint.x, tippoint.z) > .2 ? 128. : 32.));
@@ -873,14 +873,14 @@ void Weapon::doStuff(int i)
 					int whichsound;
 					if (terrain.getOpacity(mid.x, mid.z) > .2) {
 						if (type == staff) {
-							whichsound = footstepsound3 + abs(Random() % 2);
+							whichsound = footstepsound3 + abs(rand() % 2);
 						}
 						else {
-							whichsound = clank1sound + abs(Random() % 4);
+							whichsound = clank1sound + abs(rand() % 4);
 						}
 					}
 					else {
-						whichsound = footstepsound + abs(Random() % 2);
+						whichsound = footstepsound + abs(rand() % 2);
 					}
 					emit_sound_at(whichsound, mid,
 						findLengthfast(&bounceness) * (terrain.getOpacity(position.x, position.z) > .2
@@ -924,14 +924,14 @@ void Weapon::doStuff(int i)
 					int whichsound;
 					if (terrain.getOpacity(mid.x, mid.z) > .2) {
 						if (type == staff) {
-							whichsound = footstepsound3 + abs(Random() % 2);
+							whichsound = footstepsound3 + abs(rand() % 2);
 						}
 						else {
-							whichsound = clank1sound + abs(Random() % 4);
+							whichsound = clank1sound + abs(rand() % 4);
 						}
 					}
 					else {
-						whichsound = footstepsound + abs(Random() % 2);
+						whichsound = footstepsound + abs(rand() % 2);
 					}
 					emit_sound_at(whichsound, mid,
 						findLengthfast(&bounceness) * (terrain.getOpacity(position.x, position.z) > .2
@@ -1016,7 +1016,7 @@ void Weapon::doStuff(int i)
 					normalrot.y = 1;
 				}
 			}
-			Sprite::MakeSprite(weaponflamesprite, position + tippoint * (((float)abs(Random() % 100)) / 600 + .05), normalrot, 1, 1, 1, (.6 + (float)abs(Random() % 100) / 200 - .25) * 1 / 3, 1);
+			Sprite::MakeSprite(weaponflamesprite, position + tippoint * (((float)abs(rand() % 100)) / 600 + .05), normalrot, 1, 1, 1, (.6 + (float)abs(rand() % 100) / 200 - .25) * 1 / 3, 1);
 			Sprite::setLastSpriteSpeed(4);
 			Sprite::setLastSpriteAlivetime(.3);
 		}
@@ -1028,10 +1028,10 @@ void Weapon::doStuff(int i)
 			flamedelay = .020;
 			flamedelay -= multiplier;
 			normalrot = 0;
-			if (Random() % 50 == 0 && distsq(&position, &viewer) > 80) {
+			if (rand() % 50 == 0 && distsq(&position, &viewer) > 80) {
 				XYZ shinepoint;
-				shinepoint = position + (tippoint - position) * (((float)abs(Random() % 100)) / 100);
-				Sprite::MakeSprite(weaponshinesprite, shinepoint, normalrot, 1, 1, 1, (.1 + (float)abs(Random() % 100) / 200 - .25) * 1 / 3 * fast_sqrt(findDistance(&shinepoint, &viewer)), 1);
+				shinepoint = position + (tippoint - position) * (((float)abs(rand() % 100)) / 100);
+				Sprite::MakeSprite(weaponshinesprite, shinepoint, normalrot, 1, 1, 1, (.1 + (float)abs(rand() % 100) / 200 - .25) * 1 / 3 * fast_sqrt(findDistance(&shinepoint, &viewer)), 1);
 				Sprite::setLastSpriteSpeed(4);
 				Sprite::setLastSpriteAlivetime(.3);
 			}

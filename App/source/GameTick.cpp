@@ -835,7 +835,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
             Person::players[i]->frameTarget = 1;
             Person::players[i]->target = 0;
         }
-        Person::players[i]->speed = 1 + (float)(Random() % 100) / 1000;
+        Person::players[i]->speed = 1 + (float)(rand() % 100) / 1000;
         if (difficulty == 0) {
             Person::players[i]->speed -= .2;
         }
@@ -904,10 +904,10 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
     Person::players[0]->aitype = playercontrolled;
 
     if (difficulty == 1) {
-        Person::players[0]->power = 1 / .9;
+        Person::players[0]->power = 10 / .9;
         Person::players[0]->damagetolerance = 250;
     } else if (difficulty == 0) {
-        Person::players[0]->power = 1 / .8;
+        Person::players[0]->power = 10 / .8;
         Person::players[0]->damagetolerance = 300;
         Person::players[0]->armorhead *= 1.5;
         Person::players[0]->armorhigh *= 1.5;
@@ -1115,7 +1115,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 
         Person::players[i]->addClothes();
 
-        Person::players[i]->speed = 1 + (float)(Random() % 100) / 1000;
+        Person::players[i]->speed = 1 + (float)(rand() % 100) / 1000;
         if (difficulty == 0) {
             Person::players[i]->speed -= .2;
         }
@@ -1497,9 +1497,9 @@ void Game::ProcessDevInput()
 
                 for (unsigned i = 0; i < Person::players[closest]->skeleton.joints.size(); i++) {
                     flatvelocity2 = flatvelocity2_orig;
-                    flatvelocity2.x += (float)(abs(Random() % 100) - 50) / 10;
-                    flatvelocity2.y += (float)(abs(Random() % 100) - 50) / 10;
-                    flatvelocity2.z += (float)(abs(Random() % 100) - 50) / 10;
+                    flatvelocity2.x += (float)(abs(rand() % 100) - 50) / 10;
+                    flatvelocity2.y += (float)(abs(rand() % 100) - 50) / 10;
+                    flatvelocity2.z += (float)(abs(rand() % 100) - 50) / 10;
                     printf("Test: %f\n", flatvelocity2.x);
                     printf("Test orig: %f\n", flatvelocity2_orig.x);
                     Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2, 1, 1, 1, .6, 1);
@@ -1551,34 +1551,34 @@ void Game::ProcessDevInput()
 
                     // Animation part 1
                     flatvelocity2 = flatvelocity2_orig;
-                    flatvelocity2.x += (float)(abs(Random() % 100) - 50) / 10;
-                    flatvelocity2.y += (float)(abs(Random() % 100) - 50) / 10;
-                    flatvelocity2.z += (float)(abs(Random() % 100) - 50) / 10;
+                    flatvelocity2.x += (float)(abs(rand() % 100) - 50) / 10;
+                    flatvelocity2.y += (float)(abs(rand() % 100) - 50) / 10;
+                    flatvelocity2.z += (float)(abs(rand() % 100) - 50) / 10;
                     Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2, 1, 1, 1, 3, 1);
                     Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2, 1, 1, 1, .3, 1);
                     Sprite::MakeSprite(cloudsprite, flatfacing2, flatvelocity2 * 0, .6, 0, 0, 1, .5);
 
                     // Animation part 2
                     flatvelocity2 = flatvelocity2_orig;
-                    flatvelocity2.x += (float)(abs(Random() % 100) - 50) / 10;
-                    flatvelocity2.y += (float)(abs(Random() % 100) - 50) / 10;
-                    flatvelocity2.z += (float)(abs(Random() % 100) - 50) / 10;
+                    flatvelocity2.x += (float)(abs(rand() % 100) - 50) / 10;
+                    flatvelocity2.y += (float)(abs(rand() % 100) - 50) / 10;
+                    flatvelocity2.z += (float)(abs(rand() % 100) - 50) / 10;
                     Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2, 1, 1, 1, 3, 1);
                     Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2, 1, 1, 1, .4, 1);
 
                     // Animation part 3
                     flatvelocity2 = flatvelocity2_orig;
-                    flatvelocity2.x += (float)(abs(Random() % 100) - 50) / 10;
-                    flatvelocity2.y += (float)(abs(Random() % 100) - 50) / 10;
-                    flatvelocity2.z += (float)(abs(Random() % 100) - 50) / 10;
+                    flatvelocity2.x += (float)(abs(rand() % 100) - 50) / 10;
+                    flatvelocity2.y += (float)(abs(rand() % 100) - 50) / 10;
+                    flatvelocity2.z += (float)(abs(rand() % 100) - 50) / 10;
                     Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2 * 2, 1, 1, 1, 3, 1);
                     Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2 * 2, 1, 1, 1, .4, 1);
 
                     // Animation part 4
                     flatvelocity2 = flatvelocity2_orig;
-                    flatvelocity2.x += (float)(abs(Random() % 100) - 50) / 10;
-                    flatvelocity2.y += (float)(abs(Random() % 100) - 50) / 10;
-                    flatvelocity2.z += (float)(abs(Random() % 100) - 50) / 10;
+                    flatvelocity2.x += (float)(abs(rand() % 100) - 50) / 10;
+                    flatvelocity2.y += (float)(abs(rand() % 100) - 50) / 10;
+                    flatvelocity2.z += (float)(abs(rand() % 100) - 50) / 10;
                     Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2 * 2, 1, 1, 1, 3, 1);
                     Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2 * 2, 1, 1, 1, .4, 1);
                 }
@@ -1662,15 +1662,15 @@ void Game::ProcessDevInput()
                 tmpyaw = editoryaw;
                 tmppitch = editorpitch;
                 if (tmpyaw < 0 || editortype == bushtype) {
-                    tmpyaw = Random() % 360;
+                    tmpyaw = rand() % 360;
                 }
                 if (tmppitch < 0) {
-                    tmppitch = Random() % 360;
+                    tmppitch = rand() % 360;
                 }
 
                 Object::MakeObject(editortype, scenecoords, (int)tmpyaw - ((int)tmpyaw) % 30, (int)tmppitch, editorsize);
                 if (editortype == treetrunktype) {
-                    Object::MakeObject(treeleavestype, scenecoords, Random() % 360 * (tmppitch < 2) + (int)editoryaw - ((int)editoryaw) % 30, editorpitch, editorsize);
+                    Object::MakeObject(treeleavestype, scenecoords, rand() % 360 * (tmppitch < 2) + (int)editoryaw - ((int)editoryaw) % 30, editorpitch, editorsize);
                 }
             }
         }
@@ -1684,12 +1684,12 @@ void Game::ProcessDevInput()
             Person::players.back()->scale = Person::players[0]->scale;
             Person::players.back()->creature = rabbittype;
             Person::players.back()->howactive = editoractive;
-            Person::players.back()->whichskin = (int)(abs(Random() % 3));
+            Person::players.back()->whichskin = (int)(abs(rand() % 3));
 
             Person::players.back()->skeletonLoad();
 
             Person::players.back()->skeleton.drawmodelclothes.textureptr.load("Textures/Belt.png", 1);
-            Person::players.back()->speed = 1 + (float)(Random() % 100) / 1000;
+            Person::players.back()->speed = 1 + (float)(rand() % 100) / 1000;
 
             Person::players.back()->targetyaw = Person::players[0]->targetyaw;
             Person::players.back()->yaw = Person::players[0]->yaw;
@@ -2601,7 +2601,7 @@ void doAttacks()
                                             }
                                         } else { //AI player
                                             if (distance < 4.5 * sq(Person::players[k]->scale * 5)) {
-                                                randattack = abs(Random() % 5);
+                                                randattack = abs(rand() % 5);
                                                 if (!attackweapon && distance < 2.5 * sq(Person::players[k]->scale * 5)) {
                                                     //sweep
                                                     if (randattack == 0 && Animation::animations[Person::players[i]->animTarget].height != lowheight) {
@@ -2873,7 +2873,7 @@ void doAttacks()
                                     Person::players[k]->targettilt2 = pitchTo(Person::players[k]->coords, targetpoint);
 
                                     if (Person::players[k]->animTarget == crouchstabanim || Person::players[k]->animTarget == swordgroundstabanim) {
-                                        Person::players[k]->targetyaw += (float)(abs(Random() % 100) - 50) / 4;
+                                        Person::players[k]->targetyaw += (float)(abs(rand() % 100) - 50) / 4;
                                     }
 
                                     if (Person::players[k]->animTarget == staffgroundsmashanim) {
@@ -3306,9 +3306,9 @@ void Game::Tick()
                 for (unsigned i = 0; i < Hotspot::hotspots.size(); i++) {
                     while (hotspotvisual[i] < 0) {
                         hotspotsprite = 0;
-                        hotspotsprite.x = float(abs(Random() % 100000)) / 100000 * Hotspot::hotspots[i].size;
-                        hotspotsprite = DoRotation(hotspotsprite, 0, 0, Random() % 360);
-                        hotspotsprite = DoRotation(hotspotsprite, 0, Random() % 360, 0);
+                        hotspotsprite.x = float(abs(rand() % 100000)) / 100000 * Hotspot::hotspots[i].size;
+                        hotspotsprite = DoRotation(hotspotsprite, 0, 0, rand() % 360);
+                        hotspotsprite = DoRotation(hotspotsprite, 0, rand() % 360, 0);
                         hotspotsprite += Hotspot::hotspots[i].position;
                         Sprite::MakeSprite(breathsprite, hotspotsprite, hotspotsprite * 0, 1, 0.5, 0, 7, 0.4);
                         hotspotvisual[i] += 0.1 / Hotspot::hotspots[i].size / Hotspot::hotspots[i].size / Hotspot::hotspots[i].size;
@@ -3375,9 +3375,9 @@ void Game::Tick()
 
                     footvel = 0;
                     footpoint = viewer + viewerfacing * 6;
-                    footpoint.y += ((float)abs(Random() % 1200)) / 100 - 6;
-                    footpoint.x += ((float)abs(Random() % 1200)) / 100 - 6;
-                    footpoint.z += ((float)abs(Random() % 1200)) / 100 - 6;
+                    footpoint.y += ((float)abs(rand() % 1200)) / 100 - 6;
+                    footpoint.x += ((float)abs(rand() % 1200)) / 100 - 6;
+                    footpoint.z += ((float)abs(rand() % 1200)) / 100 - 6;
                     Sprite::MakeSprite(snowsprite, footpoint, footvel, 1, 1, 1, .1, 1);
                 }
             }
@@ -3634,7 +3634,7 @@ void Game::Tick()
             if (hawkcalldelay <= 0) {
                 emit_sound_at(hawksound, realhawkcoords);
 
-                hawkcalldelay = 16 + abs(Random() % 8);
+                hawkcalldelay = 16 + abs(rand() % 8);
             }
 
             doAttacks();
@@ -3827,7 +3827,7 @@ void Game::Tick()
                     Person::players[i]->whichdirectiondelay -= multiplier;
                     if (Person::players[i]->avoidcollided < -.3 || Person::players[i]->whichdirectiondelay <= 0) {
                         Person::players[i]->avoidcollided = -.3;
-                        Person::players[i]->whichdirection = abs(Random() % 2);
+                        Person::players[i]->whichdirection = abs(rand() % 2);
                         Person::players[i]->whichdirectiondelay = .4;
                     }
                     if (Person::players[i]->avoidcollided > 1) {
@@ -4075,7 +4075,7 @@ void Game::Tick()
                                                                     aim = Person::players[i]->victim->coords + DoRotation(Person::players[i]->victim->jointPos(abdomen), 0, Person::players[i]->victim->yaw, 0) * Person::players[i]->victim->scale + Person::players[i]->victim->velocity * findDistance(&Person::players[i]->victim->coords, &Person::players[i]->coords) / 50 - (Person::players[i]->coords + DoRotation(Person::players[i]->jointPos(righthand), 0, Person::players[i]->yaw, 0) * Person::players[i]->scale);
                                                                     Normalise(&aim);
 
-                                                                    aim = DoRotation(aim, (float)abs(Random() % 30) - 15, (float)abs(Random() % 30) - 15, 0);
+                                                                    aim = DoRotation(aim, (float)abs(rand() % 30) - 15, (float)abs(rand() % 30) - 15, 0);
 
                                                                     weapons[Person::players[i]->weaponids[0]].thrown(aim * 50, false);
                                                                     Person::players[i]->num_weapons--;
@@ -5140,9 +5140,9 @@ void Game::TickOnceAfter()
             blackout = 0;
         }
         if (camerashake) {
-            viewer.x += (float)(Random() % 100) * .0005 * camerashake;
-            viewer.y += (float)(Random() % 100) * .0005 * camerashake;
-            viewer.z += (float)(Random() % 100) * .0005 * camerashake;
+            viewer.x += (float)(rand() % 100) * .0005 * camerashake;
+            viewer.y += (float)(rand() % 100) * .0005 * camerashake;
+            viewer.z += (float)(rand() % 100) * .0005 * camerashake;
         }
     }
 }

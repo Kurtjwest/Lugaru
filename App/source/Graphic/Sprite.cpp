@@ -397,8 +397,8 @@ void Sprite::Draw()
 							end = sprites[i]->position;
 							if (!spritehit) {
 								if (Object::objects[k]->model.LineCheck(&start, &end, &colpoint, &Object::objects[k]->position, &Object::objects[k]->yaw) != -1) {
-									if (detail == 2 || (detail == 1 && abs(Random() % 4) == 0) || (detail == 0 && abs(Random() % 8) == 0)) {
-										Object::objects[k]->model.MakeDecal(blooddecalfast, DoRotation(colpoint - Object::objects[k]->position, 0, -Object::objects[k]->yaw, 0), sprites[i]->size * 1.6, .5, Random() % 360);
+									if (detail == 2 || (detail == 1 && abs(rand() % 4) == 0) || (detail == 0 && abs(rand() % 8) == 0)) {
+										Object::objects[k]->model.MakeDecal(blooddecalfast, DoRotation(colpoint - Object::objects[k]->position, 0, -Object::objects[k]->yaw, 0), sprites[i]->size * 1.6, .5, rand() % 360);
 									}
 									DeleteSprite(i);
 									spritehit = 1;
@@ -410,7 +410,7 @@ void Sprite::Draw()
 				}
 				if (!spritehit) {
 					if (sprites[i]->position.y < terrain.getHeight(sprites[i]->position.x, sprites[i]->position.z)) {
-						terrain.MakeDecal(blooddecalfast, sprites[i]->position, sprites[i]->size * 1.6, .6, Random() % 360);
+						terrain.MakeDecal(blooddecalfast, sprites[i]->position, sprites[i]->size * 1.6, .6, rand() % 360);
 						DeleteSprite(i);
 						break;
 					}
@@ -431,7 +431,7 @@ void Sprite::Draw()
 			sprites[i]->rotation += multiplier * sprites[i]->rotatespeed;
 			sprites[i]->opacity -= multiplier * 5 / 4;
 			if (sprites[i]->type != weaponshinesprite && sprites[i]->type != bloodflamesprite) {
-				if (sprites[i]->opacity < .5 && sprites[i]->opacity + multiplier * 5 / 4 >= .5 && (abs(Random() % 4) == 0 || (sprites[i]->initialsize > 2 && Random() % 2 == 0))) {
+				if (sprites[i]->opacity < .5 && sprites[i]->opacity + multiplier * 5 / 4 >= .5 && (abs(rand() % 4) == 0 || (sprites[i]->initialsize > 2 && rand() % 2 == 0))) {
 					MakeSprite(smoketype, sprites[i]->position, sprites[i]->velocity, .9, .9, .6, sprites[i]->size * 1.2, .4);
 				}
 			}
@@ -496,8 +496,8 @@ void Sprite::MakeSprite(int atype, XYZ where, XYZ avelocity, float red, float gr
 			sprites.back()->color[0] = red;
 			sprites.back()->color[1] = green;
 			sprites.back()->color[2] = blue;
-			sprites.back()->rotatespeed = abs(Random() % 720) - 360;
-			sprites.back()->speed = float(abs(Random() % 100)) / 200 + 1.5;
+			sprites.back()->rotatespeed = abs(rand() % 720) - 360;
+			sprites.back()->speed = float(abs(rand() % 100)) / 200 + 1.5;
 		}
 	}
 }

@@ -157,7 +157,7 @@ DialogScene::DialogScene(Json::Value data)
 Dialog::Dialog(int type, std::string filename)
     : type(type)
 {
-    ifstream ipstream(Folders::getResourcePath(filename));
+    std::ifstream ipstream(Folders::getResourcePath(filename));
     ipstream.ignore(256, ':');
     int numscenes;
     ipstream >> numscenes;
@@ -170,7 +170,7 @@ Dialog::Dialog(int type, std::string filename)
     ipstream.close();
 }
 
-DialogScene::DialogScene(ifstream& ipstream)
+DialogScene::DialogScene(std::ifstream& ipstream)
 {
     ipstream.ignore(256, ':');
     ipstream.ignore(256, ':');

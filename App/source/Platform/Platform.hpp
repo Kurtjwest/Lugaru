@@ -21,8 +21,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _PLATFORM_HPP_
 #define _PLATFORM_HPP_
 
-#include "Math/Random.hpp"
-
 #include <cfloat>
 #include <cmath>
 #include <cstdio>

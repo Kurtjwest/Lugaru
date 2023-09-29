@@ -462,8 +462,8 @@ bool Terrain::load(const std::string& fileName)
 		for (j = 0; j < size; j++) {
 			heightmap[i][j] *= .5;
 
-			texoffsetx[i][j] = (float)abs(Random() % 100) / 1200 / scale * 3;
-			texoffsety[i][j] = (float)abs(Random() % 100) / 1200 / scale * 3;
+			texoffsetx[i][j] = (float)abs(rand() % 100) / 1200 / scale * 3;
+			texoffsety[i][j] = (float)abs(rand() % 100) / 1200 / scale * 3;
 
 			slopeness = 0;
 			if (environment == snowyenvironment) {
@@ -474,7 +474,7 @@ bool Terrain::load(const std::string& fileName)
 				if (opacityother[i][j] > 1) {
 					opacityother[i][j] = 1;
 				}
-				opacityother[i][j] -= (float)abs(Random() % 100) / 300;
+				opacityother[i][j] -= (float)abs(rand() % 100) / 300;
 			}
 			if (environment == desertenvironment) {
 				if (j != 0 && heightmap[i][j] - heightmap[i][j - 1] > slopeness) {
@@ -484,7 +484,7 @@ bool Terrain::load(const std::string& fileName)
 				if (opacityother[i][j] > 1) {
 					opacityother[i][j] = 1;
 				}
-				opacityother[i][j] -= (float)abs(Random() % 100) / 300;
+				opacityother[i][j] -= (float)abs(rand() % 100) / 300;
 			}
 			if (environment == grassyenvironment) {
 				if (i != 0 && heightmap[i][j] - heightmap[i - 1][j] > slopeness) {
@@ -503,7 +503,7 @@ bool Terrain::load(const std::string& fileName)
 				if (opacityother[i][j] > 1) {
 					opacityother[i][j] = 1;
 				}
-				opacityother[i][j] -= (float)abs(Random() % 100) / 100;
+				opacityother[i][j] -= (float)abs(rand() % 100) / 100;
 			}
 		}
 	}

@@ -24,6 +24,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Math/XYZ.hpp"
 
 #include <stdio.h>
+#include <fstream>
 #include <vector>
 #include <json/value.h>
 
@@ -32,7 +33,7 @@ class DialogScene
 public:
     DialogScene(FILE* tfile);
     DialogScene(Json::Value);
-    DialogScene(ifstream& ipstream);
+    DialogScene(std::ifstream& ipstream);
     void save(FILE* tfile);
     Json::Value save();
 

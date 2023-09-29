@@ -121,7 +121,7 @@ Object::Object(object_type _type, XYZ _position, float _yaw, float _pitch, float
             friction = .4;
             break;
         case treeleavestype:
-            scale += fabs((float)(Random() % 100) / 900) * scale;
+            scale += fabs((float)(rand() % 100) / 900) * scale;
             model.load("Models/Leaves.solid");
             friction = 0;
             break;
@@ -178,19 +178,19 @@ void Object::handleFire()
         while ((flamedelay < 0) && onfire) {
             flamedelay += .006;
             if ((type == bushtype) || (type == firetype)) {
-                spawnpoint.x = ((float)(Random() % 100)) / 30 * scale;
-                spawnpoint.y = ((float)(Random() % 100) + 60) / 30 * scale;
+                spawnpoint.x = ((float)(rand() % 100)) / 30 * scale;
+                spawnpoint.y = ((float)(rand() % 100) + 60) / 30 * scale;
                 spawnpoint.z = 0;
-                spawnpoint = DoRotation(spawnpoint, 0, Random() % 360, 0);
+                spawnpoint = DoRotation(spawnpoint, 0, rand() % 360, 0);
                 spawnpoint += position;
-                Sprite::MakeSprite(flamesprite, spawnpoint, spawnpoint * 0, 1, 1, 1, (.6 + (float)abs(Random() % 100) / 200 - .25) * 5 * scale, 1);
+                Sprite::MakeSprite(flamesprite, spawnpoint, spawnpoint * 0, 1, 1, 1, (.6 + (float)abs(rand() % 100) / 200 - .25) * 5 * scale, 1);
             } else if (type == treeleavestype) {
-                spawnpoint.x = ((float)(Random() % 100)) / 80 * scale;
-                spawnpoint.y = ((float)(Random() % 100) + 80) / 12 * scale;
+                spawnpoint.x = ((float)(rand() % 100)) / 80 * scale;
+                spawnpoint.y = ((float)(rand() % 100) + 80) / 12 * scale;
                 spawnpoint.z = 0;
-                spawnpoint = DoRotation(spawnpoint, 0, Random() % 360, 0);
+                spawnpoint = DoRotation(spawnpoint, 0, rand() % 360, 0);
                 spawnpoint += position;
-                Sprite::MakeSprite(flamesprite, spawnpoint, spawnpoint * 0, 1, 1, 1, (.6 + (float)abs(Random() % 100) / 200 - .25) * 6, 1);
+                Sprite::MakeSprite(flamesprite, spawnpoint, spawnpoint * 0, 1, 1, 1, (.6 + (float)abs(rand() % 100) / 200 - .25) * 6, 1);
             }
         }
     }

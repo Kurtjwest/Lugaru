@@ -59,14 +59,14 @@ public:
     std::vector<std::string> skins;
 
     float power;
-    unsigned int defaultDamageTolerance;
-    float defaultScale;
-    bool hasClaws;
-    bool clothes;
-    unsigned int maxRunSpeed;
-    unsigned int knifeCatchingType;
+    unsigned int defaultDamageTolerance = 0;
+    float defaultScale = 1.f;
+    bool hasClaws = false;
+    bool clothes = false;
+    unsigned int maxRunSpeed = 0;
+    unsigned int knifeCatchingType = 0;
 
-    GLubyte bloodText[512 * 512 * 3] = { 0 };
+    uint8_t bloodText[512 * 512 * 3] = { 0 };
 
     PersonType();
     bool hasAnimTalkIdle();

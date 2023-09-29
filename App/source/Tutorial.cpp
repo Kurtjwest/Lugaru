@@ -91,7 +91,7 @@ void Tutorial::Do(float multiplier)
                 emit_sound_at(fireendsound, Person::players[1]->coords);
 
                 for (unsigned i = 0; i < Person::players[1]->skeleton.joints.size(); i++) {
-                    if (Random() % 2 == 0) {
+                    if (rand() % 2 == 0) {
                         if (!Person::players[1]->skeleton.free) {
                             temp2 = (Person::players[1]->coords - Person::players[1]->oldcoords) / multiplier / 2; //velocity/2;
                         }
@@ -104,7 +104,7 @@ void Tutorial::Do(float multiplier)
                         if (Person::players[1]->skeleton.free) {
                             temp = Person::players[1]->skeleton.joints[i].position * Person::players[1]->scale + Person::players[1]->coords;
                         }
-                        Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(Random() % 100) / 200 - .25, 1);
+                        Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, 1);
                     }
                 }
             } break;
@@ -335,7 +335,7 @@ void Tutorial::Do(float multiplier)
                 emit_sound_at(fireendsound, Person::players[1]->coords);
 
                 for (unsigned i = 0; i < Person::players[1]->skeleton.joints.size(); i++) {
-                    if (Random() % 2 == 0) {
+                    if (rand() % 2 == 0) {
                         if (!Person::players[1]->skeleton.free) {
                             temp2 = (Person::players[1]->coords - Person::players[1]->oldcoords) / multiplier / 2; //velocity/2;
                         }
@@ -348,7 +348,7 @@ void Tutorial::Do(float multiplier)
                         if (Person::players[1]->skeleton.free) {
                             temp = Person::players[1]->skeleton.joints[i].position * Person::players[1]->scale + Person::players[1]->coords;
                         }
-                        Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(Random() % 100) / 200 - .25, 1);
+                        Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, 1);
                     }
                 }
 
@@ -839,7 +839,7 @@ void Tutorial::DoStuff(float multiplier)
             emit_sound_at(fireendsound, Person::players[1]->coords);
 
             for (unsigned i = 0; i < Person::players[1]->skeleton.joints.size(); i++) {
-                if (Random() % 2 == 0) {
+                if (rand() % 2 == 0) {
                     if (!Person::players[1]->skeleton.free) {
                         temp2 = (Person::players[1]->coords - Person::players[1]->oldcoords) / multiplier / 2; //velocity/2;
                     }
@@ -852,14 +852,14 @@ void Tutorial::DoStuff(float multiplier)
                     if (Person::players[1]->skeleton.free) {
                         temp = Person::players[1]->skeleton.joints[i].position * Person::players[1]->scale + Person::players[1]->coords;
                     }
-                    Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(Random() % 100) / 200 - .25, 1);
+                    Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, 1);
                 }
             }
 
             Person::players[1]->coords = (oldtemp + oldtemp2) / 2;
             for (unsigned i = 0; i < Person::players[1]->skeleton.joints.size(); i++) {
                 Person::players[1]->skeleton.joints[i].velocity = 0;
-                if (Random() % 2 == 0) {
+                if (rand() % 2 == 0) {
                     if (!Person::players[1]->skeleton.free) {
                         temp2 = (Person::players[1]->coords - Person::players[1]->oldcoords) / multiplier / 2; //velocity/2;
                     }
@@ -872,7 +872,7 @@ void Tutorial::DoStuff(float multiplier)
                     if (Person::players[1]->skeleton.free) {
                         temp = Person::players[1]->skeleton.joints[i].position * Person::players[1]->scale + Person::players[1]->coords;
                     }
-                    Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(Random() % 100) / 200 - .25, 1);
+                    Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, 1);
                 }
             }
         }

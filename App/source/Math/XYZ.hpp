@@ -21,7 +21,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _QUATERNIONS_HPP_
 #define _QUATERNIONS_HPP_
 
-#include "Graphic/gamegl.hpp"
+//#include "Graphic/gamegl.hpp"
 
 #include <math.h>
 #include <json/value.h>
@@ -216,7 +216,7 @@ inline float fast_sqrt(float arg)
 
 inline float normaldotproduct(XYZ point1, XYZ point2)
 {
-    static GLfloat returnvalue;
+    static float returnvalue;
     Normalise(&point1);
     Normalise(&point2);
     returnvalue = (point1.x * point2.x + point1.y * point2.y + point1.z * point2.z);
@@ -250,7 +250,7 @@ inline void ReflectVector(XYZ* vel, const XYZ& n)
 
 inline float dotproduct(const XYZ* point1, const XYZ* point2)
 {
-    static GLfloat returnvalue;
+    static float returnvalue;
     returnvalue = (point1->x * point2->x + point1->y * point2->y + point1->z * point2->z);
     return returnvalue;
 }

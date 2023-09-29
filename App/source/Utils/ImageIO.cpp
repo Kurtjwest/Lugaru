@@ -26,6 +26,10 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "LoadJpeg.h"
 
 #include <cstdio>
+#include <iostream>
+
+using std::cerr;
+using std::endl;
 
 /* These two are needed for screenshot */
 extern int kContextWidth;
@@ -33,7 +37,7 @@ extern int kContextHeight;
 
 ImageRec::ImageRec()
 {
-	data = (GLubyte*)malloc(1024 * 1024 * 4);
+	data = (uint8_t*)malloc(1024 * 1024 * 4);
 }
 
 ImageRec::~ImageRec()
@@ -45,7 +49,6 @@ ImageRec::~ImageRec()
 bool load_image(const char* file_name, ImageRec& tex)
 {
 	Game::LoadingScreen();
-
 	if (tex.data == NULL) {
 		return false;
 	}
