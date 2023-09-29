@@ -146,7 +146,7 @@ Animation::Animation(const std::string& filename, anim_height_type aheight, anim
             endoffset += frames.back().joints[i].position;
         }
     }
-    endoffset /= numjoints;
+    endoffset /= (float)numjoints;
     offset = endoffset;
     offset.y = 0;
 }

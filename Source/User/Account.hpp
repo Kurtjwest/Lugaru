@@ -28,124 +28,127 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 struct CampaignProgress
 {
-    int highscore;
-    float fasttime;
-    int score;
-    float time;
-    std::vector<int> choices;
-    CampaignProgress()
-    {
-        highscore = 0;
-        fasttime = 0;
-        score = 0;
-        time = 0;
-    }
+	int highscore;
+	float fasttime;
+	int score;
+	float time;
+	std::vector<int> choices;
+	CampaignProgress()
+	{
+		highscore = 0;
+		fasttime = 0;
+		score = 0;
+		time = 0;
+	}
 };
 
 class Account
 {
 public:
-    static void destroyActive();
-    static void setActive(int i);
-    static void add(const std::string& name);
-    static Account& get(int i);
-    static void loadFile(std::string filename);
-    static void saveFile(std::string filename);
-    static int getNbAccounts();
+	static void destroyActive();
+	static void setActive(int i);
+	static void add(const std::string& name);
+	static Account& get(int i);
+	static void loadFile(std::string filename);
+	static void saveFile(std::string filename);
+	static int getNbAccounts();
 
-    static bool hasActive();
-    static Account& active();
+	static bool hasActive();
+	static Account& active();
 
-    Account(const std::string& name = "");
-    Account(FILE* tfile);
+	Account(const std::string& name = "");
+	Account(FILE* tfile);
 
-    void endGame();
-    void winCampaignLevel(int choice, int score, float time);
-    void winLevel(int level, int score, float time);
+	void endGame();
+	void winCampaignLevel(int choice, int score, float time);
+	void winLevel(int level, int score, float time);
 
-    // getter and setters
-    int getDifficulty();
-    void setDifficulty(int i)
-    {
-        difficulty = i;
-    };
-    const std::string& getName()
-    {
-        return name;
-    };
-    int getCampaignScore()
-    {
-        return campaignProgress[currentCampaign].score;
-    };
-    int getCampaignChoicesMade()
-    {
-        return campaignProgress[currentCampaign].choices.size();
-    };
-    int getCampaignChoice(int i)
-    {
-        return campaignProgress[currentCampaign].choices[i];
-    };
-    void setCampaignScore(int s)
-    {
-        campaignProgress[currentCampaign].score = s;
-        if (s > campaignProgress[currentCampaign].highscore) {
-            campaignProgress[currentCampaign].highscore = s;
-        }
-    };
-    void setCampaignFinalTime(float t)
-    {
-        campaignProgress[currentCampaign].time = t;
-        if ((t < campaignProgress[currentCampaign].fasttime) || ((campaignProgress[currentCampaign].fasttime == 0) && (t != 0))) {
-            campaignProgress[currentCampaign].fasttime = t;
-        }
-    };
-    float getCampaignFasttime()
-    {
-        return campaignProgress[currentCampaign].fasttime;
-    };
-    void resetFasttime()
-    {
-        campaignProgress[currentCampaign].fasttime = 0;
-    };
-    int getCampaignHighScore()
-    {
-        return campaignProgress[currentCampaign].highscore;
-    };
-    int getHighScore(int i)
-    {
-        return highscore[i];
-    };
-    float getFastTime(int i)
-    {
-        return fasttime[i];
-    };
-    int getProgress()
-    {
-        return progress;
-    };
-    std::string getCurrentCampaign()
-    {
-        return currentCampaign;
-    };
-    void setCurrentCampaign(const std::string& name);
+	// getter and setters
+	int getDifficulty();
+	void setDifficulty(int i)
+	{
+		difficulty = i;
+	};
+	const std::string& getName()
+	{
+		return name;
+	};
+	int getCampaignScore()
+	{
+		return campaignProgress[currentCampaign].score;
+	};
+	int getCampaignChoicesMade()
+	{
+		return (int)campaignProgress[currentCampaign].choices.size();
+	};
+
+	int getCampaignChoice(int i)
+	{
+		return campaignProgress[currentCampaign].choices[i];
+	};
+
+	void setCampaignScore(int s)
+	{
+		campaignProgress[currentCampaign].score = s;
+		if (s > campaignProgress[currentCampaign].highscore) {
+			campaignProgress[currentCampaign].highscore = s;
+		}
+	};
+
+	void setCampaignFinalTime(float t)
+	{
+		campaignProgress[currentCampaign].time = t;
+		if ((t < campaignProgress[currentCampaign].fasttime) || ((campaignProgress[currentCampaign].fasttime == 0) && (t != 0))) {
+			campaignProgress[currentCampaign].fasttime = t;
+		}
+	};
+	float getCampaignFasttime()
+	{
+		return campaignProgress[currentCampaign].fasttime;
+	};
+	void resetFasttime()
+	{
+		campaignProgress[currentCampaign].fasttime = 0;
+	};
+	int getCampaignHighScore()
+	{
+		return campaignProgress[currentCampaign].highscore;
+	};
+	int getHighScore(int i)
+	{
+		return highscore[i];
+	};
+	float getFastTime(int i)
+	{
+		return fasttime[i];
+	};
+	int getProgress()
+	{
+		return progress;
+	};
+	std::string getCurrentCampaign()
+	{
+		return currentCampaign;
+	};
+	void setCurrentCampaign(const std::string& name);
 
 private:
-    //statics
-    static std::vector<Account> accounts;
-    static int i_active;
+	//statics
+	static std::vector<Account> accounts;
+	static int i_active;
 
-    void save(FILE* tfile);
+	void save(FILE* tfile);
 
-    int difficulty;
-    int progress; // progress in challenge levels
-    float points;
-    int highscore[50];
-    float fasttime[50];
-    bool unlocked[60];
-    std::string name;
+	int difficulty;
+	int progress; // progress in challenge levels
+	float points;
+	int highscore[50];
+	float fasttime[50];
+	bool unlocked[60];
+	std::string name;
 
-    std::string currentCampaign;
-    std::map<std::string, CampaignProgress> campaignProgress;
+	std::string currentCampaign;
+	std::map<std::string, CampaignProgress> campaignProgress;
 };
 
 #endif

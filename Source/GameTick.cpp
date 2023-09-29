@@ -336,16 +336,16 @@ void Screenshot(void)
 void Game::SetUpLighting()
 {
     if (environment == snowyenvironment) {
-        light.setColors(.65, .65, .7, .4, .4, .44);
+        light.setColors(.65f, .65f, .7f, .4f, .4f, .44f);
     }
     if (environment == desertenvironment) {
-        light.setColors(.95, .95, .95, .4, .35, .3);
+        light.setColors(.95f, .95f, .95f, .4f, .35f, .3f);
     }
     if (environment == grassyenvironment) {
-        light.setColors(.95, .95, 1, .4, .4, .44);
+        light.setColors(.95f, .95f, 1.f, .4f, .4f, .44f);
     }
     if (!skyboxtexture) {
-        light.setColors(1, 1, 1, .4, .4, .4);
+        light.setColors(1.f, 1.f, 1.f, .4f, .4f, .4f);
     }
     float average;
     average = (skyboxlightr + skyboxlightg + skyboxlightb) / 3;
@@ -780,7 +780,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
             Person::players.push_back(shared_ptr<Person>(new Person(tfile, mapvers, j)));
             j++;
         } catch (InvalidPersonException &e) {
-            cerr << "Invalid Person found in " << name << endl;
+            cerr << "Invalid Person found in " << name << ":" << e.what() << endl;
         }
     }
     Game::LoadingScreen();

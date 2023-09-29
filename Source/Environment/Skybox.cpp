@@ -53,14 +53,14 @@ void SkyBox::draw()
     glLoadMatrixf(M);
     if (environment == desertenvironment) {
         glScalef(1 + blurness / 1000, 1, 1 + blurness / 1000);
-        glColor3f(1 * skyboxr, .95 * skyboxg, .95 * skyboxb);
+        glColor3f(1 * skyboxr, .95f * skyboxg, .95f * skyboxb);
     } else {
-        glColor3f(.85 * skyboxr, .85 * skyboxg, .95 * skyboxb);
+        glColor3f(.85f * skyboxr, .85f * skyboxg, .95f * skyboxb);
     }
 
     if (!skyboxtexture) {
         glDisable(GL_TEXTURE_2D);
-        glColor3f(skyboxr * .8, skyboxg * .8, skyboxb * .8);
+        glColor3f(skyboxr * .8f, skyboxg * .8f, skyboxb * .8f);
     }
     glDepthMask(0);
     glDisable(GL_CULL_FACE);

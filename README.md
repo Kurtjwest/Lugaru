@@ -1,6 +1,6 @@
 # Lugaru
 
-Fork of lugaru with modern conan and cmake based build system
+Fork of lugaru with modern conan and cmake based build system.
 
 ## Requirements
 

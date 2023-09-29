@@ -314,8 +314,9 @@ static void* decode_to_pcm(const char* _fname, ALenum& format, ALsizei& size, AL
 #endif
 
     // !!! FIXME: if it's not Ogg, we don't have a decoder. I'm lazy.  :/
+    auto fnamesize = strlen(_fname) + 16;
     char* fname = (char*)alloca(strlen(_fname) + 16);
-    strcpy(fname, _fname);
+    strncpy(fname, _fname, fnamesize);
     char* ptr = strchr(fname, '.');
     if (ptr) {
         *ptr = '\0';

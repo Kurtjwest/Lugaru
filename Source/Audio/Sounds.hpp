@@ -35,12 +35,12 @@ extern int channels[];
 
 extern void loadAllSounds();
 
-extern void addEnvSound(XYZ coords, float vol = 16, float life = .4);
+extern void addEnvSound(XYZ coords, float vol = 16.f, float life = .4f);
 
-extern void emit_sound_at(int soundid, const XYZ& pos = XYZ(), float vol = 256.f);
-extern void emit_sound_np(int soundid, float vol = 256.f);
-extern void emit_stream_at(int soundid, const XYZ& pos = XYZ(), float vol = 256.f);
-extern void emit_stream_np(int soundid, float vol = 256.f);
+extern void emit_sound_at(int soundid, const XYZ& pos = XYZ(), int vol = 255);
+extern void emit_sound_np(int soundid, int vol = 255);
+extern void emit_stream_at(int soundid, const XYZ& pos = XYZ(), int vol = 255);
+extern void emit_stream_np(int soundid, int vol = 255);
 extern void resume_stream(int soundid);
 extern void pause_sound(int soundid);
 

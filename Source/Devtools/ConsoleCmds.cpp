@@ -157,7 +157,7 @@ static void set_clothes(int pnum, const char* args)
         return;
     }
 
-    int id = Person::players[pnum]->clothes.size();
+    int id = (int)Person::players[pnum]->clothes.size();
     Person::players[pnum]->clothes.push_back(std::string(buf));
     Person::players[pnum]->clothestintr.push_back(tintr);
     Person::players[pnum]->clothestintg.push_back(tintg);
@@ -321,7 +321,7 @@ void ch_save(const char* args)
     Dialog::saveDialogs(tfile);
 
     for (unsigned k = 0; k < Person::players[0]->clothes.size(); k++) {
-        int templength = Person::players[0]->clothes[k].size();
+        int templength = (int)Person::players[0]->clothes[k].size();
         fpackf(tfile, "Bi", templength);
         for (int l = 0; l < templength; l++) {
             fpackf(tfile, "Bb", Person::players[0]->clothes[k][l]);
@@ -341,7 +341,7 @@ void ch_save(const char* args)
     fpackf(tfile, "Bi", Hotspot::hotspots.size());
     for (unsigned i = 0; i < Hotspot::hotspots.size(); i++) {
         fpackf(tfile, "Bi Bf Bf Bf Bf", Hotspot::hotspots[i].type, Hotspot::hotspots[i].size, Hotspot::hotspots[i].position.x, Hotspot::hotspots[i].position.y, Hotspot::hotspots[i].position.z);
-        int templength = Hotspot::hotspots[i].text.size();
+        int templength = (int)Hotspot::hotspots[i].text.size();
         fpackf(tfile, "Bi", templength);
         for (int l = 0; l < templength; l++) {
             fpackf(tfile, "Bb", Hotspot::hotspots[i].text[l]);
@@ -384,8 +384,7 @@ void ch_save(const char* args)
 
         fpackf(tfile, "Bi", Person::players[j]->clothes.size());
         for (unsigned k = 0; k < Person::players[j]->clothes.size(); k++) {
-            int templength;
-            templength = Person::players[j]->clothes[k].size();
+            int templength = (int)Person::players[j]->clothes[k].size();
             fpackf(tfile, "Bi", templength);
             for (int l = 0; l < templength; l++) {
                 fpackf(tfile, "Bb", Person::players[j]->clothes[k][l]);

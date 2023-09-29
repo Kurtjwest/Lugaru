@@ -29,15 +29,12 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 class XYZ
 {
 public:
-    float x;
-    float y;
-    float z;
-    XYZ()
-        : x(0.0f)
-        , y(0.0f)
-        , z(0.0f)
-    {
-    }
+    float x = 0.f;
+    float y = 0.f;
+    float z = 0.f;
+    
+    XYZ() = default;
+
     XYZ(Json::Value v)
         : x(v[0].asFloat())
         , y(v[1].asFloat())

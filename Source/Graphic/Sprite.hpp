@@ -83,7 +83,7 @@ public:
     {
         sprites.back()->special = s;
     }
-    static void setLastSpriteSpeed(int s)
+    static void setLastSpriteSpeed(float s)
     {
         sprites.back()->speed = s;
     }

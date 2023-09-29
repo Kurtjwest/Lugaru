@@ -33,8 +33,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 struct Point
 {
-    short v;
-    short h;
+    short v = 0;
+    short h = 0;
 };
 
 typedef signed char SInt8;
