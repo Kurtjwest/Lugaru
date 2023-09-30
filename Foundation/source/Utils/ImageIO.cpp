@@ -19,21 +19,16 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Utils/ImageIO.hpp"
-
-#include "Game.hpp"
 #include "Utils/Folders.hpp"
-#include "LoadPng.h"
-#include "LoadJpeg.h"
+#include "utils/LoadPng.h"
+#include "utils/LoadJpeg.h"
+#include "Platform/Platform.hpp"
 
 #include <cstdio>
 #include <iostream>
 
 using std::cerr;
 using std::endl;
-
-/* These two are needed for screenshot */
-extern int kContextWidth;
-extern int kContextHeight;
 
 ImageRec::ImageRec()
 {
@@ -46,9 +41,10 @@ ImageRec::~ImageRec()
 	data = NULL;
 }
 
-bool load_image(const char* file_name, ImageRec& tex)
+bool load_image(const char* file_name, ImageRec& tex, ProgressCallback callback)
 {
-	Game::LoadingScreen();
+	//Game::LoadingScreen();
+	callback();
 	if (tex.data == NULL) {
 		return false;
 	}
@@ -60,19 +56,6 @@ bool load_image(const char* file_name, ImageRec& tex)
 		}
 		else if (strcasecmp(ptr + 1, "jpg") == 0) {
 			return load_jpg(file_name, tex);
-		}
-	}
-
-	std::cerr << "Unsupported image type" << std::endl;
-	return false;
-}
-
-bool save_screenshot(const char* file_name)
-{
-	const char* ptr = strrchr((char*)file_name, '.');
-	if (ptr) {
-		if (strcasecmp(ptr + 1, "png") == 0) {
-			return save_screenshot_png((Folders::getScreenshotDir() + '/' + file_name).c_str());
 		}
 	}
 

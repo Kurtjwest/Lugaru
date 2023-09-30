@@ -21,8 +21,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _QUATERNIONS_HPP_
 #define _QUATERNIONS_HPP_
 
-//#include "Graphic/gamegl.hpp"
-
 #include <math.h>
 #include <json/value.h>
 

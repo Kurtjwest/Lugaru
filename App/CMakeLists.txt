@@ -22,16 +22,14 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 target_link_libraries (${PROJECT_NAME}
     PRIVATE OpenGL::GL
     PRIVATE OpenAL::OpenAL
-    PRIVATE JPEG::JPEG
-    PRIVATE PNG::PNG
     PRIVATE SDL2::SDL2
     PRIVATE vorbis::vorbis
-    PRIVATE JsonCpp::JsonCpp
     PRIVATE glext::glext
     PRIVATE glu::glu
+
+	PRIVATE FoundationLib
 )
 
-# _CRT_SECURE_NO_WARNINGS
 target_compile_definitions(${PROJECT_NAME} 
 	PRIVATE $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
 )

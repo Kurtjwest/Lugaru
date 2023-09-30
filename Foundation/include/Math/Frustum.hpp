@@ -18,27 +18,19 @@ You should have received a copy of the GNU General Public License
 along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _INPUT_HPP_
-#define _INPUT_HPP_
+#ifndef _Frustum_HPP_
+#define _Frustum_HPP_
 
-#include <SDL.h>
-
-/**> CONSTANT DECLARATIONS <**/
-#define MOUSEBUTTON_LEFT (SDL_NUM_SCANCODES + SDL_BUTTON_LEFT)
-#define MOUSEBUTTON_RIGHT (SDL_NUM_SCANCODES + SDL_BUTTON_RIGHT)
-#define MOUSEBUTTON_MIDDLE (SDL_NUM_SCANCODES + SDL_BUTTON_MIDDLE)
-#define MOUSEBUTTON_X1 (SDL_NUM_SCANCODES + SDL_BUTTON_X1)
-#define MOUSEBUTTON_X2 (SDL_NUM_SCANCODES + SDL_BUTTON_X2)
-
-/**> FUNCTION PROTOTYPES <**/
-class Input
+class Frustum
 {
 public:
-    static void Tick();
-    static bool isKeyDown(int k);
-    static bool isKeyPressed(int k);
-    static const char* keyToChar(unsigned short which);
-    static bool MouseClicked();
+    // 6 planes
+    float frustum[6][4];
+    // Calculates and sets frustum from projection and modelview matrix
+    void SetFrustum(const float projmatrix[16], const float mvmatrix[16]);
+    int CubeInFrustum(float x, float y, float z, float size);
+    int CubeInFrustum(float x, float y, float z, float size, float height);
+    int SphereInFrustum(float x, float y, float z, float radius);
 };
 
 #endif

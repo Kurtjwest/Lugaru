@@ -31,14 +31,14 @@ extern float skyboxg;
 extern float skyboxb;
 
 void SkyBox::load(const std::string& ffront, const std::string& fleft, const std::string& fback,
-                  const std::string& fright, const std::string& fup, const std::string& fdown)
+                  const std::string& fright, const std::string& fup, const std::string& fdown, ProgressCallback callback)
 {
-    front.load(ffront, true);
-    left.load(fleft, true);
-    back.load(fback, true);
-    right.load(fright, true);
-    up.load(fup, true);
-    down.load(fdown, true);
+    front.load(ffront, true, callback);
+    left.load(fleft, true, callback);
+    back.load(fback, true, callback);
+    right.load(fright, true, callback);
+    up.load(fup, true, callback);
+    down.load(fdown, true, callback);
 }
 
 void SkyBox::draw()

@@ -34,7 +34,7 @@ extern Terrain terrain;
 extern float gravity;
 extern int environment;
 extern int detail;
-extern FRUSTUM frustum;
+extern Frustum frustum;
 extern XYZ viewer;
 extern float realmultiplier;
 extern int slomo;
@@ -102,13 +102,13 @@ void Weapon::Load()
 {
 	LOG("Loading weapon data...");
 
-	knifetextureptr.load("Textures/Knife.png", 0);
-	bloodknifetextureptr.load("Textures/BloodKnife.png", 0);
-	lightbloodknifetextureptr.load("Textures/BloodKnifeLight.png", 0);
-	swordtextureptr.load("Textures/Sword.jpg", 1);
-	bloodswordtextureptr.load("Textures/SwordBlood.jpg", 1);
-	lightbloodswordtextureptr.load("Textures/SwordBloodLight.jpg", 1);
-	stafftextureptr.load("Textures/Staff.jpg", 1);
+	knifetextureptr.load("Textures/Knife.png", 0, []() {Game::LoadingScreen(); });
+	bloodknifetextureptr.load("Textures/BloodKnife.png", 0, []() {Game::LoadingScreen(); });
+	lightbloodknifetextureptr.load("Textures/BloodKnifeLight.png", 0, []() {Game::LoadingScreen(); });
+	swordtextureptr.load("Textures/Sword.jpg", 1, []() {Game::LoadingScreen(); });
+	bloodswordtextureptr.load("Textures/SwordBlood.jpg", 1, []() {Game::LoadingScreen(); });
+	lightbloodswordtextureptr.load("Textures/SwordBloodLight.jpg", 1, []() {Game::LoadingScreen(); });
+	stafftextureptr.load("Textures/Staff.jpg", 1, []() {Game::LoadingScreen(); });
 
 	throwingknifemodel.load("Models/ThrowingKnife.solid");
 	throwingknifemodel.Scale(.001, .001, .001);

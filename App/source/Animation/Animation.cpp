@@ -20,16 +20,15 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Animation/Animation.hpp"
 
 #include "Animation/Skeleton.hpp"
-#include "Game.hpp"
 #include "Utils/Folders.hpp"
 
 std::vector<Animation> Animation::animations;
 
-void Animation::loadAll()
+void Animation::loadAll(ProgressCallback callback)
 {
 #define DECLARE_ANIM(id, file, height, attack, ...) \
     if (id < loadable_anim_end)                     \
-        animations.emplace_back(file, height, attack);
+        animations.emplace_back(file, height, attack, callback);
 #include "Animation.def"
 #undef DECLARE_ANIM
 }
@@ -82,7 +81,7 @@ Animation::Animation()
 /* EFFECT
  * load an animation from file
  */
-Animation::Animation(const std::string& filename, anim_height_type aheight, anim_attack_type aattack)
+Animation::Animation(const std::string& filename, anim_height_type aheight, anim_attack_type aattack, ProgressCallback callback)
     : Animation()
 {
     FILE* tfile;
@@ -99,7 +98,8 @@ Animation::Animation(const std::string& filename, anim_height_type aheight, anim
     height = aheight;
     attack = aattack;
 
-    Game::LoadingScreen();
+    //Game::LoadingScreen();
+    callback();
 
     // read file in binary mode
     tfile = Folders::openMandatoryFile(filepath, "rb");

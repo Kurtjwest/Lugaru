@@ -20,19 +20,11 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Math/Frustum.hpp"
 
-#include "Graphic/gamegl.hpp"
+#include <cmath>
 
-#include <math.h>
-
-void FRUSTUM::
-GetFrustum()
+void Frustum::SetFrustum(const float projmatrix[16], const float mvmatrix[16])
 {
-	static float projmatrix[16];
-	static float mvmatrix[16];
-	static float clip[16];
-
-	glGetFloatv(GL_PROJECTION_MATRIX, projmatrix);
-	glGetFloatv(GL_MODELVIEW_MATRIX, mvmatrix);
+	float clip[16];
 
 	// Combine the matrices
 	clip[0] = mvmatrix[0] * projmatrix[0] + mvmatrix[1] * projmatrix[4] + mvmatrix[2] * projmatrix[8] + mvmatrix[3] * projmatrix[12];
@@ -92,8 +84,7 @@ GetFrustum()
 	frustum[5][3] = clip[15] + clip[14];
 }
 
-int FRUSTUM::
-CubeInFrustum(float x, float y, float z, float size)
+int Frustum::CubeInFrustum(float x, float y, float z, float size)
 {
 	static int c, c2;
 
@@ -138,8 +129,7 @@ CubeInFrustum(float x, float y, float z, float size)
 	}
 }
 
-int FRUSTUM::
-CubeInFrustum(float x, float y, float z, float size, float height)
+int Frustum::CubeInFrustum(float x, float y, float z, float size, float height)
 {
 	static int c, c2;
 
@@ -184,7 +174,7 @@ CubeInFrustum(float x, float y, float z, float size, float height)
 	}
 }
 
-int FRUSTUM::
+int Frustum::
 SphereInFrustum(float x, float y, float z, float radius)
 {
 	static int c2;

@@ -25,6 +25,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Level/Hotspot.hpp"
 #include "Tutorial.hpp"
 #include "Utils/Folders.hpp"
+
 #include <json/value.h>
 #include <json/writer.h>
 
@@ -133,7 +134,7 @@ static void set_noclothes(int pnum, const char*)
     Person::players[pnum]->clothestintb.clear();
     Person::players[pnum]->skeleton.drawmodel.textureptr.load(
         PersonType::types[Person::players[pnum]->creature].skins[Person::players[pnum]->whichskin], 1,
-        &Person::players[pnum]->skeleton.skinText[0], &Person::players[pnum]->skeleton.skinsize);
+        &Person::players[pnum]->skeleton.skinText[0], &Person::players[pnum]->skeleton.skinsize, []() {Game::LoadingScreen(); });
 }
 
 static void set_clothes(int pnum, const char* args)
@@ -568,12 +569,12 @@ void ch_wolfie(const char*)
 
 void ch_lizardwolf(const char*)
 {
-    Person::players[0]->skeleton.drawmodel.textureptr.load("Textures/FurWolfLizard.jpg", 1, &Person::players[0]->skeleton.skinText[0], &Person::players[0]->skeleton.skinsize);
+    Person::players[0]->skeleton.drawmodel.textureptr.load("Textures/FurWolfLizard.jpg", 1, &Person::players[0]->skeleton.skinText[0], &Person::players[0]->skeleton.skinsize, []() {Game::LoadingScreen(); });
 }
 
 void ch_darko(const char*)
 {
-    Person::players[0]->skeleton.drawmodel.textureptr.load("Textures/FurDarko.jpg", 1, &Person::players[0]->skeleton.skinText[0], &Person::players[0]->skeleton.skinsize);
+    Person::players[0]->skeleton.drawmodel.textureptr.load("Textures/FurDarko.jpg", 1, &Person::players[0]->skeleton.skinText[0], &Person::players[0]->skeleton.skinsize, []() {Game::LoadingScreen(); });
 }
 
 void ch_sizemin(const char*)
@@ -738,7 +739,7 @@ void ch_default(const char*)
     Person::players[0]->clothestintb.clear();
     Person::players[0]->skeleton.drawmodel.textureptr.load(
         PersonType::types[Person::players[0]->creature].skins[Person::players[0]->whichskin], 1,
-        &Person::players[0]->skeleton.skinText[0], &Person::players[0]->skeleton.skinsize);
+        &Person::players[0]->skeleton.skinText[0], &Person::players[0]->skeleton.skinsize, []() {Game::LoadingScreen(); });
 
     editoractive = typeactive;
     Person::players[0]->immobile = 0;

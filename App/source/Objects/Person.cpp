@@ -36,7 +36,7 @@ extern Terrain terrain;
 extern float gravity;
 extern int environment;
 extern int detail;
-extern FRUSTUM frustum;
+extern Frustum frustum;
 extern XYZ viewer;
 extern float realmultiplier;
 extern int slomo;
@@ -339,7 +339,7 @@ Person::Person()
     , whichskin(0)
     , rabbitkickragdoll(false)
 
-    , tempanimation("Tempanim", lowheight, neutral)
+    , tempanimation("Tempanim", lowheight, neutral, []() { Game::LoadingScreen(); })
 
     , jumpclimb(false)
 {
@@ -470,7 +470,7 @@ void Person::skeletonLoad()
         PersonType::types[creature].modelClothesFileName,
         PersonType::types[creature].clothes);
 
-    skeleton.drawmodel.textureptr.load(PersonType::types[creature].skins[whichskin], 1, &skeleton.skinText[0], &skeleton.skinsize);
+    skeleton.drawmodel.textureptr.load(PersonType::types[creature].skins[whichskin], 1, &skeleton.skinText[0], &skeleton.skinsize, []() {Game::LoadingScreen(); });
 }
 
 void Person::setProportions(float head, float body, float arms, float legs)
@@ -7268,7 +7268,7 @@ bool Person::addClothes(const int& clothesId)
 
     //Load Image
     ImageRec texture;
-    bool opened = load_image(Folders::getResourcePath(fileName).c_str(), texture);
+    bool opened = load_image(Folders::getResourcePath(fileName).c_str(), texture, []() {Game::LoadingScreen(); });
 
     float alphanum;
     //Is it valid?

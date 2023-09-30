@@ -28,7 +28,7 @@ extern float texscale;
 extern Light light;
 extern float multiplier;
 extern float gravity;
-extern FRUSTUM frustum;
+extern Frustum frustum;
 extern Terrain terrain;
 extern bool foliage;
 extern int detail;

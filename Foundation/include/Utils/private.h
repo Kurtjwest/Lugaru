@@ -57,14 +57,6 @@ typedef double             float64_t;
 #endif
 #endif
 
-#ifndef BinIO_INLINE
-#if defined(__GNUC__)
-#define BinIO_INLINE static inline
-#else
-#define BinIO_INLINE static
-#endif
-#endif
-
 #ifndef BinIO_BYTE_ORDER
 #if defined(__ppc__) || defined(__POWERPC__)
 #define BinIO_BYTE_ORDER BinIO_BIG_ENDIAN_BYTE_ORDER
@@ -73,82 +65,83 @@ typedef double             float64_t;
 #endif
 #endif
 
-BinIO_INLINE void BinIOSwap1(const uint8_t *src, uint8_t *dst)
+inline void BinIOSwap1(const uint8_t* src, uint8_t* dst)
 {
-    *dst = *src;
+	*dst = *src;
 }
 
-BinIO_INLINE void BinIOSwap2(const uint8_t *src, uint8_t *dst)
+inline void BinIOSwap2(const uint8_t* src, uint8_t* dst)
 {
-    *(dst + 1) = *(src + 0);
-    *(dst + 0) = *(src + 1);
+	*(dst + 1) = *(src + 0);
+	*(dst + 0) = *(src + 1);
 }
 
-BinIO_INLINE void BinIOSwap4(const uint8_t *src, uint8_t *dst)
+inline void BinIOSwap4(const uint8_t* src, uint8_t* dst)
 {
-    *(dst + 3) = *(src + 0);
-    *(dst + 2) = *(src + 1);
-    *(dst + 1) = *(src + 2);
-    *(dst + 0) = *(src + 3);
+	*(dst + 3) = *(src + 0);
+	*(dst + 2) = *(src + 1);
+	*(dst + 1) = *(src + 2);
+	*(dst + 0) = *(src + 3);
 }
 
-BinIO_INLINE void BinIOSwap8(const uint8_t *src, uint8_t *dst)
+inline void BinIOSwap8(const uint8_t* src, uint8_t* dst)
 {
-    *(dst + 7) = *(src + 0);
-    *(dst + 6) = *(src + 1);
-    *(dst + 5) = *(src + 2);
-    *(dst + 4) = *(src + 3);
-    *(dst + 3) = *(src + 4);
-    *(dst + 2) = *(src + 5);
-    *(dst + 1) = *(src + 6);
-    *(dst + 0) = *(src + 7);
+	*(dst + 7) = *(src + 0);
+	*(dst + 6) = *(src + 1);
+	*(dst + 5) = *(src + 2);
+	*(dst + 4) = *(src + 3);
+	*(dst + 3) = *(src + 4);
+	*(dst + 2) = *(src + 5);
+	*(dst + 1) = *(src + 6);
+	*(dst + 0) = *(src + 7);
 }
 
-BinIO_INLINE int BinIONormalizeByteOrder(int byte_order)
+inline int BinIONormalizeByteOrder(int byte_order)
 {
-    if (byte_order == BinIO_HOST_BYTE_ORDER) {
-        byte_order = BinIO_BYTE_ORDER;
-    } else if (byte_order == BinIO_NETWORK_BYTE_ORDER) {
-        byte_order = BinIO_BIG_ENDIAN_BYTE_ORDER;
-    }
+	if (byte_order == BinIO_HOST_BYTE_ORDER) {
+		byte_order = BinIO_BYTE_ORDER;
+	}
+	else if (byte_order == BinIO_NETWORK_BYTE_ORDER) {
+		byte_order = BinIO_BIG_ENDIAN_BYTE_ORDER;
+	}
 
-    return byte_order;
+	return byte_order;
 }
 
 extern void BinIOConvert1(int from_byte_order, int to_byte_order,
-                          const uint8_t *src, uint8_t *dst,
-                          unsigned int count);
+	const uint8_t* src, uint8_t* dst,
+	unsigned int count);
 extern void BinIOConvert2(int from_byte_order, int to_byte_order,
-                          const uint8_t *src, uint8_t *dst,
-                          unsigned int count);
+	const uint8_t* src, uint8_t* dst,
+	unsigned int count);
 extern void BinIOConvert4(int from_byte_order, int to_byte_order,
-                          const uint8_t *src, uint8_t *dst,
-                          unsigned int count);
+	const uint8_t* src, uint8_t* dst,
+	unsigned int count);
 extern void BinIOConvert8(int from_byte_order, int to_byte_order,
-                          const uint8_t *src, uint8_t *dst,
-                          unsigned int count);
+	const uint8_t* src, uint8_t* dst,
+	unsigned int count);
 
 struct BinIOFormatCursor {
-    const char *cursor;
-    int         byte_order;
-    int         count;
+	const char* cursor;
+	int         byte_order;
+	int         count;
 };
 
-typedef void (*BinIOProcessFunction)(void *context,
-                                     int   type,
-                                     int   byte_order,
-                                     int   count);
+typedef void (*BinIOProcessFunction)(void* context,
+	int   type,
+	int   byte_order,
+	int   count);
 
-extern void BinIOInitFormatCursor(struct BinIOFormatCursor *cursor,
-                                  const char               *format);
+extern void BinIOInitFormatCursor(struct BinIOFormatCursor* cursor,
+	const char* format);
 
-extern int BinIONextChar(void                     *context,
-                         struct BinIOFormatCursor *cursor,
-                         BinIOProcessFunction      func);
+extern int BinIONextChar(void* context,
+	struct BinIOFormatCursor* cursor,
+	BinIOProcessFunction      func);
 
-extern void BinIOCountBytes(void *context, int type, int byte_order, int count);
+extern void BinIOCountBytes(void* context, int type, int byte_order, int count);
 
-extern size_t BinIOFormatByteCount(const char *format);
+extern size_t BinIOFormatByteCount(const char* format);
 
 #endif
 

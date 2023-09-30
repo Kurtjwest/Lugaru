@@ -23,7 +23,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Game.hpp"
 #include "Utils/Folders.hpp"
 
-#include <dirent.h>
+#include "Utils/dirent.h"
 
 using namespace Game;
 
@@ -94,9 +94,9 @@ void LoadCampaign()
 
     std::ifstream test(Folders::getResourcePath("Textures/" + Account::active().getCurrentCampaign() + "/World.png"));
     if (test.good()) {
-        Mainmenuitems[7].load("Textures/" + Account::active().getCurrentCampaign() + "/World.png", 0);
+        Mainmenuitems[7].load("Textures/" + Account::active().getCurrentCampaign() + "/World.png", 0, [](){Game::LoadingScreen(); });
     } else {
-        Mainmenuitems[7].load("Textures/World.png", 0);
+        Mainmenuitems[7].load("Textures/World.png", 0, []() {Game::LoadingScreen(); });
     }
 
     if (Account::active().getCampaignChoicesMade() == 0) {

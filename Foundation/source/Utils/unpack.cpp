@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License
 along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "binio.h"
-#include "private.h"
+#include "Utils/binio.h"
+#include "Utils/private.h"
 
 #include <stdlib.h>
 

@@ -32,7 +32,7 @@ extern int environment;
 extern float texscale;
 extern Light light;
 extern float multiplier;
-extern FRUSTUM frustum;
+extern Frustum frustum;
 extern float texdetail;
 extern int detail;
 extern bool decalstoggle;
@@ -418,7 +418,7 @@ bool Terrain::load(const std::string& fileName)
 	ImageRec texture;
 
 	//Load Image
-	if (!load_image(Folders::getResourcePath(fileName).c_str(), texture)) {
+	if (!load_image(Folders::getResourcePath(fileName).c_str(), texture, []() {Game::LoadingScreen(); })) {
 		return false;
 	}
 

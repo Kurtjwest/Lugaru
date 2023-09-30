@@ -24,9 +24,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Animation/Animation.hpp"
 #include "Animation/Joint.hpp"
 #include "Animation/Muscle.hpp"
+
 #include "Graphic/Models.hpp"
-#include "Graphic/Sprite.hpp"
-#include "Graphic/gamegl.hpp"
 #include "Math/XYZ.hpp"
 #include "Objects/Object.hpp"
 #include "Utils/binio.h"
@@ -36,64 +35,65 @@ const int max_joints = 50;
 class Skeleton
 {
 public:
-    std::vector<Joint> joints;
+	std::vector<Joint> joints;
 
-    std::vector<Muscle> muscles;
+	std::vector<Muscle> muscles;
 
-    int selected;
+	int selected;
 
-    int forwardjoints[3];
-    XYZ forward;
+	int forwardjoints[3];
+	XYZ forward;
 
-    int id;
+	int id;
 
-    int lowforwardjoints[3];
-    XYZ lowforward;
+	int lowforwardjoints[3];
+	XYZ lowforward;
 
-    XYZ specialforward[5];
-    int jointlabels[max_joints];
+	XYZ specialforward[5];
+	int jointlabels[max_joints];
 
-    Model model[7];
-    Model modellow;
-    Model modelclothes;
-    int num_models;
+	Model model[7];
+	Model modellow;
+	Model modelclothes;
+	int num_models;
 
-    Model drawmodel;
-    Model drawmodellow;
-    Model drawmodelclothes;
+	Model drawmodel;
+	Model drawmodellow;
+	Model drawmodelclothes;
 
-    bool clothes;
-    bool spinny;
+	bool clothes;
+	bool spinny;
 
-    GLubyte skinText[512 * 512 * 3];
-    int skinsize;
+	GLubyte skinText[512 * 512 * 3];
+	int skinsize;
 
-    float checkdelay;
+	float checkdelay;
 
-    float longdead;
-    bool broken;
+	float longdead;
+	bool broken;
 
-    int free;
-    int oldfree;
-    float freetime;
-    bool freefall;
+	int free;
+	int oldfree;
+	float freetime;
+	bool freefall;
 
-    void FindForwards();
-    float DoConstraints(XYZ* coords, float* scale);
-    void DoGravity(float* scale);
-    void FindRotationJoint(int which);
-    void FindRotationJointSameTwist(int which);
-    void FindRotationMuscle(int which, int animation);
-    void Load(const std::string& fileName, const std::string& lowfileName, const std::string& clothesfileName, const std::string& modelfileName, const std::string& model2fileName, const std::string& model3fileName, const std::string& model4fileName, const std::string& model5fileNamee, const std::string& model6fileName, const std::string& model7fileName, const std::string& modellowfileName, const std::string& modelclothesfileName, bool aclothes);
+	void FindForwards();
+	float DoConstraints(XYZ* coords, float* scale);
+	void DoGravity(float* scale);
+	void FindRotationMuscle(int which, int animation);
+	void Load(const std::string& fileName, const std::string& lowfileName, const std::string& clothesfileName, 
+		const std::string& modelfileName, const std::string& model2fileName, const std::string& model3fileName, 
+		const std::string& model4fileName, const std::string& model5fileNamee, const std::string& model6fileName, 
+		const std::string& model7fileName, const std::string& modellowfileName, const std::string& modelclothesfileName, bool aclothes);
 
-    Skeleton();
+	Skeleton();
 
 private:
-    // convenience functions
-    // only for Skeleton.cpp
-    inline Joint& joint(int bodypart) { return joints[jointlabels[bodypart]]; }
-    inline XYZ& jointPos(int bodypart) { return joint(bodypart).position; }
-    inline XYZ& jointVel(int bodypart) { return joint(bodypart).velocity; }
+	// convenience functions
+	// only for Skeleton.cpp
+	inline Joint& joint(int bodypart) { return joints[jointlabels[bodypart]]; }
+	inline XYZ& jointPos(int bodypart) { return joint(bodypart).position; }
+	inline XYZ& jointVel(int bodypart) { return joint(bodypart).velocity; }
 };
 
 #endif

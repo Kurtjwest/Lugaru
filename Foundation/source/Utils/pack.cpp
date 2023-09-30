@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License
 along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "binio.h"
-#include "private.h"
+#include "Utils/binio.h"
+#include "Utils/private.h"
 
 #include <stdlib.h>
 
@@ -38,13 +38,13 @@ static void BinIOPack(void *context, int type, int byte_order, int count)
         }
         break;
         case BinIO_TYPE_BYTE: {
-            uint8_t value = va_arg(ctx->args, int);
+            uint8_t value = (uint8_t)va_arg(ctx->args, int);
             BinIOConvert1(BinIO_HOST_BYTE_ORDER, byte_order, (const uint8_t *)&value, ctx->buffer, 1);
             ctx->buffer += 1;
         }
         break;
         case BinIO_TYPE_INT16: {
-            uint16_t value = va_arg(ctx->args, int);
+            uint16_t value = (uint16_t)va_arg(ctx->args, int);
             BinIOConvert2(BinIO_HOST_BYTE_ORDER, byte_order, (const uint8_t *)&value, ctx->buffer, 1);
             ctx->buffer += 2;
         }

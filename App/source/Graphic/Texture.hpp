@@ -21,6 +21,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _TEXTURE_HPP_
 #define _TEXTURE_HPP_
 
+#include "Utils/Callbacks.h"
 #include "Graphic/gamegl.hpp"
 
 #include <map>
@@ -39,11 +40,11 @@ private:
     GLubyte* data;
     int datalen;
 
-    void load();
+    void load(ProgressCallback callback);
 
 public:
-    TextureRes(const string& filename, bool hasMipmap);
-    TextureRes(const string& filename, bool hasMipmap, GLubyte* array, int* skinsize);
+    TextureRes(const string& filename, bool hasMipmap, ProgressCallback callback);
+    TextureRes(const string& filename, bool hasMipmap, GLubyte* array, int* skinsize, ProgressCallback callback);
     ~TextureRes();
     void bind();
 
@@ -62,8 +63,8 @@ public:
         : tex(nullptr)
     {
     }
-    void load(const string& filename, bool hasMipmap);
-    void load(const string& filename, bool hasMipmap, GLubyte* array, int* skinsizep);
+    void load(const string& filename, bool hasMipmap, ProgressCallback callback);
+    void load(const string& filename, bool hasMipmap, GLubyte* array, int* skinsizep, ProgressCallback callback);
     void bind();
 };
 

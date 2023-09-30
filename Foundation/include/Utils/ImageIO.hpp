@@ -1,3 +1,5 @@
+#pragma once
+
 /*
 Copyright (C) 2003, 2010 - Wolfire Games
 Copyright (C) 2010-2017 - Lugaru contributors (see AUTHORS file)
@@ -18,17 +20,29 @@ You should have received a copy of the GNU General Public License
 along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _FRUSTUM_HPP_
-#define _FRUSTUM_HPP_
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cstdint>
 
-class FRUSTUM
+#include "Utils/Callbacks.h"
+
+/**> DATA STRUCTURES <**/
+class ImageRec
 {
 public:
-    float frustum[6][4];
-    void GetFrustum();
-    int CubeInFrustum(float, float, float, float);
-    int CubeInFrustum(float, float, float, float, float);
-    int SphereInFrustum(float, float, float, float);
+	uint8_t* data = nullptr; // Image Data (Up To 32 Bits)
+	unsigned int bpp = 0;    // Image Color Depth In Bits Per Pixel.
+	unsigned int sizeX = 0;
+	unsigned int sizeY = 0;
+
+	ImageRec();
+	~ImageRec();
+
+private:
+	/* Make sure this class cannot be copied to avoid memory problems */
+	ImageRec(ImageRec const&);
 };
 
-#endif
+bool load_image(const char* fname, ImageRec& tex, ProgressCallback callback);
+bool save_screenshot(const char* fname);

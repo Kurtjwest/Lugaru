@@ -21,6 +21,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #define _ANIMATION_HPP_
 
 #include "Math/XYZ.hpp"
+#include "Utils/Callbacks.h"
 
 #include <vector>
 
@@ -94,7 +95,7 @@ class Animation
 {
 public:
     static std::vector<Animation> animations;
-    static void loadAll();
+    static void loadAll(ProgressCallback callback);
 
     anim_height_type height;
     anim_attack_type attack;
@@ -105,6 +106,6 @@ public:
     XYZ offset;
 
     Animation();
-    Animation(const std::string& fileName, anim_height_type aheight, anim_attack_type aattack);
+    Animation(const std::string& fileName, anim_height_type aheight, anim_attack_type aattack, ProgressCallback callback);
 };
 #endif

@@ -26,6 +26,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Math/XYZ.hpp"
 #include "Math/XYZ.hpp"
 #include "Utils/ImageIO.hpp"
+#include "Utils/Callbacks.h"
 
 class SkyBox
 {
@@ -33,7 +34,7 @@ public:
     Texture front, left, back, right, up, down;
 
     void load(const std::string& ffront, const std::string& fleft, const std::string& fback,
-              const std::string& fright, const std::string& fup, const std::string& fdown);
+              const std::string& fright, const std::string& fup, const std::string& fdown, ProgressCallback callback);
     void draw();
 
     SkyBox() {}

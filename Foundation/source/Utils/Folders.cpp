@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Folders.hpp"
+#include "Utils/Folders.hpp"
 
 #include <cerrno>
 #include <cstdlib>

@@ -38,7 +38,7 @@ extern float viewdistance;
 extern float fadestart;
 extern float screenwidth, screenheight;
 extern int kTextureSize;
-extern FRUSTUM frustum;
+extern Frustum frustum;
 extern Light light;
 extern int detail;
 extern float usermousesensitivity;
@@ -307,7 +307,14 @@ int Game::DrawGLScene(StereoSide side)
         glTexEnvf(GL_TEXTURE_FILTER_CONTROL, GL_TEXTURE_LOD_BIAS, 0);
         glPopMatrix();
         glTranslatef(-viewer.x, -viewer.y, -viewer.z);
-        frustum.GetFrustum();
+
+        // Get matrices for frustum
+
+        float projmatrix[16];
+        float mvmatrix[16];
+        glGetFloatv(GL_PROJECTION_MATRIX, projmatrix);
+        glGetFloatv(GL_MODELVIEW_MATRIX, mvmatrix);
+        frustum.SetFrustum(projmatrix, mvmatrix);
 
         //make shadow decals on terrain and Object::objects
         static XYZ point;

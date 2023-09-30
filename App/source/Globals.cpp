@@ -63,7 +63,7 @@ SDL_Window* sdlwindow;
 
 int kTextureSize = 0;
 int detail = 0;
-FRUSTUM frustum;
+Frustum frustum;
 float texdetail = 0;
 float realtexdetail = 0;
 float playerdist = 0;
