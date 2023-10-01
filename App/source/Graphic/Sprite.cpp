@@ -23,7 +23,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Objects/Person.hpp"
 
 // TODO Get rid of globals
-//extern Vector3 viewer;
 extern float viewdistance;
 extern float fadestart;
 extern int environment;
@@ -294,7 +293,8 @@ void Sprite::Draw(const Vector3& viewer)
 	}
 
 	tempmult = multiplier;
-	for (int i = sprites.size() - 1; i >= 0; i--) {
+	for (int i = sprites.size() - 1; i >= 0; i--) 
+	{
 		multiplier = tempmult;
 		if (sprites[i]->type != snowsprite) {
 			sprites[i]->position += sprites[i]->velocity * multiplier;
@@ -383,6 +383,7 @@ void Sprite::Draw(const Vector3& viewer)
 							spritehit = 1;
 							Person::players[j]->DoBloodBigWhere(0, 160, sprites[i]->oldposition);
 							DeleteSprite(i);
+							break;
 						}
 					}
 				}
@@ -417,6 +418,7 @@ void Sprite::Draw(const Vector3& viewer)
 				}
 			}
 		}
+
 		if (sprites[i]->type == splintersprite) {
 			sprites[i]->rotation += sprites[i]->rotatespeed * multiplier;
 			sprites[i]->opacity -= multiplier / 2;
@@ -461,6 +463,7 @@ void Sprite::Draw(const Vector3& viewer)
 		}
 		if (sprites[i]->opacity <= 0 || sprites[i]->size <= 0) {
 			DeleteSprite(i);
+			break;
 		}
 	}
 

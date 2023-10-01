@@ -28,9 +28,15 @@ public:
     float frustum[6][4];
     // Calculates and sets frustum from projection and modelview matrix
     void SetFrustum(const float projmatrix[16], const float mvmatrix[16]);
-    int CubeInFrustum(float x, float y, float z, float size);
-    int CubeInFrustum(float x, float y, float z, float size, float height);
-    int SphereInFrustum(float x, float y, float z, float radius);
+
+    // Can return 
+    // 0 - not inside
+    // 1 - partially inside
+    // 2 - fully inside
+    // TODO Not sure about the last two
+    int CubeInFrustum(float x, float y, float z, float size) const;
+    int CubeInFrustum(float x, float y, float z, float size, float height) const;
+    int SphereInFrustum(float x, float y, float z, float radius) const;
 };
 
 #endif

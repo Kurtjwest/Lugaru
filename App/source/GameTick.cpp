@@ -476,7 +476,7 @@ void Setenvironment(int which)
 	}
 	temptexdetail = texdetail;
 	texdetail = 1;
-	terrain.load("Textures/HeightMap.png", []() {Game::LoadingScreen(); });
+	terrain.load("Textures/HeightMap.png", environment, []() {Game::LoadingScreen(); });
 
 	texdetail = temptexdetail;
 }
@@ -820,7 +820,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 
 	if (!stealthloading) {
 		Object::AddObjectsToTerrain();
-		terrain.DoShadows(Tutorial::active, texscale, []() {Game::LoadingScreen(); });
+		terrain.DoShadows(Tutorial::active, texscale, light, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
 		Object::DoShadows();
 		Game::LoadingScreen();
@@ -1122,7 +1122,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 
 	if (!stealthloading) {
 		Object::AddObjectsToTerrain();
-		terrain.DoShadows(Tutorial::active, texscale, []() {Game::LoadingScreen(); });
+		terrain.DoShadows(Tutorial::active, texscale, light, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
 		Object::DoShadows();
 		Game::LoadingScreen();

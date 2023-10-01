@@ -103,9 +103,9 @@ public:
     void UpdateVertexArray(int whichx, int whichy, float texscale);
     bool load(const std::string& fileName, int environment, ProgressCallback callback);
     void CalculateNormals();
-    void drawdecals(const Vector3& viewer, float viewdistance, float fadestart);
-    void draw(int layer, const Vector3& viewer, float viewdistance, float fadestart, int environment);
-    void DoShadows(bool tutorialActive, float texscale, ProgressCallback callback);
+    void drawdecals(const Vector3& viewer, float viewdistance, float fadestart, float multiplier);
+    void draw(int layer, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Frustum& frustum);
+    void DoShadows(bool tutorialActive, float texscale, const Light& light, ProgressCallback callback);
     void deleteDeadDecals();
 
     float getHeightByTile(int x, int y) const;

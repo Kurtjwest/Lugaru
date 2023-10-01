@@ -84,9 +84,10 @@ void Frustum::SetFrustum(const float projmatrix[16], const float mvmatrix[16])
 	frustum[5][3] = clip[15] + clip[14];
 }
 
-int Frustum::CubeInFrustum(float x, float y, float z, float size)
+int Frustum::CubeInFrustum(float x, float y, float z, float size) const
 {
-	static int c, c2;
+	int c = 0;
+	int c2 = 0;
 
 	for (int i = 0; i < 6; i++) {
 		c = 0;
@@ -129,9 +130,10 @@ int Frustum::CubeInFrustum(float x, float y, float z, float size)
 	}
 }
 
-int Frustum::CubeInFrustum(float x, float y, float z, float size, float height)
+int Frustum::CubeInFrustum(float x, float y, float z, float size, float height) const
 {
-	static int c, c2;
+	int c = 0;
+	int c2 = 0;
 
 	for (int i = 0; i < 6; i++) {
 		c = 0;
@@ -159,6 +161,7 @@ int Frustum::CubeInFrustum(float x, float y, float z, float size, float height)
 		if (frustum[i][0] * (x + size) + frustum[i][1] * (y + height) + frustum[i][2] * (z + size) + frustum[i][3] > 0) {
 			c++;
 		}
+
 		if (c == 0) {
 			return 0;
 		}
@@ -174,10 +177,9 @@ int Frustum::CubeInFrustum(float x, float y, float z, float size, float height)
 	}
 }
 
-int Frustum::
-SphereInFrustum(float x, float y, float z, float radius)
+int Frustum::SphereInFrustum(float x, float y, float z, float radius) const
 {
-	static int c2;
+	int c2 = 0;
 
 	for (int i = 0; i < 6; i++) {
 		if (frustum[i][0] * x + frustum[i][1] * y + frustum[i][2] * z + frustum[i][3] > -1 * radius) {

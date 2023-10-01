@@ -339,7 +339,7 @@ int Game::DrawGLScene(StereoSide side)
 									if (k != 0 && Tutorial::active) {
 										opacity = .2 + .2 * sin(smoketex * 6 + i);
 									}
-									Object::objects[j]->model.MakeDecal(shadowdecal, &point, &size, &opacity, &rotation, environment);
+									Object::objects[j]->model.MakeDecal(shadowdecal, &point, &size, &opacity, &rotation);
 								}
 							}
 						}
@@ -373,11 +373,11 @@ int Game::DrawGLScene(StereoSide side)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		terraintexture.bind();
-		terrain.draw(0, viewer, viewdistance, fadestart, environment);
+		terrain.draw(0, viewer, viewdistance, fadestart, environment, frustum);
 		terraintexture2.bind();
-		terrain.draw(1, viewer, viewdistance, fadestart, environment);
+		terrain.draw(1, viewer, viewdistance, fadestart, environment, frustum);
 
-		terrain.drawdecals(viewer, viewdistance, fadestart);
+		terrain.drawdecals(viewer, viewdistance, fadestart, multiplier);
 
 		//Model
 		glEnable(GL_CULL_FACE);

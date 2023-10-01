@@ -2767,7 +2767,7 @@ void Person::DoAnimations()
 					}
 
 					if (!hasvictim) {
-						terrain.MakeDecal(blooddecalfast, (weapons[weaponids[weaponactive]].tippoint * .8 + weapons[weaponids[weaponactive]].position * .2), .08, .6, rand() % 360);
+						terrain.MakeDecal(blooddecalfast, (weapons[weaponids[weaponactive]].tippoint * .8 + weapons[weaponids[weaponactive]].position * .2), .08, .6, rand() % 360, environment);
 						emit_sound_at(knifesheathesound, coords, 128.);
 					}
 
@@ -5371,7 +5371,7 @@ void Person::DoStuff()
 					headpoint = (jointPos(head) + jointPos(neck)) / 2 * scale + coords;
 					DoBlood(1, 255);
 					if (bloodtoggle && !bled) {
-						terrain.MakeDecal(blooddecal, headpoint, .2 * 1.2, .5, 0);
+						terrain.MakeDecal(blooddecal, headpoint, .2 * 1.2, .5, 0, environment);
 						for (unsigned int l = 0; l < terrain.patchobjects[whichpatchx][whichpatchz].size(); l++) {
 							unsigned int j = terrain.patchobjects[whichpatchx][whichpatchz][l];
 							Vector3 point = DoRotation(headpoint - Object::objects[j]->position, 0, -Object::objects[j]->yaw, 0);

@@ -23,12 +23,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Objects/Object.hpp"
 #include "Utils/Folders.hpp"
 
-//extern int environment;
-extern Light light;
-extern float multiplier;
-extern Frustum frustum;
-extern float texdetail;
-extern int detail;
 extern bool decalstoggle;
 extern float blurness;
 extern float targetblurness;
@@ -407,8 +401,6 @@ bool Terrain::load(const std::string& fileName, int environment, ProgressCallbac
 	static long x, y;
 	static float patch_size;
 
-	float temptexdetail = texdetail;
-
 	ImageRec texture;
 
 	//Load Image
@@ -430,8 +422,6 @@ bool Terrain::load(const std::string& fileName, int environment, ProgressCallbac
 	}
 	texture.bpp = 24;
 	callback();
-
-	texdetail = temptexdetail;
 
 	size = texture.sizeX;
 
@@ -961,7 +951,7 @@ Vector3 Terrain::getLighting(float pointx, float pointz) const
 	return height1 * (1 - (pointz - tiley)) + height2 * (pointz - tiley);
 }
 
-void Terrain::draw(int layer, const Vector3& viewer, float viewdistance, float fadestart, int environment)
+void Terrain::draw(int layer, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Frustum& frustum)
 {
 	static int i, j;
 	static float opacity;
@@ -1055,7 +1045,7 @@ void Terrain::draw(int layer, const Vector3& viewer, float viewdistance, float f
 	}
 }
 
-void Terrain::drawdecals(const Vector3& viewer, float viewdistance, float fadestart)
+void Terrain::drawdecals(const Vector3& viewer, float viewdistance, float fadestart, float multiplier)
 {
 	if (decalstoggle) {
 		static float distancemult;
@@ -1346,9 +1336,9 @@ void Terrain::MakeDecalLock(decal_type type, Vector3 where, int whichx, int whic
 	}
 }
 
-void Terrain::DoShadows(bool tutorialActive, float texscale, ProgressCallback callback)
+void Terrain::DoShadows(bool tutorialActive, float texscale, const Light& light, ProgressCallback callback)
 {
-	static Vector3 testpoint, testpoint2, terrainpoint, lightloc, col;
+	Vector3 testpoint, testpoint2, terrainpoint, lightloc, col;
 	lightloc = light.location;
 	if (!skyboxtexture) {
 		lightloc.x = 0;
