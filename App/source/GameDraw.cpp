@@ -377,7 +377,10 @@ int Game::DrawGLScene(StereoSide side)
 		terraintexture2.bind();
 		terrain.draw(1, viewer, viewdistance, fadestart, environment, frustum);
 
-		terrain.drawdecals(viewer, viewdistance, fadestart, multiplier);
+		if (decalstoggle)
+		{
+			terrain.drawdecals(viewer, viewdistance, fadestart, multiplier);
+		}
 
 		//Model
 		glEnable(GL_CULL_FACE);

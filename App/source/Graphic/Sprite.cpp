@@ -419,6 +419,9 @@ void Sprite::Draw(const Vector3& viewer)
 			}
 		}
 
+		// TODO Due to deleting sprites while iterating (which is fucking stupid) the index can be out of range of the vector
+		if (i >= sprites.size()) break;
+
 		if (sprites[i]->type == splintersprite) {
 			sprites[i]->rotation += sprites[i]->rotatespeed * multiplier;
 			sprites[i]->opacity -= multiplier / 2;
