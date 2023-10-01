@@ -2,6 +2,8 @@
 
 Fork of lugaru with modern conan and cmake based build system.
 
+![Banner](./Docs/banner.jpg)
+
 ## Requirements
 
 Development is done with
