@@ -20,8 +20,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Environment/Skybox.hpp"
 
-#include "Game.hpp"
-
 // TODO get rid of these
 extern float viewdistance;
 extern float blurness;
@@ -52,7 +50,7 @@ void SkyBox::draw(bool desertEnvironment)
     M[13] = 0;
     M[14] = 0;
     glLoadMatrixf(M);
-    if (environment == desertenvironment) {
+    if (desertEnvironment) {
         glScalef(1 + blurness / 1000, 1, 1 + blurness / 1000);
         glColor3f(1 * skyboxr, .95f * skyboxg, .95f * skyboxb);
     } else {
