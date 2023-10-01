@@ -410,7 +410,7 @@ void Sprite::Draw(const Vector3& viewer)
 				}
 				if (!spritehit) {
 					if (sprites[i]->position.y < terrain.getHeight(sprites[i]->position.x, sprites[i]->position.z)) {
-						terrain.MakeDecal(blooddecalfast, sprites[i]->position, sprites[i]->size * 1.6, .6, rand() % 360);
+						terrain.MakeDecal(blooddecalfast, sprites[i]->position, sprites[i]->size * 1.6, .6, rand() % 360, environment);
 						DeleteSprite(i);
 						break;
 					}

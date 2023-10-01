@@ -344,7 +344,7 @@ void Weapon::doStuff(int i)
 					position.y = terrain.getHeight(position.x, position.z);
 				}
 
-				terrain.MakeDecal(shadowdecalpermanent, position, .06, .5, 0);
+				terrain.MakeDecal(shadowdecalpermanent, position, .06, .5, 0, environment);
 				normalrot = terrain.getNormal(position.x, position.z) * -1;
 				velocity = 0;
 				glMatrixMode(GL_MODELVIEW);

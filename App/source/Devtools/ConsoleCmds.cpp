@@ -26,6 +26,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Tutorial.hpp"
 #include "Utils/Folders.hpp"
 
+#include "Globals.h"
+
 #include <json/value.h>
 #include <json/writer.h>
 
@@ -572,7 +574,7 @@ void ch_wolfie(const char*)
 
 void ch_lizardwolf(const char*)
 {
-	Person::players[0]->skeleton.drawmodel.textureptr.load("Textures/FurWolfLizard.jpg", 1, &Person::players[0]->skeleton.skinText[0], &Person::players[0]->skeleton.skinsize, trilinear,  []() {Game::LoadingScreen(); });
+	Person::players[0]->skeleton.drawmodel.textureptr.load("Textures/FurWolfLizard.jpg", 1, &Person::players[0]->skeleton.skinText[0], &Person::players[0]->skeleton.skinsize, trilinear, []() {Game::LoadingScreen(); });
 }
 
 void ch_darko(const char*)
@@ -813,7 +815,7 @@ void ch_skytint(const char* args)
 
 	SetUpLighting();
 
-	terrain.DoShadows(Tutorial::active, []() {Game::LoadingScreen(); });
+	terrain.DoShadows(Tutorial::active, texscale, []() {Game::LoadingScreen(); });
 	Object::DoShadows();
 }
 
@@ -823,7 +825,7 @@ void ch_skylight(const char* args)
 
 	SetUpLighting();
 
-	terrain.DoShadows(Tutorial::active, []() {Game::LoadingScreen(); });
+	terrain.DoShadows(Tutorial::active, texscale, []() {Game::LoadingScreen(); });
 	Object::DoShadows();
 }
 
@@ -833,6 +835,6 @@ void ch_skybox(const char*)
 
 	SetUpLighting();
 
-	terrain.DoShadows(Tutorial::active, []() {Game::LoadingScreen(); });
+	terrain.DoShadows(Tutorial::active, texscale, []() {Game::LoadingScreen(); });
 	Object::DoShadows();
 }

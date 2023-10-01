@@ -23,9 +23,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Objects/Object.hpp"
 #include "Utils/Folders.hpp"
 
-extern float fadestart;
-extern int environment;
-extern float texscale;
+//extern int environment;
 extern Light light;
 extern float multiplier;
 extern Frustum frustum;
@@ -152,7 +150,7 @@ int Terrain::lineTerrain(Vector3 p1, Vector3 p2, Vector3* p)
 	return firstintersecting;
 }
 
-void Terrain::UpdateTransparency(int whichx, int whichy, const Vector3& viewer, float viewdistance)
+void Terrain::UpdateTransparency(int whichx, int whichy, const Vector3& viewer, float viewdistance, float fadestart)
 {
 	static Vector3 vertex;
 	static int i, j, a, b, c, d, patch_size, stepsize;
@@ -230,7 +228,7 @@ void Terrain::UpdateTransparencyother(int whichx, int whichy)
 	}
 }
 
-void Terrain::UpdateTransparencyotherother(int whichx, int whichy, const Vector3& viewer, float viewdistance)
+void Terrain::UpdateTransparencyotherother(int whichx, int whichy, const Vector3& viewer, float viewdistance, float fadestart)
 {
 	static Vector3 vertex;
 	static int i, j, a, b, c, d, patch_size, stepsize;
@@ -279,7 +277,7 @@ void Terrain::UpdateTransparencyotherother(int whichx, int whichy, const Vector3
 	}
 }
 
-void Terrain::UpdateVertexArray(int whichx, int whichy)
+void Terrain::UpdateVertexArray(int whichx, int whichy, float texscale)
 {
 	static int i, j, a, b, c, patch_size, stepsize;
 
@@ -403,7 +401,7 @@ void Terrain::UpdateVertexArray(int whichx, int whichy)
 	}
 }
 
-bool Terrain::load(const std::string& fileName, ProgressCallback callback)
+bool Terrain::load(const std::string& fileName, int environment, ProgressCallback callback)
 {
 	static long i, j;
 	static long x, y;
@@ -760,14 +758,14 @@ void Terrain::CalculateNormals()
 	}
 }
 
-void Terrain::drawpatch(int whichx, int whichy, float opacity, const Vector3& viewer, float viewdistance)
+void Terrain::drawpatch(int whichx, int whichy, float opacity, const Vector3& viewer, float viewdistance, float fadestart)
 {
 	if (opacity >= 1) {
 		glDisable(GL_BLEND);
 	}
 	if (opacity < 1) {
 		glEnable(GL_BLEND);
-		UpdateTransparency(whichx, whichy, viewer, viewdistance);
+		UpdateTransparency(whichx, whichy, viewer, viewdistance, fadestart);
 	}
 
 	glColor4f(1, 1, 1, 1);
@@ -788,11 +786,11 @@ void Terrain::drawpatch(int whichx, int whichy, float opacity, const Vector3& vi
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-void Terrain::drawpatchother(int whichx, int whichy, float opacity, const Vector3& viewer, float viewdistance)
+void Terrain::drawpatchother(int whichx, int whichy, float opacity, const Vector3& viewer, float viewdistance, float fadestart)
 {
 	glEnable(GL_BLEND);
 	if (opacity < 1) {
-		UpdateTransparency(whichx, whichy, viewer, viewdistance);
+		UpdateTransparency(whichx, whichy, viewer, viewdistance, fadestart);
 	}
 	UpdateTransparencyother(whichx, whichy);
 
@@ -814,10 +812,10 @@ void Terrain::drawpatchother(int whichx, int whichy, float opacity, const Vector
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-void Terrain::drawpatchotherother(int whichx, int whichy, const Vector3& viewer, float viewdistance)
+void Terrain::drawpatchotherother(int whichx, int whichy, const Vector3& viewer, float viewdistance, float fadestart)
 {
 	glEnable(GL_BLEND);
-	UpdateTransparencyotherother(whichx, whichy, viewer, viewdistance);
+	UpdateTransparencyotherother(whichx, whichy, viewer, viewdistance, fadestart);
 
 	glMatrixMode(GL_TEXTURE);
 	glPushMatrix();
@@ -963,7 +961,7 @@ Vector3 Terrain::getLighting(float pointx, float pointz) const
 	return height1 * (1 - (pointz - tiley)) + height2 * (pointz - tiley);
 }
 
-void Terrain::draw(int layer, const Vector3& viewer, float viewdistance)
+void Terrain::draw(int layer, const Vector3& viewer, float viewdistance, float fadestart, int environment)
 {
 	static int i, j;
 	static float opacity;
@@ -1039,13 +1037,13 @@ void Terrain::draw(int layer, const Vector3& viewer, float viewdistance)
 						glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT, 0);
 					}
 					if (!layer && textureness[i][j] != allsecond) {
-						drawpatch(i, j, opacity, viewer, viewdistance);
+						drawpatch(i, j, opacity, viewer, viewdistance, fadestart);
 					}
 					if (layer == 1 && textureness[i][j] != allfirst) {
-						drawpatchother(i, j, opacity, viewer, viewdistance);
+						drawpatchother(i, j, opacity, viewer, viewdistance, fadestart);
 					}
 					if (layer == 2 && textureness[i][j] != allfirst) {
-						drawpatchotherother(i, j, viewer, viewdistance);
+						drawpatchotherother(i, j, viewer, viewdistance, fadestart);
 					}
 				}
 				glPopMatrix();
@@ -1057,7 +1055,7 @@ void Terrain::draw(int layer, const Vector3& viewer, float viewdistance)
 	}
 }
 
-void Terrain::drawdecals(const Vector3& viewer, float viewdistance)
+void Terrain::drawdecals(const Vector3& viewer, float viewdistance, float fadestart)
 {
 	if (decalstoggle) {
 		static float distancemult;
@@ -1266,7 +1264,7 @@ void Terrain::DeleteDecal(int which)
 	}
 }
 
-void Terrain::MakeDecal(decal_type type, Vector3 where, float size, float opacity, float rotation)
+void Terrain::MakeDecal(decal_type type, Vector3 where, float size, float opacity, float rotation, int environment)
 {
 	if (decalstoggle) {
 		if (opacity > 0 && size > 0) {
@@ -1284,23 +1282,23 @@ void Terrain::MakeDecal(decal_type type, Vector3 where, float size, float opacit
 			patchy[3] = (where.z + size) / scale;
 
 			if ((patchx[0] != patchx[1] || patchy[0] != patchy[1]) && (patchx[0] != patchx[2] || patchy[0] != patchy[2]) && (patchx[0] != patchx[3] || patchy[0] != patchy[3])) {
-				MakeDecalLock(type, where, patchx[0], patchy[0], size, opacity, rotation);
+				MakeDecalLock(type, where, patchx[0], patchy[0], size, opacity, rotation, environment);
 			}
 
 			if ((patchx[1] != patchx[2] || patchy[1] != patchy[2]) && (patchx[1] != patchx[3] || patchy[1] != patchy[3])) {
-				MakeDecalLock(type, where, patchx[1], patchy[1], size, opacity, rotation);
+				MakeDecalLock(type, where, patchx[1], patchy[1], size, opacity, rotation, environment);
 			}
 
 			if ((patchx[2] != patchx[3] || patchy[2] != patchy[3])) {
-				MakeDecalLock(type, where, patchx[2], patchy[2], size, opacity, rotation);
+				MakeDecalLock(type, where, patchx[2], patchy[2], size, opacity, rotation, environment);
 			}
 
-			MakeDecalLock(type, where, patchx[3], patchy[3], size, opacity, rotation);
+			MakeDecalLock(type, where, patchx[3], patchy[3], size, opacity, rotation, environment);
 		}
 	}
 }
 
-void Terrain::MakeDecalLock(decal_type type, Vector3 where, int whichx, int whichy, float size, float opacity, float rotation)
+void Terrain::MakeDecalLock(decal_type type, Vector3 where, int whichx, int whichy, float size, float opacity, float rotation, int environment)
 {
 	if (decalstoggle) {
 		Vector3 rot = getLighting(where.x, where.z);
@@ -1348,7 +1346,7 @@ void Terrain::MakeDecalLock(decal_type type, Vector3 where, int whichx, int whic
 	}
 }
 
-void Terrain::DoShadows(bool tutorialActive, ProgressCallback callback)
+void Terrain::DoShadows(bool tutorialActive, float texscale, ProgressCallback callback)
 {
 	static Vector3 testpoint, testpoint2, terrainpoint, lightloc, col;
 	lightloc = light.location;
@@ -1473,7 +1471,7 @@ void Terrain::DoShadows(bool tutorialActive, ProgressCallback callback)
 
 	for (unsigned int i = 0; i < subdivision; i++) {
 		for (unsigned int j = 0; j < subdivision; j++) {
-			UpdateVertexArray(i, j);
+			UpdateVertexArray(i, j, texscale);
 		}
 	}
 }

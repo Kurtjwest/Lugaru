@@ -327,7 +327,7 @@ float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive
 						terrainlight = terrain.getLighting(joints[i].position.x * (*scale) + coords->x, joints[i].position.z * (*scale) + coords->z);
 						Sprite::MakeSprite(cloudsprite, joints[i].position * (*scale) + *coords, joints[i].velocity * .06f, terrainlight.x, terrainlight.y, terrainlight.z, .5f, .7f);
 						if (detail == 2) {
-							terrain.MakeDecal(bodyprintdecal, joints[i].position * (*scale) + *coords, .4f, .4f, 0);
+							terrain.MakeDecal(bodyprintdecal, joints[i].position * (*scale) + *coords, .4f, .4f, 0, environment);
 						}
 					}
 					else if (environment == desertenvironment && findLengthfast(&bounceness) > 500 && terrain.getOpacity(joints[i].position.x * (*scale) + coords->x, joints[i].position.z * (*scale) + coords->z) < .2f) {

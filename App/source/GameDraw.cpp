@@ -292,7 +292,7 @@ int Game::DrawGLScene(StereoSide side)
 							if (k != 0 && Tutorial::active) {
 								opacity = .2 + .2 * sin(smoketex * 6 + i) - Person::players[k]->skeleton.joints[i].position.y * Person::players[k]->scale / 5 - (Person::players[k]->coords.y - terrain.getHeight(Person::players[k]->coords.x, Person::players[k]->coords.z)) / 10;
 							}
-							terrain.MakeDecal(shadowdecal, point, size, opacity, rotation);
+							terrain.MakeDecal(shadowdecal, point, size, opacity, rotation, environment);
 							for (unsigned int l = 0; l < terrain.patchobjects[Person::players[k]->whichpatchx][Person::players[k]->whichpatchz].size(); l++) {
 								unsigned int j = terrain.patchobjects[Person::players[k]->whichpatchx][Person::players[k]->whichpatchz][l];
 								if (Object::objects[j]->position.y < Person::players[k]->coords.y || Object::objects[j]->type == tunneltype || Object::objects[j]->type == weirdtype) {
@@ -324,7 +324,7 @@ int Game::DrawGLScene(StereoSide side)
 							if (k != 0 && Tutorial::active) {
 								opacity = .2 + .2 * sin(smoketex * 6 + i) - Person::players[k]->skeleton.joints[i].position.y * Person::players[k]->scale / 5 - (Person::players[k]->coords.y - terrain.getHeight(Person::players[k]->coords.x, Person::players[k]->coords.z)) / 10;
 							}
-							terrain.MakeDecal(shadowdecal, point, size, opacity * .7, rotation);
+							terrain.MakeDecal(shadowdecal, point, size, opacity * .7, rotation, environment);
 							for (unsigned int l = 0; l < terrain.patchobjects[Person::players[k]->whichpatchx][Person::players[k]->whichpatchz].size(); l++) {
 								unsigned int j = terrain.patchobjects[Person::players[k]->whichpatchx][Person::players[k]->whichpatchz][l];
 								if (Object::objects[j]->position.y < Person::players[k]->coords.y || Object::objects[j]->type == tunneltype || Object::objects[j]->type == weirdtype) {
@@ -339,7 +339,7 @@ int Game::DrawGLScene(StereoSide side)
 									if (k != 0 && Tutorial::active) {
 										opacity = .2 + .2 * sin(smoketex * 6 + i);
 									}
-									Object::objects[j]->model.MakeDecal(shadowdecal, &point, &size, &opacity, &rotation);
+									Object::objects[j]->model.MakeDecal(shadowdecal, &point, &size, &opacity, &rotation, environment);
 								}
 							}
 						}
@@ -352,7 +352,7 @@ int Game::DrawGLScene(StereoSide side)
 					point = Person::players[k]->coords;
 					size = .7;
 					opacity = .4 - (Person::players[k]->coords.y - terrain.getHeight(Person::players[k]->coords.x, Person::players[k]->coords.z)) / 5;
-					terrain.MakeDecal(shadowdecal, point, size, opacity * .7, rotation);
+					terrain.MakeDecal(shadowdecal, point, size, opacity * .7, rotation, environment);
 					for (unsigned int l = 0; l < terrain.patchobjects[Person::players[k]->whichpatchx][Person::players[k]->whichpatchz].size(); l++) {
 						unsigned int j = terrain.patchobjects[Person::players[k]->whichpatchx][Person::players[k]->whichpatchz][l];
 						point = DoRotation(Person::players[k]->coords - Object::objects[j]->position, 0, -Object::objects[j]->yaw, 0);
@@ -373,11 +373,11 @@ int Game::DrawGLScene(StereoSide side)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		terraintexture.bind();
-		terrain.draw(0, viewer, viewdistance);
+		terrain.draw(0, viewer, viewdistance, fadestart, environment);
 		terraintexture2.bind();
-		terrain.draw(1, viewer, viewdistance);
+		terrain.draw(1, viewer, viewdistance, fadestart, environment);
 
-		terrain.drawdecals(viewer, viewdistance);
+		terrain.drawdecals(viewer, viewdistance, fadestart);
 
 		//Model
 		glEnable(GL_CULL_FACE);

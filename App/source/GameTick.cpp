@@ -22,6 +22,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #define _USE_MATH_DEFINES
 
 #include "Game.hpp"
+#include "Globals.h"
 
 #include "Animation/Animation.hpp"
 #include "Audio/openal_wrapper.hpp"
@@ -819,7 +820,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 
 	if (!stealthloading) {
 		Object::AddObjectsToTerrain();
-		terrain.DoShadows(Tutorial::active, []() {Game::LoadingScreen(); });
+		terrain.DoShadows(Tutorial::active, texscale, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
 		Object::DoShadows();
 		Game::LoadingScreen();
@@ -1121,7 +1122,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 
 	if (!stealthloading) {
 		Object::AddObjectsToTerrain();
-		terrain.DoShadows(Tutorial::active, []() {Game::LoadingScreen(); });
+		terrain.DoShadows(Tutorial::active, texscale, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
 		Object::DoShadows();
 		Game::LoadingScreen();
@@ -1131,9 +1132,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 		Game::LoadingScreen();
 
 		Person::players[i]->skeleton.free = 0;
-
 		Person::players[i]->skeletonLoad();
-
 		Person::players[i]->addClothes();
 
 		Person::players[i]->speed = 1 + (float)(rand() % 100) / 1000;

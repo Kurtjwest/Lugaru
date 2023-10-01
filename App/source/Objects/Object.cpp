@@ -592,11 +592,11 @@ void Object::addToTerrain(unsigned id)
 
     if (detail == 2) {
         if ((type == treetrunktype) && (position.y < (terrain.getHeight(position.x, position.z) + 1))) {
-            terrain.MakeDecal(shadowdecalpermanent, position, 2, .4, 0);
+            terrain.MakeDecal(shadowdecalpermanent, position, 2, .4, 0, environment);
         }
 
         if ((type == bushtype) && (position.y < (terrain.getHeight(position.x, position.z) + 1))) {
-            terrain.MakeDecal(shadowdecalpermanent, position, 1, .4, 0);
+            terrain.MakeDecal(shadowdecalpermanent, position, 1, .4, 0, environment);
         }
     }
 }

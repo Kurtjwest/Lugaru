@@ -93,31 +93,31 @@ public:
     void AddObject(Vector3 where, float radius, int id);
     void DeleteObject(unsigned int id);
     void DeleteDecal(int which);
-    void MakeDecal(decal_type type, Vector3 where, float size, float opacity, float rotation);
-    void MakeDecalLock(decal_type type, Vector3 where, int whichx, int whichy, float size, float opacity, float rotation);
+    void MakeDecal(decal_type type, Vector3 where, float size, float opacity, float rotation, int environment);
+    void MakeDecalLock(decal_type type, Vector3 where, int whichx, int whichy, float size, float opacity, float rotation, int environment);
     int lineTerrain(Vector3 p1, Vector3 p2, Vector3* p);
     float getHeight(float pointx, float pointz) const;
     float getOpacity(float pointx, float pointz) const;
     Vector3 getLighting(float pointx, float pointz) const;
     Vector3 getNormal(float pointx, float pointz) const;
-    void UpdateVertexArray(int whichx, int whichy);
-    bool load(const std::string& fileName, ProgressCallback callback);
+    void UpdateVertexArray(int whichx, int whichy, float texscale);
+    bool load(const std::string& fileName, int environment, ProgressCallback callback);
     void CalculateNormals();
-    void drawdecals(const Vector3& viewer, float viewdistance);
-    void draw(int layer, const Vector3& viewer, float viewdistance);
-    void DoShadows(bool tutorialActive, ProgressCallback callback);
+    void drawdecals(const Vector3& viewer, float viewdistance, float fadestart);
+    void draw(int layer, const Vector3& viewer, float viewdistance, float fadestart, int environment);
+    void DoShadows(bool tutorialActive, float texscale, ProgressCallback callback);
     void deleteDeadDecals();
 
     float getHeightByTile(int x, int y) const;
     Terrain();
 
 private:
-    void drawpatch(int whichx, int whichy, float opacity, const Vector3& viewer, float viewdistance);
-    void drawpatchother(int whichx, int whichy, float opacity, const Vector3& viewer, float viewdistance);
-    void drawpatchotherother(int whichx, int whichy, const Vector3& viewer, float viewdistance);
-    void UpdateTransparency(int whichx, int whichy, const Vector3& viewer, float viewdistance);
+    void drawpatch(int whichx, int whichy, float opacity, const Vector3& viewer, float viewdistance, float fadestart);
+    void drawpatchother(int whichx, int whichy, float opacity, const Vector3& viewer, float viewdistance, float fadestart);
+    void drawpatchotherother(int whichx, int whichy, const Vector3& viewer, float viewdistance, float fadestart);
+    void UpdateTransparency(int whichx, int whichy, const Vector3& viewer, float viewdistance, float fadestart);
     void UpdateTransparencyother(int whichx, int whichy);
-    void UpdateTransparencyotherother(int whichx, int whichy, const Vector3& viewer, float viewdistance);
+    void UpdateTransparencyotherother(int whichx, int whichy, const Vector3& viewer, float viewdistance, float fadestart);
 };
 
 #endif

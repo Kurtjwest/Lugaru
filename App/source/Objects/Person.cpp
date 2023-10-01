@@ -1978,7 +1978,7 @@ void Person::FootLand(bodypart whichfoot, float opacity)
 				if (environment == snowyenvironment) {
 					Sprite::MakeSprite(cloudsprite, footpoint, footvel * .6, terrainlight.x, terrainlight.y, terrainlight.z, .5, .7 * opacity);
 					if (detail == 2) {
-						terrain.MakeDecal(footprintdecal, footpoint, .2, 1 * opacity, yaw);
+						terrain.MakeDecal(footprintdecal, footpoint, .2, 1 * opacity, yaw, environment);
 					}
 				}
 				else if (environment == grassyenvironment) {
@@ -1987,7 +1987,7 @@ void Person::FootLand(bodypart whichfoot, float opacity)
 				else if (environment == desertenvironment) {
 					Sprite::MakeSprite(cloudsprite, footpoint, footvel * .6, terrainlight.x * 190 / 255, terrainlight.y * 170 / 255, terrainlight.z * 108 / 255, .5, .7 * opacity);
 					if (detail == 2) {
-						terrain.MakeDecal(footprintdecal, footpoint, .2, .25 * opacity, yaw);
+						terrain.MakeDecal(footprintdecal, footpoint, .2, .25 * opacity, yaw, environment);
 					}
 				}
 			}
@@ -5149,7 +5149,7 @@ void Person::DoStuff()
 		Vector3 headpoint;
 		headpoint = coords;
 		if (bloodtoggle && !bled) {
-			terrain.MakeDecal(blooddecalslow, headpoint, .8, .5, 0);
+			terrain.MakeDecal(blooddecalslow, headpoint, .8, .5, 0, environment);
 			for (unsigned int l = 0; l < terrain.patchobjects[whichpatchx][whichpatchz].size(); l++) {
 				unsigned int j = terrain.patchobjects[whichpatchx][whichpatchz][l];
 				Vector3 point = DoRotation(headpoint - Object::objects[j]->position, 0, -Object::objects[j]->yaw, 0);
@@ -5390,7 +5390,7 @@ void Person::DoStuff()
 						DoBlood(1, 255);
 					}
 					if (bloodtoggle && !bled) {
-						terrain.MakeDecal(blooddecalslow, headpoint, .8, .5, 0);
+						terrain.MakeDecal(blooddecalslow, headpoint, .8, .5, 0, environment);
 						for (unsigned int l = 0; l < terrain.patchobjects[whichpatchx][whichpatchz].size(); l++) {
 							unsigned int j = terrain.patchobjects[whichpatchx][whichpatchz][l];
 							Vector3 point = DoRotation(headpoint - Object::objects[j]->position, 0, -Object::objects[j]->yaw, 0);
