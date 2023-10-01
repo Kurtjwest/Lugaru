@@ -21,7 +21,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Environment/Skybox.hpp"
 
 // TODO get rid of these
-extern float viewdistance;
+//extern float viewdistance;
 extern float blurness;
 extern int environment;
 extern bool skyboxtexture;
@@ -40,9 +40,9 @@ void SkyBox::load(const std::string& ffront, const std::string& fleft, const std
     down.load(fdown, true, callback);
 }
 
-void SkyBox::draw(bool desertEnvironment)
+void SkyBox::draw(bool desertEnvironment, float viewDistance)
 {
-    static float size = viewdistance / 4;
+    static float size = viewDistance / 4;
     glPushMatrix();
     static GLfloat M[16];
     glGetFloatv(GL_MODELVIEW_MATRIX, M);

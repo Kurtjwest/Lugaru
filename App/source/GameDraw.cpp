@@ -304,7 +304,7 @@ int Game::DrawGLScene(StereoSide side)
             glRotatef((float)(abs(rand() % 100)) / 1000, 0, 1, 0);
         }
 
-        skybox->draw(environment == desertenvironment);
+        skybox->draw(environment == desertenvironment, viewdistance);
         glTexEnvf(GL_TEXTURE_FILTER_CONTROL, GL_TEXTURE_LOD_BIAS, 0);
         glPopMatrix();
         glTranslatef(-viewer.x, -viewer.y, -viewer.z);
