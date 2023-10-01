@@ -20,6 +20,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Graphic/Decal.hpp"
 #include "Graphic/Models.hpp"
+
 #include "Environment/Terrain.hpp"
 
 Decal::Decal()

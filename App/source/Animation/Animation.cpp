@@ -18,8 +18,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Animation/Animation.hpp"
-
 #include "Animation/Skeleton.hpp"
+
 #include "Utils/Folders.hpp"
 
 std::vector<Animation> Animation::animations;

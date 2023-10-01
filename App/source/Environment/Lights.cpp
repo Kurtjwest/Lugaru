@@ -22,7 +22,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 void SetUpLight(Light* whichsource, int whichlight)
 {
-    static float qattenuation[] = { 0.0002f };
+    const float qattenuation[] = { 0.0002f };
 
     //Initialize lights
     if (whichlight == 0) {

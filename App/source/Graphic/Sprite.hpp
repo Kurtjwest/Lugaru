@@ -23,11 +23,14 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Environment/Lights.hpp"
 #include "Environment/Terrain.hpp"
+
 #include "Graphic/Texture.hpp"
 #include "Graphic/gamegl.hpp"
+
+#include "Objects/Object.hpp"
+
 #include "Math/Frustum.hpp"
 #include "Math/Vector3.hpp"
-#include "Objects/Object.hpp"
 #include "Utils/ImageIO.hpp"
 
 #include <vector>
@@ -74,7 +77,7 @@ private:
 public:
     static void DeleteSprite(int which);
     static void MakeSprite(int atype, Vector3 where, Vector3 avelocity, float red, float green, float blue, float asize, float aopacity);
-    static void Draw();
+    static void Draw(const Vector3& viewer);
     static void deleteSprites()
     {
         sprites.clear();
@@ -108,7 +111,7 @@ public:
     static Texture toothtexture;
 
     Sprite();
-    ~Sprite(){};
+    ~Sprite() = default;
 };
 
 #endif

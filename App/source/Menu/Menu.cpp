@@ -20,6 +20,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Menu/Menu.hpp"
 
+#include "Game.hpp"
+
 #include "Audio/openal_wrapper.hpp"
 #include "Graphic/gamegl.hpp"
 #include "Level/Campaign.hpp"
@@ -903,7 +905,7 @@ void Menu::Tick()
                         mainmenu = 3;
 
                         stereomode = newstereomode;
-                        InitStereo(stereomode);
+                        InitStereo(stereomode, kContextWidth, kContextHeight);
                     }
                 }
                 updateStereoConfigMenu();

@@ -49,7 +49,7 @@ extern float stereoseparation;
 extern bool stereoreverse;
 
 bool CanInitStereo(StereoMode mode);
-void InitStereo(StereoMode mode);
+void InitStereo(StereoMode mode, int contextWidth, int contextHeight);
 const std::string StereoModeName(StereoMode mode);
 
 #endif

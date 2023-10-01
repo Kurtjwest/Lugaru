@@ -20,13 +20,9 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Environment/Terrain.hpp"
 
-#include "Game.hpp"
 #include "Objects/Object.hpp"
-//#include "Tutorial.hpp"
 #include "Utils/Folders.hpp"
 
-extern Vector3 viewer;
-extern float viewdistance;
 extern float fadestart;
 extern int environment;
 extern float texscale;
@@ -156,7 +152,7 @@ int Terrain::lineTerrain(Vector3 p1, Vector3 p2, Vector3* p)
 	return firstintersecting;
 }
 
-void Terrain::UpdateTransparency(int whichx, int whichy)
+void Terrain::UpdateTransparency(int whichx, int whichy, const Vector3& viewer, float viewdistance)
 {
 	static Vector3 vertex;
 	static int i, j, a, b, c, d, patch_size, stepsize;
@@ -234,7 +230,7 @@ void Terrain::UpdateTransparencyother(int whichx, int whichy)
 	}
 }
 
-void Terrain::UpdateTransparencyotherother(int whichx, int whichy)
+void Terrain::UpdateTransparencyotherother(int whichx, int whichy, const Vector3& viewer, float viewdistance)
 {
 	static Vector3 vertex;
 	static int i, j, a, b, c, d, patch_size, stepsize;
@@ -407,7 +403,7 @@ void Terrain::UpdateVertexArray(int whichx, int whichy)
 	}
 }
 
-bool Terrain::load(const std::string& fileName)
+bool Terrain::load(const std::string& fileName, ProgressCallback callback)
 {
 	static long i, j;
 	static long x, y;
@@ -418,7 +414,7 @@ bool Terrain::load(const std::string& fileName)
 	ImageRec texture;
 
 	//Load Image
-	if (!load_image(Folders::getResourcePath(fileName).c_str(), texture, []() {Game::LoadingScreen(); })) {
+	if (!load_image(Folders::getResourcePath(fileName).c_str(), texture, callback)) {
 		return false;
 	}
 
@@ -435,7 +431,7 @@ bool Terrain::load(const std::string& fileName)
 		}
 	}
 	texture.bpp = 24;
-	Game::LoadingScreen();
+	callback();
 
 	texdetail = temptexdetail;
 
@@ -447,7 +443,7 @@ bool Terrain::load(const std::string& fileName)
 		}
 	}
 
-	Game::LoadingScreen();
+	callback();
 
 	float slopeness;
 
@@ -456,7 +452,7 @@ bool Terrain::load(const std::string& fileName)
 			textureness[i][j] = -1;
 		}
 	}
-	Game::LoadingScreen();
+	callback();
 
 	for (i = 0; i < size; i++) {
 		for (j = 0; j < size; j++) {
@@ -507,7 +503,7 @@ bool Terrain::load(const std::string& fileName)
 			}
 		}
 	}
-	Game::LoadingScreen();
+	callback();
 
 	for (i = 0; i < size; i++) {
 		for (j = 0; j < size; j++) {
@@ -519,7 +515,7 @@ bool Terrain::load(const std::string& fileName)
 			}
 		}
 	}
-	Game::LoadingScreen();
+	callback();
 
 	for (i = 0; i < size; i++) {
 		for (j = 0; j < size; j++) {
@@ -680,7 +676,7 @@ bool Terrain::load(const std::string& fileName)
 			}
 		}
 	}
-	Game::LoadingScreen();
+	callback();
 
 	patch_size = size / subdivision;
 	patch_elements = patch_size * patch_size * 54;
@@ -764,14 +760,14 @@ void Terrain::CalculateNormals()
 	}
 }
 
-void Terrain::drawpatch(int whichx, int whichy, float opacity)
+void Terrain::drawpatch(int whichx, int whichy, float opacity, const Vector3& viewer, float viewdistance)
 {
 	if (opacity >= 1) {
 		glDisable(GL_BLEND);
 	}
 	if (opacity < 1) {
 		glEnable(GL_BLEND);
-		UpdateTransparency(whichx, whichy);
+		UpdateTransparency(whichx, whichy, viewer, viewdistance);
 	}
 
 	glColor4f(1, 1, 1, 1);
@@ -792,11 +788,11 @@ void Terrain::drawpatch(int whichx, int whichy, float opacity)
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-void Terrain::drawpatchother(int whichx, int whichy, float opacity)
+void Terrain::drawpatchother(int whichx, int whichy, float opacity, const Vector3& viewer, float viewdistance)
 {
 	glEnable(GL_BLEND);
 	if (opacity < 1) {
-		UpdateTransparency(whichx, whichy);
+		UpdateTransparency(whichx, whichy, viewer, viewdistance);
 	}
 	UpdateTransparencyother(whichx, whichy);
 
@@ -818,10 +814,10 @@ void Terrain::drawpatchother(int whichx, int whichy, float opacity)
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-void Terrain::drawpatchotherother(int whichx, int whichy)
+void Terrain::drawpatchotherother(int whichx, int whichy, const Vector3& viewer, float viewdistance)
 {
 	glEnable(GL_BLEND);
-	UpdateTransparencyotherother(whichx, whichy);
+	UpdateTransparencyotherother(whichx, whichy, viewer, viewdistance);
 
 	glMatrixMode(GL_TEXTURE);
 	glPushMatrix();
@@ -967,7 +963,7 @@ Vector3 Terrain::getLighting(float pointx, float pointz) const
 	return height1 * (1 - (pointz - tiley)) + height2 * (pointz - tiley);
 }
 
-void Terrain::draw(int layer)
+void Terrain::draw(int layer, const Vector3& viewer, float viewdistance)
 {
 	static int i, j;
 	static float opacity;
@@ -1043,13 +1039,13 @@ void Terrain::draw(int layer)
 						glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT, 0);
 					}
 					if (!layer && textureness[i][j] != allsecond) {
-						drawpatch(i, j, opacity);
+						drawpatch(i, j, opacity, viewer, viewdistance);
 					}
 					if (layer == 1 && textureness[i][j] != allfirst) {
-						drawpatchother(i, j, opacity);
+						drawpatchother(i, j, opacity, viewer, viewdistance);
 					}
 					if (layer == 2 && textureness[i][j] != allfirst) {
-						drawpatchotherother(i, j);
+						drawpatchotherother(i, j, viewer, viewdistance);
 					}
 				}
 				glPopMatrix();
@@ -1061,7 +1057,7 @@ void Terrain::draw(int layer)
 	}
 }
 
-void Terrain::drawdecals()
+void Terrain::drawdecals(const Vector3& viewer, float viewdistance)
 {
 	if (decalstoggle) {
 		static float distancemult;
@@ -1352,7 +1348,7 @@ void Terrain::MakeDecalLock(decal_type type, Vector3 where, int whichx, int whic
 	}
 }
 
-void Terrain::DoShadows(bool tutorialActive)
+void Terrain::DoShadows(bool tutorialActive, ProgressCallback callback)
 {
 	static Vector3 testpoint, testpoint2, terrainpoint, lightloc, col;
 	lightloc = light.location;
@@ -1388,7 +1384,7 @@ void Terrain::DoShadows(bool tutorialActive)
 						}
 					}
 				}
-				Game::LoadingScreen();
+				callback();
 			}
 			float brightness = dotproduct(&lightloc, &normals[i][j]);
 			if (shadowed) {
@@ -1427,7 +1423,7 @@ void Terrain::DoShadows(bool tutorialActive)
 		}
 	}
 
-	Game::LoadingScreen();
+	callback();
 
 	//Smooth shadows
 	for (short int i = 0; i < size; i++) {

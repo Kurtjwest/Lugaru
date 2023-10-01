@@ -25,9 +25,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace std;
 
-extern bool trilinear;
-
-void TextureRes::load(ProgressCallback callback)
+void TextureRes::load(bool trilinear, ProgressCallback callback)
 {
     ImageRec texture;
 
@@ -79,7 +77,7 @@ void TextureRes::bind()
     glBindTexture(GL_TEXTURE_2D, id);
 }
 
-TextureRes::TextureRes(const string& _filename, bool _hasMipmap, ProgressCallback callback)
+TextureRes::TextureRes(const string& _filename, bool _hasMipmap, bool trilinear, ProgressCallback callback)
     : id(0)
     , filename(_filename)
     , hasMipmap(_hasMipmap)
@@ -88,10 +86,10 @@ TextureRes::TextureRes(const string& _filename, bool _hasMipmap, ProgressCallbac
     , data(NULL)
     , datalen(0)
 {
-    load(callback);
+    load(trilinear, callback);
 }
 
-TextureRes::TextureRes(const string& _filename, bool _hasMipmap, GLubyte* array, int* skinsizep, ProgressCallback callback)
+TextureRes::TextureRes(const string& _filename, bool _hasMipmap, GLubyte* array, int* skinsizep, bool trilinear, ProgressCallback callback)
     : id(0)
     , filename(_filename)
     , hasMipmap(_hasMipmap)
@@ -100,7 +98,7 @@ TextureRes::TextureRes(const string& _filename, bool _hasMipmap, GLubyte* array,
     , data(NULL)
     , datalen(0)
 {
-    load(callback);
+    load(trilinear, callback);
     *skinsizep = skinsize;
     for (int i = 0; i < datalen; i++) {
         array[i] = data[i];
@@ -113,14 +111,14 @@ TextureRes::~TextureRes()
     glDeleteTextures(1, &id);
 }
 
-void Texture::load(const string& filename, bool hasMipmap, ProgressCallback callback)
+void Texture::load(const string& filename, bool hasMipmap, bool trilinear, ProgressCallback callback)
 {
-    tex.reset(new TextureRes(Folders::getResourcePath(filename), hasMipmap, callback));
+    tex.reset(new TextureRes(Folders::getResourcePath(filename), hasMipmap, trilinear, callback));
 }
 
-void Texture::load(const string& filename, bool hasMipmap, GLubyte* array, int* skinsizep, ProgressCallback callback)
+void Texture::load(const string& filename, bool hasMipmap, GLubyte* array, int* skinsizep, bool trilinear, ProgressCallback callback)
 {
-    tex.reset(new TextureRes(Folders::getResourcePath(filename), hasMipmap, array, skinsizep, callback));
+    tex.reset(new TextureRes(Folders::getResourcePath(filename), hasMipmap, array, skinsizep, trilinear, callback));
 }
 
 void Texture::bind()

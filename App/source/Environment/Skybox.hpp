@@ -36,8 +36,8 @@ public:
     Texture front, left, back, right, up, down;
 
     void load(const std::string& ffront, const std::string& fleft, const std::string& fback,
-              const std::string& fright, const std::string& fup, const std::string& fdown, ProgressCallback callback);
-    void draw(bool desertEnvironment, float viewDistance);
+              const std::string& fright, const std::string& fup, const std::string& fdown, bool trilinear, ProgressCallback callback);
+    void draw(bool desertEnvironment, float viewDistance, int blurness, bool skyboxtexture, const Vector3& skyboxrgb);
 
     SkyBox() = default;
 };

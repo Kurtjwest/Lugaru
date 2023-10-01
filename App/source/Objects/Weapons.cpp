@@ -25,7 +25,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Animation/Animation.hpp"
 #include "Audio/Sounds.hpp"
 #include "Audio/openal_wrapper.hpp"
-//#include "Game.hpp"
 #include "Level/Awards.hpp"
 #include "Tutorial.hpp"
 
@@ -98,17 +97,17 @@ void Weapon::setType(int t)
 }
 
 /* Load weapons models and textures */
-void Weapon::Load(ProgressCallback callback)
+void Weapon::Load(bool trilinear, ProgressCallback callback)
 {
 	LOG("Loading weapon data...");
 
-	knifetextureptr.load("Textures/Knife.png", 0, callback);
-	bloodknifetextureptr.load("Textures/BloodKnife.png", 0, callback);
-	lightbloodknifetextureptr.load("Textures/BloodKnifeLight.png", 0, callback);
-	swordtextureptr.load("Textures/Sword.jpg", 1, callback);
-	bloodswordtextureptr.load("Textures/SwordBlood.jpg", 1, callback);
-	lightbloodswordtextureptr.load("Textures/SwordBloodLight.jpg", 1, callback);
-	stafftextureptr.load("Textures/Staff.jpg", 1, callback);
+	knifetextureptr.load("Textures/Knife.png", 0, trilinear, callback);
+	bloodknifetextureptr.load("Textures/BloodKnife.png", 0, trilinear, callback);
+	lightbloodknifetextureptr.load("Textures/BloodKnifeLight.png", 0, trilinear, callback);
+	swordtextureptr.load("Textures/Sword.jpg", 1, trilinear, callback);
+	bloodswordtextureptr.load("Textures/SwordBlood.jpg", 1, trilinear, callback);
+	lightbloodswordtextureptr.load("Textures/SwordBloodLight.jpg", 1, trilinear, callback);
+	stafftextureptr.load("Textures/Staff.jpg", 1, trilinear, callback);
 
 	throwingknifemodel.load("Models/ThrowingKnife.solid", callback);
 	throwingknifemodel.Scale(.001, .001, .001);
@@ -259,7 +258,7 @@ void Weapon::doStuff(int i)
 				footvel = 0;
 				footpoint = DoRotation((Person::players[j]->jointPos(abdomen) + Person::players[j]->jointPos(neck)) / 2, 0, Person::players[j]->yaw, 0) * Person::players[j]->scale + Person::players[j]->coords;
 				if (owner == -1 && distsqflat(&position, &Person::players[j]->coords) < 1.5 &&
-					distsq(&position, &Person::players[j]->coords) < 4 && Person::players[j]->weaponstuck == -1 &&
+					distsq(position, Person::players[j]->coords) < 4 && Person::players[j]->weaponstuck == -1 &&
 					!Person::players[j]->skeleton.free && (int(j) != oldowner)) {
 					if ((Person::players[j]->aitype != attacktypecutoff || abs(rand() % 6) == 0 || (Person::players[j]->animTarget != backhandspringanim && Person::players[j]->animTarget != rollanim && Person::players[j]->animTarget != flipanim && rand() % 2 == 0)) && !missed) {
 						if (Person::players[j]->catchKnife()) {
@@ -381,17 +380,17 @@ void Weapon::doStuff(int i)
 				Vector3 terrainlight;
 				terrainlight = terrain.getLighting(position.x, position.z);
 				if (environment == snowyenvironment) {
-					if (distsq(&position, &viewer) < viewdistance * viewdistance / 4) {
+					if (distsq(position, viewer) < viewdistance * viewdistance / 4) {
 						Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x, terrainlight.y, terrainlight.z, .5, .7);
 					}
 				}
 				else if (environment == grassyenvironment) {
-					if (distsq(&position, &viewer) < viewdistance * viewdistance / 4) {
+					if (distsq(position, viewer) < viewdistance * viewdistance / 4) {
 						Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x * 90 / 255, terrainlight.y * 70 / 255, terrainlight.z * 8 / 255, .5, .5);
 					}
 				}
 				else if (environment == desertenvironment) {
-					if (distsq(&position, &viewer) < viewdistance * viewdistance / 4) {
+					if (distsq(position, viewer) < viewdistance * viewdistance / 4) {
 						Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x * 190 / 255, terrainlight.y * 170 / 255, terrainlight.z * 108 / 255, .5, .7);
 					}
 				}

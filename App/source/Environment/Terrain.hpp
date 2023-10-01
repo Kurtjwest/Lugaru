@@ -46,6 +46,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #define snowyenvironment 0
 #define grassyenvironment 1
 #define desertenvironment 2
+
 //
 // Model Structures
 //
@@ -100,23 +101,23 @@ public:
     Vector3 getLighting(float pointx, float pointz) const;
     Vector3 getNormal(float pointx, float pointz) const;
     void UpdateVertexArray(int whichx, int whichy);
-    bool load(const std::string& fileName);
+    bool load(const std::string& fileName, ProgressCallback callback);
     void CalculateNormals();
-    void drawdecals();
-    void draw(int layer);
-    void DoShadows(bool tutorialActive);
+    void drawdecals(const Vector3& viewer, float viewdistance);
+    void draw(int layer, const Vector3& viewer, float viewdistance);
+    void DoShadows(bool tutorialActive, ProgressCallback callback);
     void deleteDeadDecals();
 
     float getHeightByTile(int x, int y) const;
     Terrain();
 
 private:
-    void drawpatch(int whichx, int whichy, float opacity);
-    void drawpatchother(int whichx, int whichy, float opacity);
-    void drawpatchotherother(int whichx, int whichy);
-    void UpdateTransparency(int whichx, int whichy);
+    void drawpatch(int whichx, int whichy, float opacity, const Vector3& viewer, float viewdistance);
+    void drawpatchother(int whichx, int whichy, float opacity, const Vector3& viewer, float viewdistance);
+    void drawpatchotherother(int whichx, int whichy, const Vector3& viewer, float viewdistance);
+    void UpdateTransparency(int whichx, int whichy, const Vector3& viewer, float viewdistance);
     void UpdateTransparencyother(int whichx, int whichy);
-    void UpdateTransparencyotherother(int whichx, int whichy);
+    void UpdateTransparencyotherother(int whichx, int whichy, const Vector3& viewer, float viewdistance);
 };
 
 #endif

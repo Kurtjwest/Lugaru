@@ -20,10 +20,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Graphic/Stereo.hpp"
 
-#include "Game.hpp"
-
-extern int kContextWidth;
-extern int kContextHeight;
+#include "Graphic/gamegl.hpp"
 
 bool CanInitStereo(StereoMode mode)
 {
@@ -50,7 +47,7 @@ bool CanInitStereo(StereoMode mode)
     }
 }
 
-void InitStereo(StereoMode mode)
+void InitStereo(StereoMode mode, int contextWidth, int contextHeight)
 {
     switch (mode) {
         default:
@@ -60,7 +57,7 @@ void InitStereo(StereoMode mode)
             return;
         case stereoHorizontalInterlaced:
         case stereoVerticalInterlaced:
-            fprintf(stderr, "Screen width is %i, height is %i\n", kContextWidth, kContextHeight);
+            fprintf(stderr, "Screen width is %i, height is %i\n", contextWidth, contextHeight);
 
             // Setup stencil buffer
             glDisable(GL_DEPTH_TEST);
@@ -75,11 +72,11 @@ void InitStereo(StereoMode mode)
             glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
 
             // Setup viewport
-            glViewport(0, 0, kContextWidth, kContextHeight);
+            glViewport(0, 0, contextWidth, contextHeight);
             glMatrixMode(GL_PROJECTION);
             glPushMatrix();
             glLoadIdentity();
-            glOrtho((GLdouble)0, (GLdouble)kContextWidth, (GLdouble)kContextHeight, 0, -1, 1);
+            glOrtho((GLdouble)0, (GLdouble)contextWidth, (GLdouble)contextHeight, 0, -1, 1);
             glMatrixMode(GL_MODELVIEW);
             glPushMatrix();
             glLoadIdentity();
@@ -89,17 +86,17 @@ void InitStereo(StereoMode mode)
             // Add 0.5 to the coordinates, because OpenGL considers a pixel should be
             // turned on when a line passes through the center of it.
             if (mode == stereoHorizontalInterlaced) {
-                for (int y = 0; y < kContextHeight; y += 2) {
+                for (int y = 0; y < contextHeight; y += 2) {
                     glBegin(GL_LINES);
                     glVertex3f(0.5, y + 0.5, 0);
-                    glVertex3f(kContextWidth + 0.5, y + 0.5, 0);
+                    glVertex3f(contextWidth + 0.5, y + 0.5, 0);
                     glEnd();
                 }
             } else {
-                for (int x = 0; x < kContextWidth; x += 2) {
+                for (int x = 0; x < contextWidth; x += 2) {
                     glBegin(GL_LINES);
                     glVertex3f(x + 0.5, 0.5, 0);
-                    glVertex3f(x + 0.5, kContextHeight + 0.5, 0);
+                    glVertex3f(x + 0.5, contextHeight + 0.5, 0);
                     glEnd();
                 }
             }

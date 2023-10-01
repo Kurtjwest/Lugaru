@@ -381,18 +381,18 @@ void Setenvironment(int which)
 			emit_stream_np(stream_wind);
 		}
 
-		Object::treetextureptr.load("Textures/SnowTree.png", 0, []() {Game::LoadingScreen(); });
-		Object::bushtextureptr.load("Textures/BushSnow.png", 0, []() {Game::LoadingScreen(); });
-		Object::rocktextureptr.load("Textures/BoulderSnow.jpg", 1, []() {Game::LoadingScreen(); });
-		Object::boxtextureptr.load("Textures/SnowBox.jpg", 1, []() {Game::LoadingScreen(); });
+		Object::treetextureptr.load("Textures/SnowTree.png", 0, trilinear, []() {Game::LoadingScreen(); });
+		Object::bushtextureptr.load("Textures/BushSnow.png", 0, trilinear, []() {Game::LoadingScreen(); });
+		Object::rocktextureptr.load("Textures/BoulderSnow.jpg", 1, trilinear, []() {Game::LoadingScreen(); });
+		Object::boxtextureptr.load("Textures/SnowBox.jpg", 1, trilinear, []() {Game::LoadingScreen(); });
 
 		footstepsound = footstepsn1;
 		footstepsound2 = footstepsn2;
 		footstepsound3 = footstepst1;
 		footstepsound4 = footstepst2;
 
-		terraintexture.load("Textures/Snow.jpg", 1, []() {Game::LoadingScreen(); });
-		terraintexture2.load("Textures/Rock.jpg", 1, []() {Game::LoadingScreen(); });
+		terraintexture.load("Textures/Snow.jpg", 1, trilinear, []() {Game::LoadingScreen(); });
+		terraintexture2.load("Textures/Rock.jpg", 1, trilinear, []() {Game::LoadingScreen(); });
 
 		temptexdetail = texdetail;
 		if (texdetail > 1) {
@@ -403,17 +403,17 @@ void Setenvironment(int which)
 			"Textures/Skybox(snow)/Back.jpg",
 			"Textures/Skybox(snow)/Right.jpg",
 			"Textures/Skybox(snow)/Up.jpg",
-			"Textures/Skybox(snow)/Down.jpg", []() {Game::LoadingScreen(); });
+			"Textures/Skybox(snow)/Down.jpg", trilinear, []() {Game::LoadingScreen(); });
 
 		texdetail = temptexdetail;
 	}
 	else if (environment == desertenvironment) {
 		windvector = 0;
 		windvector.z = 2;
-		Object::treetextureptr.load("Textures/DesertTree.png", 0, []() {Game::LoadingScreen(); });
-		Object::bushtextureptr.load("Textures/BushDesert.png", 0, []() {Game::LoadingScreen(); });
-		Object::rocktextureptr.load("Textures/BoulderDesert.jpg", 1, []() {Game::LoadingScreen(); });
-		Object::boxtextureptr.load("Textures/DesertBox.jpg", 1, []() {Game::LoadingScreen(); });
+		Object::treetextureptr.load("Textures/DesertTree.png", 0, trilinear, []() {Game::LoadingScreen(); });
+		Object::bushtextureptr.load("Textures/BushDesert.png", 0, trilinear, []() {Game::LoadingScreen(); });
+		Object::rocktextureptr.load("Textures/BoulderDesert.jpg", 1, trilinear, []() {Game::LoadingScreen(); });
+		Object::boxtextureptr.load("Textures/DesertBox.jpg", 1, trilinear, []() {Game::LoadingScreen(); });
 
 		if (ambientsound) {
 			emit_stream_np(stream_desertambient);
@@ -424,8 +424,8 @@ void Setenvironment(int which)
 		footstepsound3 = footstepsn1;
 		footstepsound4 = footstepsn2;
 
-		terraintexture.load("Textures/Sand.jpg", 1, []() {Game::LoadingScreen(); });
-		terraintexture2.load("Textures/SandSlope.jpg", 1, []() {Game::LoadingScreen(); });
+		terraintexture.load("Textures/Sand.jpg", 1, trilinear, []() {Game::LoadingScreen(); });
+		terraintexture2.load("Textures/SandSlope.jpg", 1, trilinear, []() {Game::LoadingScreen(); });
 
 		temptexdetail = texdetail;
 		if (texdetail > 1) {
@@ -436,17 +436,17 @@ void Setenvironment(int which)
 			"Textures/Skybox(sand)/Back.jpg",
 			"Textures/Skybox(sand)/Right.jpg",
 			"Textures/Skybox(sand)/Up.jpg",
-			"Textures/Skybox(sand)/Down.jpg", []() {Game::LoadingScreen(); });
+			"Textures/Skybox(sand)/Down.jpg", trilinear, []() {Game::LoadingScreen(); });
 
 		texdetail = temptexdetail;
 	}
 	else if (environment == grassyenvironment) {
 		windvector = 0;
 		windvector.z = 2;
-		Object::treetextureptr.load("Textures/Tree.png", 0, []() {Game::LoadingScreen(); });
-		Object::bushtextureptr.load("Textures/Bush.png", 0, []() {Game::LoadingScreen(); });
-		Object::rocktextureptr.load("Textures/Boulder.jpg", 1, []() {Game::LoadingScreen(); });
-		Object::boxtextureptr.load("Textures/GrassBox.jpg", 1, []() {Game::LoadingScreen(); });
+		Object::treetextureptr.load("Textures/Tree.png", 0, trilinear, []() {Game::LoadingScreen(); });
+		Object::bushtextureptr.load("Textures/Bush.png", 0, trilinear, []() {Game::LoadingScreen(); });
+		Object::rocktextureptr.load("Textures/Boulder.jpg", 1, trilinear, []() {Game::LoadingScreen(); });
+		Object::boxtextureptr.load("Textures/GrassBox.jpg", 1, trilinear, []() {Game::LoadingScreen(); });
 
 		if (ambientsound) {
 			emit_stream_np(stream_wind, 100.);
@@ -457,8 +457,8 @@ void Setenvironment(int which)
 		footstepsound3 = footstepst1;
 		footstepsound4 = footstepst2;
 
-		terraintexture.load("Textures/GrassDirt.jpg", 1, []() {Game::LoadingScreen(); });
-		terraintexture2.load("Textures/MossRock.jpg", 1, []() {Game::LoadingScreen(); });
+		terraintexture.load("Textures/GrassDirt.jpg", 1, trilinear, []() {Game::LoadingScreen(); });
+		terraintexture2.load("Textures/MossRock.jpg", 1, trilinear, []() {Game::LoadingScreen(); });
 
 		temptexdetail = texdetail;
 		if (texdetail > 1) {
@@ -469,13 +469,13 @@ void Setenvironment(int which)
 			"Textures/Skybox(grass)/Back.jpg",
 			"Textures/Skybox(grass)/Right.jpg",
 			"Textures/Skybox(grass)/Up.jpg",
-			"Textures/Skybox(grass)/Down.jpg", []() {Game::LoadingScreen(); });
+			"Textures/Skybox(grass)/Down.jpg", trilinear, []() {Game::LoadingScreen(); });
 
 		texdetail = temptexdetail;
 	}
 	temptexdetail = texdetail;
 	texdetail = 1;
-	terrain.load("Textures/HeightMap.png");
+	terrain.load("Textures/HeightMap.png", []() {Game::LoadingScreen(); });
 
 	texdetail = temptexdetail;
 }
@@ -819,7 +819,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 
 	if (!stealthloading) {
 		Object::AddObjectsToTerrain();
-		terrain.DoShadows(Tutorial::active);
+		terrain.DoShadows(Tutorial::active, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
 		Object::DoShadows();
 		Game::LoadingScreen();
@@ -1121,7 +1121,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 
 	if (!stealthloading) {
 		Object::AddObjectsToTerrain();
-		terrain.DoShadows(Tutorial::active);
+		terrain.DoShadows(Tutorial::active, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
 		Object::DoShadows();
 		Game::LoadingScreen();
@@ -1158,11 +1158,11 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 	Person::players[0]->aitype = playercontrolled;
 
 	if (difficulty == 1) {
-		Person::players[0]->power = 100 / .9;
+		Person::players[0]->power = 10 / .9;
 		Person::players[0]->damagetolerance = 2500;
 	}
 	else if (difficulty == 0) {
-		Person::players[0]->power = 100 / .8;
+		Person::players[0]->power = 10 / .8;
 		Person::players[0]->damagetolerance = 3000;
 		Person::players[0]->armorhead *= 1.5;
 		Person::players[0]->armorhigh *= 1.5;
@@ -1485,7 +1485,7 @@ void Game::ProcessDevInput()
 
 				Person::players[closest]->skeleton.drawmodel.textureptr.load(
 					PersonType::types[Person::players[closest]->creature].skins[Person::players[closest]->whichskin], 1,
-					&Person::players[closest]->skeleton.skinText[0], &Person::players[closest]->skeleton.skinsize, []() {Game::LoadingScreen(); });
+					&Person::players[closest]->skeleton.skinText[0], &Person::players[closest]->skeleton.skinsize, trilinear, []() {Game::LoadingScreen(); });
 			}
 
 			Person::players[closest]->addClothes();
@@ -1725,7 +1725,7 @@ void Game::ProcessDevInput()
 
 			Person::players.back()->skeletonLoad();
 
-			Person::players.back()->skeleton.drawmodelclothes.textureptr.load("Textures/Belt.png", 1, []() {Game::LoadingScreen(); });
+			Person::players.back()->skeleton.drawmodelclothes.textureptr.load("Textures/Belt.png", 1, trilinear, []() {Game::LoadingScreen(); });
 			Person::players.back()->speed = 1 + (float)(rand() % 100) / 1000;
 
 			Person::players.back()->targetyaw = Person::players[0]->targetyaw;

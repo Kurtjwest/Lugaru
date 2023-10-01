@@ -51,12 +51,16 @@ The game follows a layered design where a layer can access any layer below but n
 
 Dependencies
 ```
-Animation -> Graphics
+Animation -> Graphic
           -> Objects
           -> Audio
           -> Foundation
 
-Environment -> Graphics
+Environment -> Graphic
             -> Foundation
+
+Graphic -> Environment
+        -> Foundation
+        -> Objects
 ```
        

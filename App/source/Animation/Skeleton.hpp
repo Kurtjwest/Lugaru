@@ -26,7 +26,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Animation/Muscle.hpp"
 
 #include "Graphic/Models.hpp"
-#include "Objects/Object.hpp"
+
 #include "Utils/binio.h"
 #include "Utils/Callbacks.h"
 #include "Math/Vector3.hpp"

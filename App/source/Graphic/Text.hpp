@@ -23,8 +23,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Graphic/Texture.hpp"
 #include "Graphic/gamegl.hpp"
-#include "Math/Vector3.hpp"
-#include "Utils/ImageIO.hpp"
+
+#include "Utils/Callbacks.h"
 
 #include <string>
 
@@ -32,9 +32,9 @@ class Text
 {
 public:
     Texture FontTexture;
-    GLuint base;
+    GLuint base = 0;
 
-    void LoadFontTexture(const std::string& fileName);
+    void LoadFontTexture(const std::string& fileName, bool trilinear, ProgressCallback callback);
     void BuildFont();
     void glPrint(float x, float y, const std::string& string, int set, float size, float width, float height, int start = 0, int end = -1);
     void glPrintOutline(float x, float y, const std::string& string, int set, float size, float width, float height, int start = 0, int end = -1);

@@ -41,7 +41,7 @@ class Weapon
 public:
     Weapon(int type, int owner);
 
-    static void Load(ProgressCallback);
+    static void Load(bool trilinear, ProgressCallback callback);
 
     void draw();
     void doStuff(int);

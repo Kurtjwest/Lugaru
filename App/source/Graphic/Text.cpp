@@ -20,15 +20,13 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Graphic/Text.hpp"
 
-#include "Game.hpp"
-
-void Text::LoadFontTexture(const std::string& fileName)
+void Text::LoadFontTexture(const std::string& fileName, bool trilinear, ProgressCallback callback)
 {
     LOGFUNC;
 
     LOG(std::string("Loading font texture...") + fileName);
 
-    FontTexture.load(fileName, false, []() {Game::LoadingScreen(); });
+    FontTexture.load(fileName, false, trilinear, callback);
     if (base) {
         glDeleteLists(base, 512);
         base = 0;

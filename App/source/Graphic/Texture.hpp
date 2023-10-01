@@ -40,11 +40,11 @@ private:
     GLubyte* data = nullptr;
     int datalen = 0;
 
-    void load(ProgressCallback callback);
+    void load(bool trilinear, ProgressCallback callback);
 
 public:
-    TextureRes(const string& filename, bool hasMipmap, ProgressCallback callback);
-    TextureRes(const string& filename, bool hasMipmap, GLubyte* array, int* skinsize, ProgressCallback callback);
+    TextureRes(const string& filename, bool hasMipmap, bool trilinear, ProgressCallback callback);
+    TextureRes(const string& filename, bool hasMipmap, GLubyte* array, int* skinsize, bool trilinear, ProgressCallback callback);
     ~TextureRes();
     void bind();
 
@@ -63,8 +63,8 @@ public:
         : tex(nullptr)
     {
     }
-    void load(const string& filename, bool hasMipmap, ProgressCallback callback);
-    void load(const string& filename, bool hasMipmap, GLubyte* array, int* skinsizep, ProgressCallback callback);
+    void load(const string& filename, bool hasMipmap, bool trilinear, ProgressCallback callback);
+    void load(const string& filename, bool hasMipmap, GLubyte* array, int* skinsizep, bool trilinear, ProgressCallback callback);
     void bind();
 };
 

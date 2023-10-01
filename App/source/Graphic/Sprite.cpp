@@ -20,10 +20,10 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Graphic/Sprite.hpp"
 
-#include "Game.hpp"
 #include "Objects/Person.hpp"
 
-extern Vector3 viewer;
+// TODO Get rid of globals
+//extern Vector3 viewer;
 extern float viewdistance;
 extern float fadestart;
 extern int environment;
@@ -55,7 +55,7 @@ float Sprite::checkdelay = 0;
 vector<std::unique_ptr<Sprite> > Sprite::sprites = vector<std::unique_ptr<Sprite> >();
 
 //Functions
-void Sprite::Draw()
+void Sprite::Draw(const Vector3& viewer)
 {
 	int k;
 	static float M[16];

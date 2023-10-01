@@ -18,12 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Graphic/Stereo.hpp"
-#include "Math/Vector3.hpp"
-#include "Objects/Weapons.hpp"
-
-#include <SDL.h>
-#include <string>
+#include "Globals.h"
 
 // TODO GET RID OF ALL OF THESE!
 

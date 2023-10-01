@@ -22,8 +22,9 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #define _DIALOG_HPP_
 
 #include "Math/Vector3.hpp"
+#include "Utils/Callbacks.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <fstream>
 #include <vector>
 #include <json/value.h>
@@ -31,57 +32,57 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 class DialogScene
 {
 public:
-    DialogScene(FILE* tfile);
-    DialogScene(Json::Value);
-    DialogScene(std::ifstream& ipstream);
-    void save(FILE* tfile);
-    Json::Value save();
+	DialogScene(FILE* tfile);
+	DialogScene(Json::Value);
+	DialogScene(std::ifstream& ipstream);
+	void save(FILE* tfile);
+	Json::Value save();
 
-    int location;
-    float color[3];
-    int sound;
-    std::string text;
-    std::string name;
-    Vector3 camera;
-    float camerayaw;
-    float camerapitch;
-    int participantfocus;
-    int participantaction;
-    Vector3 participantfacing[10];
-    operator Json::Value() {return save();}
+	int location;
+	float color[3];
+	int sound;
+	std::string text;
+	std::string name;
+	Vector3 camera;
+	float camerayaw;
+	float camerapitch;
+	int participantfocus;
+	int participantaction;
+	Vector3 participantfacing[10];
+	operator Json::Value() { return save(); }
 };
 
 class Dialog
 {
 public:
-    Dialog(FILE* tfile);
-    Dialog(Json::Value);
-    Dialog(int type, std::string filename);
-    void tick(int id);
-    void play();
-    void save(FILE* tfile);
-    Json::Value save();
+	Dialog(FILE* tfile);
+	Dialog(Json::Value);
+	Dialog(int type, std::string filename);
+	void tick(int id);
+	void play(PlaySoundCallback callback);
+	void save(FILE* tfile);
+	Json::Value save();
 
-    int type;
-    int gonethrough;
-    std::vector<DialogScene> scenes;
-    Vector3 participantlocation[10];
-    float participantyaw[10];
+	int type;
+	int gonethrough;
+	std::vector<DialogScene> scenes;
+	Vector3 participantlocation[10];
+	float participantyaw[10];
 
-    static void loadDialogs(FILE*);
-    static void loadDialogs(Json::Value);
-    static void saveDialogs(FILE*);
-    static Json::Value saveDialogs();
+	static void loadDialogs(FILE*);
+	static void loadDialogs(Json::Value);
+	static void saveDialogs(FILE*);
+	static Json::Value saveDialogs();
 
-    static bool inDialog() { return (indialogue != -1); }
-    static Dialog& currentDialog() { return dialogs[whichdialogue]; }
-    static DialogScene& currentScene() { return currentDialog().scenes[indialogue]; }
+	static bool inDialog() { return (indialogue != -1); }
+	static Dialog& currentDialog() { return dialogs[whichdialogue]; }
+	static DialogScene& currentScene() { return currentDialog().scenes[indialogue]; }
 
-    static int indialogue;
-    static int whichdialogue;
-    static bool directing;
-    static float dialoguetime;
-    static std::vector<Dialog> dialogs;
+	static int indialogue;
+	static int whichdialogue;
+	static bool directing;
+	static float dialoguetime;
+	static std::vector<Dialog> dialogs;
 };
 
 #endif /*_DIALOG_H_*/

@@ -26,37 +26,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Menu/Menu.hpp"
 #include "Utils/Folders.hpp"
 
-extern float screenwidth, screenheight;
-extern float viewdistance;
-extern Vector3 viewer;
-extern float fadestart;
-extern float texscale;
-extern float gravity;
-extern Light light;
-extern Terrain terrain;
-extern int kTextureSize;
-extern float texdetail;
-extern float realtexdetail;
-extern float volume;
-extern int detail;
-extern bool cellophane;
-extern bool ismotionblur;
-extern bool trilinear;
-extern bool musictoggle;
-extern int environment;
-extern bool ambientsound;
-extern float multiplier;
-extern int netdatanew;
-extern float mapinfo;
-extern bool stillloading;
-extern int mainmenu;
-extern bool visibleloading;
-extern float flashamount, flashr, flashg, flashb;
-extern int flashdelay;
-extern int whichjointstartarray[26];
-extern int whichjointendarray[26];
-extern float slomospeed;
-extern bool gamestarted;
+#include "Globals.h"
 
 extern float accountcampaignhighscore[10];
 extern float accountcampaignfasttime[10];
@@ -69,6 +39,7 @@ extern int accountcampaignchoices[10][5000];
 void LOG(const std::string&, ...)
 {
 	// !!! FIXME: write me.
+	// bru
 }
 
 void Dispose()
@@ -532,9 +503,9 @@ void Game::InitGame()
 
 	int temptexdetail = texdetail;
 	texdetail = 1;
-	text->LoadFontTexture("Textures/Font.png");
+	text->LoadFontTexture("Textures/Font.png", trilinear, []() { Game::LoadingScreen(); });
 	text->BuildFont();
-	textmono->LoadFontTexture("Textures/FontMono.png");
+	textmono->LoadFontTexture("Textures/FontMono.png", trilinear, []() { Game::LoadingScreen(); });
 	textmono->BuildFont();
 	texdetail = temptexdetail;
 
@@ -562,23 +533,23 @@ void Game::InitGame()
 		emit_stream_np(stream_menutheme);
 	}
 
-	cursortexture.load("Textures/Cursor.png", 0, []() {Game::LoadingScreen(); });
+	cursortexture.load("Textures/Cursor.png", 0, trilinear, []() {Game::LoadingScreen(); });
 
-	Mapcircletexture.load("Textures/MapCircle.png", 0, []() {Game::LoadingScreen(); });
-	Mapboxtexture.load("Textures/MapBox.png", 0, []() {Game::LoadingScreen(); });
-	Maparrowtexture.load("Textures/MapArrow.png", 0, []() {Game::LoadingScreen(); });
+	Mapcircletexture.load("Textures/MapCircle.png", 0, trilinear, []() {Game::LoadingScreen(); });
+	Mapboxtexture.load("Textures/MapBox.png", 0, trilinear, []() {Game::LoadingScreen(); });
+	Maparrowtexture.load("Textures/MapArrow.png", 0, trilinear, []() {Game::LoadingScreen(); });
 
 	temptexdetail = texdetail;
 	if (texdetail > 2) {
 		texdetail = 2;
 	}
-	Mainmenuitems[0].load("Textures/Lugaru.png", 0, []() {Game::LoadingScreen(); });
-	Mainmenuitems[1].load("Textures/NewGame.png", 0, []() {Game::LoadingScreen(); });
-	Mainmenuitems[2].load("Textures/Options.png", 0, []() {Game::LoadingScreen(); });
-	Mainmenuitems[3].load("Textures/Quit.png", 0, []() {Game::LoadingScreen(); });
-	Mainmenuitems[4].load("Textures/Eyelid.png", 0, []() {Game::LoadingScreen(); });
-	Mainmenuitems[5].load("Textures/Resume.png", 0, []() {Game::LoadingScreen(); });
-	Mainmenuitems[6].load("Textures/EndGame.png", 0, []() {Game::LoadingScreen(); });
+	Mainmenuitems[0].load("Textures/Lugaru.png", 0, trilinear, []() {Game::LoadingScreen(); });
+	Mainmenuitems[1].load("Textures/NewGame.png", 0, trilinear, []() {Game::LoadingScreen(); });
+	Mainmenuitems[2].load("Textures/Options.png", 0, trilinear, []() {Game::LoadingScreen(); });
+	Mainmenuitems[3].load("Textures/Quit.png", 0, trilinear, []() {Game::LoadingScreen(); });
+	Mainmenuitems[4].load("Textures/Eyelid.png", 0, trilinear, []() {Game::LoadingScreen(); });
+	Mainmenuitems[5].load("Textures/Resume.png", 0, trilinear, []() {Game::LoadingScreen(); });
+	Mainmenuitems[6].load("Textures/EndGame.png", 0, trilinear, []() {Game::LoadingScreen(); });
 
 	texdetail = temptexdetail;
 
@@ -635,14 +606,14 @@ void Game::LoadStuff()
 	stillloading = 1;
 
 	visibleloading = false; //don't use loadscreentexture yet
-	loadscreentexture.load("Textures/Fire.jpg", 1, []() {Game::LoadingScreen(); });
+	loadscreentexture.load("Textures/Fire.jpg", 1, trilinear, []() {Game::LoadingScreen(); });
 	visibleloading = true;
 
 	temptexdetail = texdetail;
 	texdetail = 1;
-	text->LoadFontTexture("Textures/Font.png");
+	text->LoadFontTexture("Textures/Font.png", trilinear, []() { Game::LoadingScreen(); });
 	text->BuildFont();
-	textmono->LoadFontTexture("Textures/FontMono.png");
+	textmono->LoadFontTexture("Textures/FontMono.png", trilinear, []() { Game::LoadingScreen(); });
 	textmono->BuildFont();
 	texdetail = temptexdetail;
 
@@ -664,28 +635,28 @@ void Game::LoadStuff()
 
 	realtexdetail = texdetail;
 
-	Weapon::Load([]() { Game::LoadingScreen(); });
+	Weapon::Load(trilinear, []() { Game::LoadingScreen(); });
 
-	terrain.shadowtexture.load("Textures/Shadow.png", 0, []() {LoadingScreen(); });
-	terrain.bloodtexture.load("Textures/Blood.png", 0, []() {LoadingScreen(); });
-	terrain.breaktexture.load("Textures/Break.png", 0, []() {LoadingScreen(); });
-	terrain.bloodtexture2.load("Textures/Blood.png", 0, []() {LoadingScreen(); });
+	terrain.shadowtexture.load("Textures/Shadow.png", 0, trilinear, []() {LoadingScreen(); });
+	terrain.bloodtexture.load("Textures/Blood.png", 0, trilinear, []() {LoadingScreen(); });
+	terrain.breaktexture.load("Textures/Break.png", 0, trilinear, []() {LoadingScreen(); });
+	terrain.bloodtexture2.load("Textures/Blood.png", 0, trilinear, []() {LoadingScreen(); });
 
-	terrain.footprinttexture.load("Textures/Footprint.png", 0, []() {LoadingScreen(); });
-	terrain.bodyprinttexture.load("Textures/Bodyprint.png", 0, []() {LoadingScreen(); });
-	hawktexture.load("Textures/Hawk.png", 0, []() { LoadingScreen(); });
+	terrain.footprinttexture.load("Textures/Footprint.png", 0, trilinear, []() {LoadingScreen(); });
+	terrain.bodyprinttexture.load("Textures/Bodyprint.png", 0, trilinear, []() {LoadingScreen(); });
+	hawktexture.load("Textures/Hawk.png", 0, trilinear, []() { LoadingScreen(); });
 
-	Sprite::cloudtexture.load("Textures/Cloud.png", 1, []() {LoadingScreen(); });
-	Sprite::cloudimpacttexture.load("Textures/CloudImpact.png", 1, []() { LoadingScreen(); });
-	Sprite::bloodtexture.load("Textures/BloodParticle.png", 1, []() { LoadingScreen(); });
-	Sprite::snowflaketexture.load("Textures/SnowFlake.png", 1, []() {LoadingScreen(); });
-	Sprite::flametexture.load("Textures/Flame.png", 1, []() {LoadingScreen(); });
-	Sprite::bloodflametexture.load("Textures/BloodFlame.png", 1, []() {LoadingScreen(); });
-	Sprite::smoketexture.load("Textures/Smoke.png", 1, []() {LoadingScreen(); });
-	Sprite::shinetexture.load("Textures/Shine.png", 1, []() {LoadingScreen(); });
-	Sprite::splintertexture.load("Textures/Splinter.png", 1, []() {LoadingScreen(); });
-	Sprite::leaftexture.load("Textures/Leaf.png", 1, []() {LoadingScreen(); });
-	Sprite::toothtexture.load("Textures/Tooth.png", 1, []() {LoadingScreen(); });
+	Sprite::cloudtexture.load("Textures/Cloud.png", 1, trilinear, []() {LoadingScreen(); });
+	Sprite::cloudimpacttexture.load("Textures/CloudImpact.png", 1, trilinear, []() { LoadingScreen(); });
+	Sprite::bloodtexture.load("Textures/BloodParticle.png", 1, trilinear, []() { LoadingScreen(); });
+	Sprite::snowflaketexture.load("Textures/SnowFlake.png", 1, trilinear, []() {LoadingScreen(); });
+	Sprite::flametexture.load("Textures/Flame.png", 1, trilinear, []() {LoadingScreen(); });
+	Sprite::bloodflametexture.load("Textures/BloodFlame.png", 1, trilinear, []() {LoadingScreen(); });
+	Sprite::smoketexture.load("Textures/Smoke.png", 1, trilinear, []() {LoadingScreen(); });
+	Sprite::shinetexture.load("Textures/Shine.png", 1, trilinear, []() {LoadingScreen(); });
+	Sprite::splintertexture.load("Textures/Splinter.png", 1, trilinear, []() {LoadingScreen(); });
+	Sprite::leaftexture.load("Textures/Leaf.png", 1, trilinear, []() {LoadingScreen(); });
+	Sprite::toothtexture.load("Textures/Tooth.png", 1, trilinear, []() {LoadingScreen(); });
 
 	yaw = 0;
 	pitch = 0;

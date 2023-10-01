@@ -117,7 +117,7 @@ void initGL()
 	glAlphaFunc(GL_GREATER, 0.5f);
 
 	if (CanInitStereo(stereomode)) {
-		InitStereo(stereomode);
+		InitStereo(stereomode, kContextWidth, kContextHeight);
 	}
 	else {
 		fprintf(stderr, "Failed to initialize stereo, disabling.\n");
