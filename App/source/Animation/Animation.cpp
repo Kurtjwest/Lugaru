@@ -136,7 +136,7 @@ Animation::Animation(const std::string& filename, anim_height_type aheight, anim
 
     fclose(tfile);
 
-    XYZ endoffset;
+    Vector3 endoffset;
     endoffset = 0;
     // find average position of certain joints on last frames
     // and save in endoffset

@@ -27,7 +27,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Graphic/Sprite.hpp"
 #include "Graphic/Texture.hpp"
 #include "Graphic/gamegl.hpp"
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 #include "Objects/Person.hpp"
 
 #include <cmath>
@@ -41,7 +41,7 @@ class Weapon
 public:
     Weapon(int type, int owner);
 
-    static void Load();
+    static void Load(ProgressCallback);
 
     void draw();
     void doStuff(int);
@@ -52,14 +52,14 @@ public:
     }
     void setType(int);
 
-    void drop(XYZ velocity, XYZ tipvelocity, bool sethitsomething = true);
-    void thrown(XYZ velocity, bool sethitsomething = true);
+    void drop(Vector3 velocity, Vector3 tipvelocity, bool sethitsomething = true);
+    void thrown(Vector3 velocity, bool sethitsomething = true);
 
     int owner;
-    XYZ position;
-    XYZ tippoint;
-    XYZ velocity;
-    XYZ tipvelocity;
+    Vector3 position;
+    Vector3 tippoint;
+    Vector3 velocity;
+    Vector3 tipvelocity;
     bool missed;
     bool hitsomething;
     float freetime;
@@ -96,8 +96,8 @@ private:
 
     int type;
 
-    XYZ oldtippoint;
-    XYZ oldposition;
+    Vector3 oldtippoint;
+    Vector3 oldposition;
     int oldowner;
     bool onfire;
     float flamedelay;
@@ -106,8 +106,8 @@ private:
     float length;
     float drawhowmany;
 
-    XYZ lastdrawnposition;
-    XYZ lastdrawntippoint;
+    Vector3 lastdrawnposition;
+    Vector3 lastdrawntippoint;
     float lastdrawnrotation1;
     float lastdrawnrotation2;
     float lastdrawnrotation3;

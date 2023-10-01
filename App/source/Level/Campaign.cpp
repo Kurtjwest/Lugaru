@@ -133,9 +133,9 @@ int CampaignLevel::getEndY()
     return getStartY() + width;
 }
 
-XYZ CampaignLevel::getCenter()
+Vector3 CampaignLevel::getCenter()
 {
-    XYZ center;
+    Vector3 center;
     center.x = getStartX() + width / 2;
     center.y = getStartY() + width / 2;
     return center;

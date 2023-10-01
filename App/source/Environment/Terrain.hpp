@@ -21,12 +21,15 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _TERRAIN_HPP_
 #define _TERRAIN_HPP_
 
+// Graphics
 #include "Environment/Lights.hpp"
 #include "Graphic/Decal.hpp"
 #include "Graphic/Texture.hpp"
 #include "Graphic/gamegl.hpp"
+
+// Foundation
 #include "Math/Frustum.hpp"
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 #include "Utils/ImageIO.hpp"
 
 #define max_terrain_size 256
@@ -64,9 +67,9 @@ public:
     float scale;
     int type;
     float heightmap[max_terrain_size + 1][max_terrain_size + 1];
-    XYZ normals[max_terrain_size][max_terrain_size];
-    XYZ facenormals[max_terrain_size][max_terrain_size];
-    XYZ triangles[(max_terrain_size - 1) * (max_terrain_size - 1) * 2][3];
+    Vector3 normals[max_terrain_size][max_terrain_size];
+    Vector3 facenormals[max_terrain_size][max_terrain_size];
+    Vector3 triangles[(max_terrain_size - 1) * (max_terrain_size - 1) * 2][3];
     float colors[max_terrain_size][max_terrain_size][4];
     float opacityother[max_terrain_size][max_terrain_size];
     float texoffsetx[max_terrain_size][max_terrain_size];
@@ -86,24 +89,25 @@ public:
 
     std::vector<Decal> decals;
 
-    void AddObject(XYZ where, float radius, int id);
+    void AddObject(Vector3 where, float radius, int id);
     void DeleteObject(unsigned int id);
     void DeleteDecal(int which);
-    void MakeDecal(decal_type type, XYZ where, float size, float opacity, float rotation);
-    void MakeDecalLock(decal_type type, XYZ where, int whichx, int whichy, float size, float opacity, float rotation);
-    int lineTerrain(XYZ p1, XYZ p2, XYZ* p);
-    float getHeight(float pointx, float pointz);
-    float getOpacity(float pointx, float pointz);
-    XYZ getLighting(float pointx, float pointz);
-    XYZ getNormal(float pointx, float pointz);
+    void MakeDecal(decal_type type, Vector3 where, float size, float opacity, float rotation);
+    void MakeDecalLock(decal_type type, Vector3 where, int whichx, int whichy, float size, float opacity, float rotation);
+    int lineTerrain(Vector3 p1, Vector3 p2, Vector3* p);
+    float getHeight(float pointx, float pointz) const;
+    float getOpacity(float pointx, float pointz) const;
+    Vector3 getLighting(float pointx, float pointz) const;
+    Vector3 getNormal(float pointx, float pointz) const;
     void UpdateVertexArray(int whichx, int whichy);
     bool load(const std::string& fileName);
     void CalculateNormals();
     void drawdecals();
     void draw(int layer);
-    void DoShadows();
+    void DoShadows(bool tutorialActive);
     void deleteDeadDecals();
 
+    float getHeightByTile(int x, int y) const;
     Terrain();
 
 private:

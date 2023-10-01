@@ -21,10 +21,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Animation/Skeleton.hpp"
 
 #include "Animation/Animation.hpp"
-#include "Audio/openal_wrapper.hpp"
-#include "Game.hpp"
-#include "Tutorial.hpp"
 #include "Utils/Folders.hpp"
+#include "Audio/Sounds.hpp"
 
 extern float multiplier;
 extern float gravity;
@@ -104,19 +102,21 @@ void Skeleton::FindForwards()
  * Person/Person::RagDoll
  * Person/Person::DoStuff
  * Person/IKHelper
+ * 
+ * Tutorial::active
  */
-float Skeleton::DoConstraints(XYZ* coords, float* scale)
+float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive)
 {
 	const float elasticity = .3f;
-	XYZ bounceness;
+	Vector3 bounceness;
 	const int numrepeats = 3;
 	float groundlevel = .15f;
 	unsigned i = 0;
-	XYZ temp;
-	XYZ terrainnormal;
+	Vector3 temp;
+	Vector3 terrainnormal;
 	int whichhit = 0;
 	float frictionness = 0.f;
-	XYZ terrainlight;
+	Vector3 terrainlight;
 	int whichpatchx = 0;
 	int whichpatchz = 0;
 	float damage = 0; // eventually returned from function
@@ -255,7 +255,7 @@ float Skeleton::DoConstraints(XYZ* coords, float* scale)
 					if (joints[i].label == groin && !joints[i].locked && joints[i].delay <= 0) {
 						joints[i].locked = 1;
 						joints[i].delay = 1;
-						if (!Tutorial::active || id == 0) {
+						if (!tutorialActive || id == 0) {
 							emit_sound_at(landsound1, joints[i].position * (*scale) + *coords, 128.f);
 						}
 						breaking = true;
@@ -264,7 +264,7 @@ float Skeleton::DoConstraints(XYZ* coords, float* scale)
 					if (joints[i].label == head && !joints[i].locked && joints[i].delay <= 0) {
 						joints[i].locked = 1;
 						joints[i].delay = 1;
-						if (!Tutorial::active || id == 0) {
+						if (!tutorialActive || id == 0) {
 							emit_sound_at(landsound2, joints[i].position * (*scale) + *coords, 128.f);
 						}
 					}
@@ -287,7 +287,7 @@ float Skeleton::DoConstraints(XYZ* coords, float* scale)
 						joints[i].velocity = 0;
 					}
 
-					if (!Tutorial::active || id == 0) {
+					if (!tutorialActive || id == 0) {
 						if (findLengthfast(&bounceness) > 8000 && breaking) {
 							// FIXME: this crashes because k is not initialized!
 							// to reproduce, type 'wolfie' in console and play a while
@@ -351,14 +351,14 @@ float Skeleton::DoConstraints(XYZ* coords, float* scale)
 					if (k < Object::objects.size()) {
 						if (Object::objects[k]->possible) {
 							friction = Object::objects[k]->friction;
-							XYZ start = joints[i].realoldposition;
-							XYZ end = joints[i].position * (*scale) + *coords;
+							Vector3 start = joints[i].realoldposition;
+							Vector3 end = joints[i].position * (*scale) + *coords;
 							whichhit = Object::objects[k]->model.LineCheckPossible(&start, &end, &temp, &Object::objects[k]->position, &Object::objects[k]->yaw);
 							if (whichhit != -1) {
 								if (joints[i].label == groin && !joints[i].locked && joints[i].delay <= 0) {
 									joints[i].locked = 1;
 									joints[i].delay = 1;
-									if (!Tutorial::active || id == 0) {
+									if (!tutorialActive || id == 0) {
 										emit_sound_at(landsound1, joints[i].position * (*scale) + *coords, 128.);
 									}
 									breaking = true;
@@ -367,7 +367,7 @@ float Skeleton::DoConstraints(XYZ* coords, float* scale)
 								if (joints[i].label == head && !joints[i].locked && joints[i].delay <= 0) {
 									joints[i].locked = 1;
 									joints[i].delay = 1;
-									if (!Tutorial::active || id == 0) {
+									if (!tutorialActive || id == 0) {
 										emit_sound_at(landsound2, joints[i].position * (*scale) + *coords, 128.);
 									}
 								}
@@ -381,7 +381,7 @@ float Skeleton::DoConstraints(XYZ* coords, float* scale)
 									bounceness = 0;
 									joints[i].velocity = joints[i].oldvelocity;
 								}
-								if (!Tutorial::active || id == 0) {
+								if (!tutorialActive || id == 0) {
 									if (findLengthfast(&bounceness) > 4000 && breaking) {
 										Object::objects[k]->model.MakeDecal(breakdecal, DoRotation(temp - Object::objects[k]->position, 0, -Object::objects[k]->yaw, 0), .4f, .5f, (float)(rand() % 360));
 										Sprite::MakeSprite(cloudsprite, joints[i].position * (*scale) + *coords, joints[i].velocity * .06f, 1, 1, 1, 4, .2f);
@@ -443,8 +443,8 @@ float Skeleton::DoConstraints(XYZ* coords, float* scale)
 			if (Object::objects[k]->possible) {
 				for (i = 0; i < 26; i++) {
 					//Make this less stupid
-					XYZ start = joints[jointlabels[whichjointstartarray[i]]].position * (*scale) + *coords;
-					XYZ end = joints[jointlabels[whichjointendarray[i]]].position * (*scale) + *coords;
+					Vector3 start = joints[jointlabels[whichjointstartarray[i]]].position * (*scale) + *coords;
+					Vector3 end = joints[jointlabels[whichjointendarray[i]]].position * (*scale) + *coords;
 					whichhit = Object::objects[k]->model.LineCheckSlidePossible(&start, &end, &Object::objects[k]->position, &Object::objects[k]->yaw);
 					if (whichhit != -1) {
 						joints[jointlabels[whichjointendarray[i]]].position = (end - *coords) / (*scale);
@@ -529,7 +529,7 @@ void Skeleton::DoGravity(float* scale)
  */
 void Skeleton::FindRotationMuscle(int which, int animation)
 {
-	XYZ p1, p2, fwd;
+	Vector3 p1, p2, fwd;
 	float dist;
 
 	p1 = muscles[which].parent1->position;
@@ -651,7 +651,7 @@ void Skeleton::Load(const std::string& filename, const std::string& lowfilename,
 	const std::string& model3filename, const std::string& model4filename,
 	const std::string& model5filename, const std::string& model6filename,
 	const std::string& model7filename, const std::string& modellowfilename,
-	const std::string& modelclothesfilename, bool clothes)
+	const std::string& modelclothesfilename, bool clothes, bool tutorialActive, ProgressCallback callback)
 {
 	GLfloat M[16];
 	FILE* tfile = nullptr;
@@ -676,47 +676,47 @@ void Skeleton::Load(const std::string& filename, const std::string& lowfilename,
 	for (int i = 0; i < num_models; i++) {
 		model[i].Rotate(180, 0, 0);
 		model[i].Scale(.04f, .04f, .04f);
-		model[i].CalculateNormals(0);
+		model[i].CalculateNormals(0, callback);
 	}
 
-	drawmodel.load(modelfilename);
+	drawmodel.load(modelfilename, callback);
 	drawmodel.Rotate(180, 0, 0);
 	drawmodel.Scale(.04f, .04f, .04f);
 	drawmodel.FlipTexCoords();
-	if ((Tutorial::active) && (id != 0)) {
+	if ((tutorialActive) && (id != 0)) {
 		drawmodel.UniformTexCoords();
 		drawmodel.ScaleTexCoords(0.1);
 	}
-	drawmodel.CalculateNormals(0);
+	drawmodel.CalculateNormals(0, callback);
 
 	modellow.loadnotex(modellowfilename);
 	modellow.Rotate(180, 0, 0);
 	modellow.Scale(.04f, .04f, .04f);
-	modellow.CalculateNormals(0);
+	modellow.CalculateNormals(0, callback);
 
-	drawmodellow.load(modellowfilename);
+	drawmodellow.load(modellowfilename, callback);
 	drawmodellow.Rotate(180, 0, 0);
 	drawmodellow.Scale(.04f, .04f, .04f);
 	drawmodellow.FlipTexCoords();
-	if (Tutorial::active && id != 0) {
+	if (tutorialActive && id != 0) {
 		drawmodellow.UniformTexCoords();
 	}
-	if (Tutorial::active && id != 0) {
+	if (tutorialActive && id != 0) {
 		drawmodellow.ScaleTexCoords(0.1f);
 	}
-	drawmodellow.CalculateNormals(0);
+	drawmodellow.CalculateNormals(0, callback);
 
 	if (clothes) {
 		modelclothes.loadnotex(modelclothesfilename);
 		modelclothes.Rotate(180, 0, 0);
 		modelclothes.Scale(.041f, .04f, .041f);
-		modelclothes.CalculateNormals(0);
+		modelclothes.CalculateNormals(0, callback);
 
-		drawmodelclothes.load(modelclothesfilename);
+		drawmodelclothes.load(modelclothesfilename, callback);
 		drawmodelclothes.Rotate(180, 0, 0);
 		drawmodelclothes.Scale(.04f, .04f, .04f);
 		drawmodelclothes.FlipTexCoords();
-		drawmodelclothes.CalculateNormals(0);
+		drawmodelclothes.CalculateNormals(0, callback);
 	}
 
 	// FIXME: three similar blocks follow, one for each of:
@@ -791,7 +791,7 @@ void Skeleton::Load(const std::string& filename, const std::string& lowfilename,
 			model[k].vertex[i].z = M[14] * 1;
 			glPopMatrix();
 		}
-		model[k].CalculateNormals(0);
+		model[k].CalculateNormals(0, callback);
 	}
 	fclose(tfile);
 
@@ -804,7 +804,7 @@ void Skeleton::Load(const std::string& filename, const std::string& lowfilename,
 	fseek(tfile, sizeof(num_joints), SEEK_CUR);
 	for (int i = 0; i < num_joints; i++) {
 		// skip joint info
-		lSize = sizeof(XYZ) + sizeof(float) + sizeof(float) + 1 //sizeof(bool)
+		lSize = sizeof(Vector3) + sizeof(float) + sizeof(float) + 1 //sizeof(bool)
 			+ 1                                             //sizeof(bool)
 			+ sizeof(int) + 1                               //sizeof(bool)
 			+ 1                                             //sizeof(bool)
@@ -856,7 +856,7 @@ void Skeleton::Load(const std::string& filename, const std::string& lowfilename,
 		glPopMatrix();
 	}
 
-	modellow.CalculateNormals(0);
+	modellow.CalculateNormals(0, callback);
 
 	// load clothes
 
@@ -868,7 +868,7 @@ void Skeleton::Load(const std::string& filename, const std::string& lowfilename,
 
 		for (int i = 0; i < num_joints; i++) {
 			// skip joint info
-			lSize = sizeof(XYZ) + sizeof(float) + sizeof(float) + 1 //sizeof(bool)
+			lSize = sizeof(Vector3) + sizeof(float) + sizeof(float) + 1 //sizeof(bool)
 				+ 1                                             //sizeof(bool)
 				+ sizeof(int) + 1                               //sizeof(bool)
 				+ 1                                             //sizeof(bool)
@@ -922,7 +922,7 @@ void Skeleton::Load(const std::string& filename, const std::string& lowfilename,
 			glPopMatrix();
 		}
 
-		modelclothes.CalculateNormals(0);
+		modelclothes.CalculateNormals(0, callback);
 	}
 	fclose(tfile);
 

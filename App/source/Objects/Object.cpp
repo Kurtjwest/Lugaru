@@ -20,7 +20,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Objects/Object.hpp"
 
-extern XYZ viewer;
+extern Vector3 viewer;
 extern float viewdistance;
 extern float fadestart;
 extern int environment;
@@ -38,7 +38,7 @@ extern float playerdist;
 extern bool skyboxtexture;
 
 std::vector<std::unique_ptr<Object>> Object::objects;
-XYZ Object::center;
+Vector3 Object::center;
 float Object::radius = 0;
 Texture Object::boxtextureptr;
 Texture Object::treetextureptr;
@@ -70,7 +70,7 @@ Object::Object()
 {
 }
 
-Object::Object(object_type _type, XYZ _position, float _yaw, float _pitch, float _scale)
+Object::Object(object_type _type, Vector3 _position, float _yaw, float _pitch, float _scale, ProgressCallback callback)
     : Object()
 {
     scale = _scale;
@@ -101,7 +101,7 @@ Object::Object(object_type _type, XYZ _position, float _yaw, float _pitch, float
             friction = 1.5;
             break;
         case spiketype:
-            model.load("Models/Spike.solid");
+            model.load("Models/Spike.solid", callback);
             friction = .4;
             break;
         case weirdtype:
@@ -117,17 +117,17 @@ Object::Object(object_type _type, XYZ _position, float _yaw, float _pitch, float
             }
             break;
         case treetrunktype:
-            model.load("Models/TreeTrunk.solid");
+            model.load("Models/TreeTrunk.solid", callback);
             friction = .4;
             break;
         case treeleavestype:
             scale += fabs((float)(rand() % 100) / 900) * scale;
-            model.load("Models/Leaves.solid");
+            model.load("Models/Leaves.solid", callback);
             friction = 0;
             break;
         case bushtype:
             position.y = terrain.getHeight(position.x, position.z) - .3;
-            model.load("Models/Bush.solid");
+            model.load("Models/Bush.solid", callback);
             break;
         case platformtype:
             model.loaddecal("Models/Platform.solid");
@@ -159,7 +159,7 @@ Object::Object(object_type _type, XYZ _position, float _yaw, float _pitch, float
     if (type == rocktype) {
         model.Rotate(yaw * 5, 0, 0);
     }
-    model.CalculateNormals(1);
+    model.CalculateNormals(1, callback);
     model.ScaleNormals(-1, -1, -1);
 }
 
@@ -169,7 +169,7 @@ void Object::handleFire()
         onfire = 1;
     }
     if (onfire) {
-        XYZ spawnpoint;
+        Vector3 spawnpoint;
         if ((type == bushtype) || (type == firetype)) {
             flamedelay -= multiplier * 3;
         } else if (type == treeleavestype) {
@@ -196,9 +196,9 @@ void Object::handleFire()
     }
 }
 
-void Object::doShadows(XYZ lightloc)
+void Object::doShadows(Vector3 lightloc)
 {
-    XYZ testpoint, testpoint2, terrainpoint, col;
+    Vector3 testpoint, testpoint2, terrainpoint, col;
     int patchx, patchz;
     if (type != treeleavestype && type != treetrunktype && type != bushtype && type != firetype) {
         for (int j = 0; j < model.vertexNum; j++) {
@@ -329,7 +329,7 @@ void Object::handleRot(int divide)
 void Object::draw()
 {
     static float distance;
-    static XYZ moved, terrainlight;
+    static Vector3 moved, terrainlight;
     bool hidden;
     if (type == firetype) {
         return;
@@ -457,7 +457,7 @@ void Object::draw()
 void Object::drawSecondPass()
 {
     static float distance;
-    static XYZ moved, terrainlight;
+    static Vector3 moved, terrainlight;
     bool hidden;
     if (type != treeleavestype && type != bushtype) {
         return;
@@ -551,11 +551,11 @@ void Object::ComputeRadius()
     radius = fast_sqrt(maxdistance);
 }
 
-void Object::LoadObjectsFromFile(FILE* tfile, bool skip)
+void Object::LoadObjectsFromFile(FILE* tfile, bool skip, ProgressCallback callback)
 {
     int numobjects;
     int type;
-    XYZ position;
+    Vector3 position;
     float yaw, pitch, scale;
     float lastscale = 1.0f;
     funpackf(tfile, "Bi", &numobjects);
@@ -568,18 +568,18 @@ void Object::LoadObjectsFromFile(FILE* tfile, bool skip)
             if (type == treeleavestype) {
                 scale = lastscale;
             }
-            objects.emplace_back(new Object(object_type(type), position, yaw, pitch, scale));
+            objects.emplace_back(new Object(object_type(type), position, yaw, pitch, scale, callback));
             lastscale = scale;
         }
     }
 }
 
-void Object::LoadObjectsFromJson(Json::Value values)
+void Object::LoadObjectsFromJson(Json::Value values, ProgressCallback callback)
 {
     objects.clear();
     float lastscale = 1.0f;
     for (unsigned i = 0; i < values.size(); i++) {
-        objects.emplace_back(new Object(values[i], lastscale));
+        objects.emplace_back(new Object(values[i], lastscale, callback));
         lastscale = objects.back()->scale;
     }
 }
@@ -608,7 +608,7 @@ void Object::AddObjectsToTerrain()
     }
 }
 
-void Object::SphereCheckPossible(XYZ* p1, float radius)
+void Object::SphereCheckPossible(Vector3* p1, float radius)
 {
     int whichpatchx = p1->x / (terrain.size / subdivision * terrain.scale);
     int whichpatchz = p1->z / (terrain.size / subdivision * terrain.scale);
@@ -649,11 +649,11 @@ void Object::DeleteObject(int which)
     terrain.DeleteObject(which);
 }
 
-void Object::MakeObject(int atype, XYZ where, float ayaw, float apitch, float ascale)
+void Object::MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, ProgressCallback callback)
 {
     if ((atype != treeleavestype && atype != bushtype) || foliage == 1) {
         unsigned nextid = objects.size();
-        objects.emplace_back(new Object(object_type(atype), where, ayaw, apitch, ascale));
+        objects.emplace_back(new Object(object_type(atype), where, ayaw, apitch, ascale, callback));
         objects.back()->addToTerrain(nextid);
     }
 }
@@ -667,7 +667,7 @@ void Object::DoStuff()
 
 void Object::DoShadows()
 {
-    XYZ lightloc;
+    Vector3 lightloc;
     lightloc = light.location;
     if (!skyboxtexture) {
         lightloc = 0;
@@ -680,7 +680,7 @@ void Object::DoShadows()
     }
 }
 
-int Object::checkcollide(XYZ startpoint, XYZ endpoint)
+int Object::checkcollide(Vector3 startpoint, Vector3 endpoint)
 {
     float minx, minz, maxx, maxz, miny, maxy;
 
@@ -700,7 +700,7 @@ int Object::checkcollide(XYZ startpoint, XYZ endpoint)
     return -1;
 }
 
-int Object::checkcollide(XYZ startpoint, XYZ endpoint, int what)
+int Object::checkcollide(Vector3 startpoint, Vector3 endpoint, int what)
 {
     float minx, minz, maxx, maxz, miny, maxy;
 
@@ -714,9 +714,9 @@ int Object::checkcollide(XYZ startpoint, XYZ endpoint, int what)
     return checkcollide(startpoint, endpoint, what, minx, miny, minz, maxx, maxy, maxz);
 }
 
-int Object::checkcollide(XYZ startpoint, XYZ endpoint, int what, float minx, float miny, float minz, float maxx, float maxy, float maxz)
+int Object::checkcollide(Vector3 startpoint, Vector3 endpoint, int what, float minx, float miny, float minz, float maxx, float maxy, float maxz)
 {
-    XYZ colpoint, colviewer, coltarget;
+    Vector3 colpoint, colviewer, coltarget;
 
     if (what == 1000) {
         if (terrain.lineTerrain(startpoint, endpoint, &colpoint) != -1) {
@@ -744,8 +744,8 @@ int Object::checkcollide(XYZ startpoint, XYZ endpoint, int what, float minx, flo
     return -1;
 }
 
-Object::Object(Json::Value value, float lastscale)
-    : Object(object_type(value[0].asInt()), value[4], value[1].asFloat(), value[2].asFloat(), ((value[0].asInt() == treeleavestype) ? lastscale : value[3].asFloat()))
+Object::Object(Json::Value value, float lastscale, ProgressCallback callback)
+    : Object(object_type(value[0].asInt()), value[4], value[1].asFloat(), value[2].asFloat(), ((value[0].asInt() == treeleavestype) ? lastscale : value[3].asFloat()), callback)
 {
 }
 

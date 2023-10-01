@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 
 #include <string>
 #include <vector>
@@ -57,7 +57,7 @@ public:
     int getStartY();
     int getEndX();
     int getEndY();
-    XYZ getCenter();
+    Vector3 getCenter();
     int getWidth();
     std::istream& operator<<(std::istream& is);
     friend std::istream& operator>>(std::istream& is, CampaignLevel& cl)

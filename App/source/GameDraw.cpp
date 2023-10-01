@@ -28,7 +28,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Tutorial.hpp"
 #include "Utils/Input.hpp"
 
-extern XYZ viewer;
+extern Vector3 viewer;
 extern int environment;
 extern float texscale;
 extern Light light;
@@ -86,7 +86,7 @@ extern bool showdamagebar;
 
 int drawtoggle = 0;
 int numboundaries = 0;
-XYZ boundary[360];
+Vector3 boundary[360];
 int change = 0;
 
 enum drawmodes
@@ -115,7 +115,7 @@ int Game::DrawGLScene(StereoSide side)
 {
     static float texcoordwidth, texcoordheight;
     static float texviewwidth, texviewheight;
-    static XYZ checkpoint;
+    static Vector3 checkpoint;
     static float tempmult;
     float tutorialopac;
     std::string string;
@@ -243,7 +243,7 @@ int Game::DrawGLScene(StereoSide side)
         glDrawBuffer(GL_BACK);
         glReadBuffer(GL_BACK);
 
-        static XYZ terrainlight;
+        static Vector3 terrainlight;
         static float distance;
         if (drawmode == normalmode) {
             Game::ReSizeGLScene(90, .1f);
@@ -303,7 +303,8 @@ int Game::DrawGLScene(StereoSide side)
             glRotatef((float)(abs(rand() % 100)) / 1000, 1, 0, 0);
             glRotatef((float)(abs(rand() % 100)) / 1000, 0, 1, 0);
         }
-        skybox->draw();
+
+        skybox->draw(environment == desertenvironment);
         glTexEnvf(GL_TEXTURE_FILTER_CONTROL, GL_TEXTURE_LOD_BIAS, 0);
         glPopMatrix();
         glTranslatef(-viewer.x, -viewer.y, -viewer.z);
@@ -317,7 +318,7 @@ int Game::DrawGLScene(StereoSide side)
         frustum.SetFrustum(projmatrix, mvmatrix);
 
         //make shadow decals on terrain and Object::objects
-        static XYZ point;
+        static Vector3 point;
         static float size, opacity, rotation;
         rotation = 0;
         for (unsigned int k = 0; k < Person::players.size(); k++) {
@@ -1092,7 +1093,7 @@ int Game::DrawGLScene(StereoSide side)
             glColor4f(1, 1, 1, 1);
             glPushMatrix();
             float opac = .7;
-            XYZ center;
+            Vector3 center;
             float radius;
             float distcheck;
 

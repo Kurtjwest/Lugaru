@@ -75,8 +75,8 @@ float wonleveltime = 0;
 float loadtime = 0;
 
 Model hawk;
-XYZ hawkcoords;
-XYZ realhawkcoords;
+Vector3 hawkcoords;
+Vector3 realhawkcoords;
 
 Model eye;
 Model iris;
@@ -86,7 +86,7 @@ bool stealthloading = 0;
 
 int musictype = 0;
 
-XYZ mapcenter;
+Vector3 mapcenter;
 float mapradius = 0;
 
 Text* text = NULL;
@@ -101,7 +101,7 @@ float editorpitch = 0;
 
 int tryquit = 0;
 
-XYZ pathpoint[30];
+Vector3 pathpoint[30];
 int numpathpoints = 0;
 int numpathpointconnect[30] = {};
 int pathpointconnect[30][30] = {};

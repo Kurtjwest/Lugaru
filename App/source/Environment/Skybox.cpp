@@ -22,6 +22,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Game.hpp"
 
+// TODO get rid of these
 extern float viewdistance;
 extern float blurness;
 extern int environment;
@@ -41,7 +42,7 @@ void SkyBox::load(const std::string& ffront, const std::string& fleft, const std
     down.load(fdown, true, callback);
 }
 
-void SkyBox::draw()
+void SkyBox::draw(bool desertEnvironment)
 {
     static float size = viewdistance / 4;
     glPushMatrix();

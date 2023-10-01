@@ -20,7 +20,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _ANIMATION_HPP_
 #define _ANIMATION_HPP_
 
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 #include "Utils/Callbacks.h"
 
 #include <vector>
@@ -71,7 +71,7 @@ static const int animation_bits[animation_count] = {
 
 struct AnimationFrameJointInfo
 {
-    XYZ position;
+    Vector3 position;
     float twist;
     float twist2;
     bool onground;
@@ -85,9 +85,9 @@ struct AnimationFrame
     void loadWeaponTarget(FILE* tfile);
 
     std::vector<AnimationFrameJointInfo> joints;
-    XYZ forward;
+    Vector3 forward;
     int label;
-    XYZ weapontarget;
+    Vector3 weapontarget;
     float speed;
 };
 
@@ -103,7 +103,7 @@ public:
 
     std::vector<AnimationFrame> frames;
 
-    XYZ offset;
+    Vector3 offset;
 
     Animation();
     Animation(const std::string& fileName, anim_height_type aheight, anim_attack_type aattack, ProgressCallback callback);

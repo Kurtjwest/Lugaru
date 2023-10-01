@@ -21,11 +21,13 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _MODELS_HPP_
 #define _MODELS_HPP_
 
-#include "Environment/Terrain.hpp"
+#include "Graphic/Decal.hpp"
 #include "Graphic/Texture.hpp"
 #include "Graphic/gamegl.hpp"
-#include "Math/XYZ.hpp"
+
+#include "Math/Vector3.hpp"
 #include "Utils/binio.h"
+#include "Utils/Callbacks.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -35,11 +37,11 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 //
 // Textures List
 //
-typedef struct
+struct ModelTexture
 {
     long xsz, ysz;
     GLubyte* txt;
-} ModelTexture;
+} ;
 
 //
 // Model Structures
@@ -50,7 +52,7 @@ class TexturedTriangle
 public:
     short vertex[3];
     float gx[3], gy[3];
-    XYZ facenormal;
+    Vector3 facenormal;
 };
 
 #define max_model_decals 300
@@ -72,22 +74,22 @@ public:
     ModelType type;
 
     int* owner;
-    XYZ* vertex;
-    XYZ* normals;
+    Vector3* vertex;
+    Vector3* normals;
     std::vector<TexturedTriangle> Triangles;
     GLfloat* vArray;
 
     /*
     int owner[max_textured_triangle];
-    XYZ vertex[max_model_vertex];
-    XYZ normals[max_model_vertex];
+    Vector3 vertex[max_model_vertex];
+    Vector3 normals[max_model_vertex];
     GLfloat vArray[max_textured_triangle*24];*/
 
     Texture textureptr;
     ModelTexture modelTexture;
     bool color;
 
-    XYZ boundingspherecenter;
+    Vector3 boundingspherecenter;
     float boundingsphereradius;
 
     std::vector<Decal> decals;
@@ -97,21 +99,21 @@ public:
     Model();
     ~Model();
     void DeleteDecal(int which);
-    void MakeDecal(decal_type atype, XYZ* where, float* size, float* opacity, float* rotation);
-    void MakeDecal(decal_type atype, XYZ where, float size, float opacity, float rotation);
-    const XYZ& getTriangleVertex(unsigned triangleId, unsigned vertexId) const;
+    void MakeDecal(decal_type atype, Vector3* where, float* size, float* opacity, float* rotation);
+    void MakeDecal(decal_type atype, Vector3 where, float size, float opacity, float rotation);
+    const Vector3& getTriangleVertex(unsigned triangleId, unsigned vertexId) const;
     void drawdecals(Texture shadowtexture, Texture bloodtexture, Texture bloodtexture2, Texture breaktexture);
-    int SphereCheck(XYZ* p1, float radius, XYZ* p, XYZ* move, float* rotate);
-    int SphereCheckPossible(XYZ* p1, float radius, XYZ* move, float* rotate);
-    int LineCheck(XYZ* p1, XYZ* p2, XYZ* p, XYZ* move, float* rotate);
-    int LineCheckPossible(XYZ* p1, XYZ* p2, XYZ* p, XYZ* move, float* rotate);
-    int LineCheckSlidePossible(XYZ* p1, XYZ* p2, XYZ* move, float* rotate);
+    int SphereCheck(Vector3* p1, float radius, Vector3* p, Vector3* move, float* rotate);
+    int SphereCheckPossible(Vector3* p1, float radius, Vector3* move, float* rotate);
+    int LineCheck(Vector3* p1, Vector3* p2, Vector3* p, Vector3* move, float* rotate);
+    int LineCheckPossible(Vector3* p1, Vector3* p2, Vector3* p, Vector3* move, float* rotate);
+    int LineCheckSlidePossible(Vector3* p1, Vector3* p2, Vector3* move, float* rotate);
     void UpdateVertexArray();
     void UpdateVertexArrayNoTex();
     void UpdateVertexArrayNoTexNoNorm();
     bool loadnotex(const std::string& filename);
     bool loadraw(const std::string& filename);
-    bool load(const std::string& filename);
+    bool load(const std::string& filename, ProgressCallback callback);
     bool loaddecal(const std::string& filename);
     void Scale(float xscale, float yscale, float zscale);
     void FlipTexCoords();
@@ -119,7 +121,7 @@ public:
     void ScaleTexCoords(float howmuch);
     void ScaleNormals(float xscale, float yscale, float zscale);
     void Translate(float xtrans, float ytrans, float ztrans);
-    void CalculateNormals(bool facenormalise);
+    void CalculateNormals(bool facenormalise, ProgressCallback callback);
     void draw();
     void drawdifftex(Texture texture);
     void drawimmediate();

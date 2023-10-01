@@ -32,13 +32,13 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 class TextureRes
 {
 private:
-    GLuint id;
+    GLuint id = 0;
     string filename;
-    bool hasMipmap;
-    bool isSkin;
-    int skinsize;
-    GLubyte* data;
-    int datalen;
+    bool hasMipmap = false;
+    bool isSkin = false;
+    int skinsize = 0;
+    GLubyte* data = nullptr;
+    int datalen = 0;
 
     void load(ProgressCallback callback);
 

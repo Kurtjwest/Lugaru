@@ -19,24 +19,22 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Graphic/Models.hpp"
-
-#include "Game.hpp"
 #include "Utils/Folders.hpp"
 
 extern float multiplier;
 extern float viewdistance;
-extern XYZ viewer;
+extern Vector3 viewer;
 extern float fadestart;
 extern float texdetail;
 extern bool decalstoggle;
 
-int Model::LineCheck(XYZ* p1, XYZ* p2, XYZ* p, XYZ* move, float* rotate)
+int Model::LineCheck(Vector3* p1, Vector3* p2, Vector3* p, Vector3* move, float* rotate)
 {
     static float distance;
     static float olddistance;
     static int intersecting;
     static int firstintersecting;
-    static XYZ point;
+    static Vector3 point;
 
     *p1 = *p1 - *move;
     *p2 = *p2 - *move;
@@ -68,13 +66,13 @@ int Model::LineCheck(XYZ* p1, XYZ* p2, XYZ* p, XYZ* move, float* rotate)
     return firstintersecting;
 }
 
-int Model::LineCheckPossible(XYZ* p1, XYZ* p2, XYZ* p, XYZ* move, float* rotate)
+int Model::LineCheckPossible(Vector3* p1, Vector3* p2, Vector3* p, Vector3* move, float* rotate)
 {
     static float distance;
     static float olddistance;
     static int intersecting;
     static int firstintersecting;
-    static XYZ point;
+    static Vector3 point;
 
     *p1 = *p1 - *move;
     *p2 = *p2 - *move;
@@ -108,13 +106,13 @@ int Model::LineCheckPossible(XYZ* p1, XYZ* p2, XYZ* p, XYZ* move, float* rotate)
     return firstintersecting;
 }
 
-int Model::LineCheckSlidePossible(XYZ* p1, XYZ* p2, XYZ* move, float* rotate)
+int Model::LineCheckSlidePossible(Vector3* p1, Vector3* p2, Vector3* move, float* rotate)
 {
     static float distance;
     static float olddistance;
     static int intersecting;
     static int firstintersecting;
-    static XYZ point;
+    static Vector3 point;
 
     *p1 = *p1 - *move;
     *p2 = *p2 - *move;
@@ -152,15 +150,15 @@ int Model::LineCheckSlidePossible(XYZ* p1, XYZ* p2, XYZ* move, float* rotate)
     return firstintersecting;
 }
 
-int Model::SphereCheck(XYZ* p1, float radius, XYZ* p, XYZ* move, float* rotate)
+int Model::SphereCheck(Vector3* p1, float radius, Vector3* p, Vector3* move, float* rotate)
 {
     static int i;
     static float distance;
     static float olddistance;
     static int intersecting;
     static int firstintersecting;
-    static XYZ point;
-    static XYZ oldp1;
+    static Vector3 point;
+    static Vector3 oldp1;
 
     firstintersecting = -1;
 
@@ -213,14 +211,14 @@ int Model::SphereCheck(XYZ* p1, float radius, XYZ* p, XYZ* move, float* rotate)
     return firstintersecting;
 }
 
-int Model::SphereCheckPossible(XYZ* p1, float radius, XYZ* move, float* rotate)
+int Model::SphereCheckPossible(Vector3* p1, float radius, Vector3* move, float* rotate)
 {
     static float distance;
     static float olddistance;
     static int intersecting;
     static int firstintersecting;
-    static XYZ point;
-    static XYZ oldp1;
+    static Vector3 point;
+    static Vector3 oldp1;
 
     firstintersecting = -1;
 
@@ -441,7 +439,7 @@ bool Model::loadnotex(const std::string& filename)
     possible.clear();
 
     owner = (int*)malloc(sizeof(int) * vertexNum);
-    vertex = (XYZ*)malloc(sizeof(XYZ) * vertexNum);
+    vertex = (Vector3*)malloc(sizeof(Vector3) * vertexNum);
     Triangles.resize(triangleNum);
     vArray = (GLfloat*)malloc(sizeof(GLfloat) * triangleNum * 24);
 
@@ -481,7 +479,7 @@ bool Model::loadnotex(const std::string& filename)
     return true;
 }
 
-bool Model::load(const std::string& filename)
+bool Model::load(const std::string& filename, ProgressCallback callback)
 {
     FILE* tfile;
     long i;
@@ -491,7 +489,8 @@ bool Model::load(const std::string& filename)
 
     LOG(std::string("Loading model...") + filename);
 
-    Game::LoadingScreen();
+    //Game::LoadingScreen();
+    callback();
 
     type = normaltype;
     color = 0;
@@ -509,8 +508,8 @@ bool Model::load(const std::string& filename)
     possible.clear();
 
     owner = (int*)malloc(sizeof(int) * vertexNum);
-    vertex = (XYZ*)malloc(sizeof(XYZ) * vertexNum);
-    normals = (XYZ*)malloc(sizeof(XYZ) * vertexNum);
+    vertex = (Vector3*)malloc(sizeof(Vector3) * vertexNum);
+    normals = (Vector3*)malloc(sizeof(Vector3) * vertexNum);
     Triangles.resize(triangleNum);
     vArray = (GLfloat*)malloc(sizeof(GLfloat) * triangleNum * 24);
 
@@ -580,8 +579,8 @@ bool Model::loaddecal(const std::string& filename)
     possible.clear();
 
     owner = (int*)malloc(sizeof(int) * vertexNum);
-    vertex = (XYZ*)malloc(sizeof(XYZ) * vertexNum);
-    normals = (XYZ*)malloc(sizeof(XYZ) * vertexNum);
+    vertex = (Vector3*)malloc(sizeof(Vector3) * vertexNum);
+    normals = (Vector3*)malloc(sizeof(Vector3) * vertexNum);
     Triangles.resize(triangleNum);
     vArray = (GLfloat*)malloc(sizeof(GLfloat) * triangleNum * 24);
 
@@ -649,7 +648,7 @@ bool Model::loadraw(const std::string& filename)
     possible.clear();
 
     owner = (int*)malloc(sizeof(int) * vertexNum);
-    vertex = (XYZ*)malloc(sizeof(XYZ) * vertexNum);
+    vertex = (Vector3*)malloc(sizeof(Vector3) * vertexNum);
     Triangles.resize(triangleNum);
     vArray = (GLfloat*)malloc(sizeof(GLfloat) * triangleNum * 24);
 
@@ -799,9 +798,10 @@ void Model::Rotate(float xang, float yang, float zang)
     boundingsphereradius = fast_sqrt(boundingsphereradius);
 }
 
-void Model::CalculateNormals(bool facenormalise)
+void Model::CalculateNormals(bool facenormalise, ProgressCallback callback)
 {
-    Game::LoadingScreen();
+    //Game::LoadingScreen();
+    callback();
 
     if (type != normaltype && type != decalstype) {
         return;
@@ -1043,14 +1043,14 @@ void Model::DeleteDecal(int which)
     }
 }
 
-void Model::MakeDecal(decal_type atype, XYZ* where, float* size, float* opacity, float* rotation)
+void Model::MakeDecal(decal_type atype, Vector3* where, float* size, float* opacity, float* rotation)
 {
     if (decalstoggle) {
         if (type != decalstype) {
             return;
         }
 
-        static XYZ rot;
+        static Vector3 rot;
         static float distance;
 
         if (*opacity > 0) {
@@ -1091,14 +1091,14 @@ void Model::MakeDecal(decal_type atype, XYZ* where, float* size, float* opacity,
     }
 }
 
-void Model::MakeDecal(decal_type atype, XYZ where, float size, float opacity, float rotation)
+void Model::MakeDecal(decal_type atype, Vector3 where, float size, float opacity, float rotation)
 {
     if (decalstoggle) {
         if (type != decalstype) {
             return;
         }
 
-        static XYZ rot;
+        static Vector3 rot;
         static float distance;
 
         if (opacity > 0) {
@@ -1190,7 +1190,7 @@ void Model::MakeDecal(decal_type atype, XYZ where, float size, float opacity, fl
     }
 }
 
-const XYZ& Model::getTriangleVertex(unsigned triangleId, unsigned vertexId) const
+const Vector3& Model::getTriangleVertex(unsigned triangleId, unsigned vertexId) const
 {
     return vertex[Triangles[triangleId].vertex[vertexId]];
 }

@@ -21,7 +21,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Audio/openal_wrapper.hpp"
 
 #include "Audio/Sounds.hpp"
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 
 #include <cstdio>
 #include <cstdlib>
@@ -122,7 +122,7 @@ AL_API signed char OPENAL_3D_SetAttributes(int channel, const float* pos)
     return true;
 }
 
-AL_API signed char OPENAL_3D_SetAttributes_(int channel, const XYZ& pos)
+AL_API signed char OPENAL_3D_SetAttributes_(int channel, const Vector3& pos)
 {
     if (!initialized) {
         return false;

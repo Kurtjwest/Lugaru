@@ -167,17 +167,17 @@ void Muscle::DoConstraint(bool spinny)
     // relax muscle?
 
     //Find midpoint
-    XYZ midp = (parent1->position * parent1->mass + parent2->position * parent2->mass) / (parent1->mass + parent2->mass);
+    Vector3 midp = (parent1->position * parent1->mass + parent2->position * parent2->mass) / (parent1->mass + parent2->mass);
 
     //Find vector from midpoint to second vector
-    XYZ vel = parent2->position - midp;
+    Vector3 vel = parent2->position - midp;
 
     //Change to unit vector
     Normalise(&vel);
 
     //Apply velocity change
-    XYZ newpoint1 = midp - vel * length * (parent2->mass / (parent1->mass + parent2->mass));
-    XYZ newpoint2 = midp + vel * length * (parent1->mass / (parent1->mass + parent2->mass));
+    Vector3 newpoint1 = midp - vel * length * (parent2->mass / (parent1->mass + parent2->mass));
+    Vector3 newpoint2 = midp + vel * length * (parent1->mass / (parent1->mass + parent2->mass));
     if (!freeze && spinny) {
         parent1->velocity = parent1->velocity + (newpoint1 - parent1->position) / multiplier / 4;
         parent2->velocity = parent2->velocity + (newpoint2 - parent2->position) / multiplier / 4;

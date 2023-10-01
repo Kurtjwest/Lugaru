@@ -37,7 +37,7 @@ extern float gravity;
 extern int environment;
 extern int detail;
 extern Frustum frustum;
-extern XYZ viewer;
+extern Vector3 viewer;
 extern float realmultiplier;
 extern int slomo;
 extern float slomodelay;
@@ -67,12 +67,12 @@ extern float hostiletime;
 
 extern bool gamestarted;
 
-extern XYZ envsound[30];
+extern Vector3 envsound[30];
 extern float envsoundvol[30];
 extern int numenvsounds;
 extern float envsoundlife[30];
 
-extern XYZ windvector;
+extern Vector3 windvector;
 
 std::vector<std::shared_ptr<Person>> Person::players;
 
@@ -468,7 +468,7 @@ void Person::skeletonLoad()
         PersonType::types[creature].modelFileNames[6],
         PersonType::types[creature].lowModelFileName,
         PersonType::types[creature].modelClothesFileName,
-        PersonType::types[creature].clothes);
+        PersonType::types[creature].clothes, Tutorial::active, []() {Game::LoadingScreen(); });
 
     skeleton.drawmodel.textureptr.load(PersonType::types[creature].skins[whichskin], 1, &skeleton.skinText[0], &skeleton.skinsize, []() {Game::LoadingScreen(); });
 }
@@ -486,9 +486,9 @@ float Person::getProportion(int part) const
     return proportions[part];
 }
 
-XYZ Person::getProportionXYZ(int part) const
+Vector3 Person::getProportionXYZ(int part) const
 {
-    XYZ prop = PersonType::types[creature].proportions[part] * proportions[part];
+    Vector3 prop = PersonType::types[creature].proportions[part] * proportions[part];
     if (cellophane) {
         prop.z = 0;
     }
@@ -508,7 +508,7 @@ void Person::CheckKick()
 
     if (Animation::animations[victim->animTarget].height != lowheight) {
         float damagemult = PersonType::types[creature].power * power * power;
-        XYZ relative = velocity;
+        Vector3 relative = velocity;
         relative.y = 0;
         Normalise(&relative);
 
@@ -565,7 +565,7 @@ void Person::CheckKick()
  */
 void Person::CatchFire()
 {
-    XYZ flatfacing, flatvelocity;
+    Vector3 flatfacing, flatvelocity;
     int howmany;
     for (int i = 0; i < 10; i++) {
         howmany = fabs(rand() % (skeleton.joints.size()));
@@ -714,7 +714,7 @@ void Person::DoBlood(float howmuch, int which)
 {
     // FIXME: should abstract out inputs
     static int bleedxint, bleedyint;
-    static XYZ bloodvel;
+    static Vector3 bloodvel;
     if (bloodtoggle && !Tutorial::active) {
         if (bleeding <= 0 && spurt) {
             spurt = 0;
@@ -786,7 +786,7 @@ void Person::DoBlood(float howmuch, int which)
 void Person::DoBloodBig(float howmuch, int which)
 {
     static int bleedxint, bleedyint, i, j;
-    static XYZ bloodvel;
+    static Vector3 bloodvel;
     if (howmuch && id == 0) {
         blooddimamount = 1;
     }
@@ -989,16 +989,16 @@ void Person::DoBloodBig(float howmuch, int which)
 /* EFFECT
  * similar to DoBloodBig
  */
-bool Person::DoBloodBigWhere(float howmuch, int which, XYZ where)
+bool Person::DoBloodBigWhere(float howmuch, int which, Vector3 where)
 {
     static int i, j;
-    static XYZ bloodvel;
-    static XYZ startpoint, endpoint, colpoint, movepoint;
+    static Vector3 bloodvel;
+    static Vector3 startpoint, endpoint, colpoint, movepoint;
     static float rotationpoint;
     static int whichtri;
-    static XYZ p1, p2, p3, p0;
-    XYZ bary;
-    XYZ gxx, gyy;
+    static Vector3 p1, p2, p3, p0;
+    Vector3 bary;
+    Vector3 gxx, gyy;
     float coordsx, coordsy;
     float total;
 
@@ -1235,7 +1235,7 @@ void Person::Reverse()
     if (animTarget == staffhitanim && distsq(&victim->coords, &coords) < 2 && ((victim->id == 0 && victim->crouchkeydown) || rand() % 4 == 0)) {
         if (victim->hasWeapon()) {
             victim->throwtogglekeydown = 1;
-            XYZ tempVelocity = victim->velocity * .2;
+            Vector3 tempVelocity = victim->velocity * .2;
             if (tempVelocity.x == 0) {
                 tempVelocity.x = .1;
             }
@@ -1262,7 +1262,7 @@ void Person::Reverse()
     if (animTarget == staffspinhitanim && distsq(&victim->coords, &coords) < 2 && ((victim->id == 0 && victim->crouchkeydown) || rand() % 2 == 0)) {
         if (victim->hasWeapon()) {
             victim->throwtogglekeydown = 1;
-            XYZ tempVelocity = victim->velocity * .2;
+            Vector3 tempVelocity = victim->velocity * .2;
             if (tempVelocity.x == 0) {
                 tempVelocity.x = .1;
             }
@@ -1288,7 +1288,7 @@ void Person::Reverse()
     if (animTarget == swordslashanim && distsq(&victim->coords, &coords) < 2 && ((victim->id == 0 && victim->crouchkeydown) || rand() % 4 == 0)) {
         if (victim->hasWeapon()) {
             victim->throwtogglekeydown = 1;
-            XYZ tempVelocity = victim->velocity * .2;
+            Vector3 tempVelocity = victim->velocity * .2;
             if (tempVelocity.x == 0) {
                 tempVelocity.x = .1;
             }
@@ -1314,7 +1314,7 @@ void Person::Reverse()
     if (animTarget == knifeslashstartanim && distsq(&victim->coords, &coords) < 2 && (victim->id == 0 || std::rand() % 4 == 0)) {
         if (victim->hasWeapon()) {
             victim->throwtogglekeydown = 1;
-            XYZ tempVelocity = victim->velocity * .2;
+            Vector3 tempVelocity = victim->velocity * .2;
             if (tempVelocity.x == 0) {
                 tempVelocity.x = .1;
             }
@@ -1389,7 +1389,7 @@ void Person::Reverse()
                     emit_sound_at(metalhitsound, victim->coords);
                 }
             }
-            XYZ aim;
+            Vector3 aim;
             victim->Puff(righthand);
             victim->target = 0;
             victim->frameTarget = 0;
@@ -1428,7 +1428,7 @@ void Person::Reverse()
                 }
             }
 
-            XYZ aim;
+            Vector3 aim;
             Puff(righthand);
             target = 0;
             frameTarget = 0;
@@ -1458,7 +1458,7 @@ void Person::Reverse()
                 victim->frameTarget = 0;
                 victim->target = 0;
 
-                XYZ rotatetarget;
+                Vector3 rotatetarget;
                 rotatetarget = coords - victim->coords;
                 Normalise(&rotatetarget);
                 victim->targetyaw = -asin(0 - rotatetarget.x);
@@ -1477,7 +1477,7 @@ void Person::Reverse()
                 victim->frameTarget = 0;
                 victim->target = 0;
 
-                XYZ rotatetarget;
+                Vector3 rotatetarget;
                 rotatetarget = coords - victim->coords;
                 Normalise(&rotatetarget);
                 victim->targetyaw = -asin(0 - rotatetarget.x);
@@ -1569,8 +1569,8 @@ void Person::DoDamage(float howmuch)
     }
 
     if (howmuch > damagetolerance * 50 && skeleton.free != 2) {
-        XYZ flatvelocity2;
-        XYZ flatfacing2;
+        Vector3 flatvelocity2;
+        Vector3 flatfacing2;
         for (unsigned i = 0; i < skeleton.joints.size(); i++) {
             if (skeleton.free) {
                 flatvelocity2 = skeleton.joints[i].velocity;
@@ -1637,8 +1637,8 @@ void Person::DoDamage(float howmuch)
  */
 void Person::DoHead()
 {
-    static XYZ rotatearound;
-    static XYZ facing;
+    static Vector3 rotatearound;
+    static Vector3 facing;
     static float lookspeed = 500;
 
     if (!freeze && !winfreeze) {
@@ -1749,7 +1749,7 @@ void Person::DoHead()
  */
 void Person::RagDoll(bool checkcollision)
 {
-    static XYZ change;
+    static Vector3 change;
     static int i;
     static float speed;
     if (!skeleton.free) {
@@ -1817,12 +1817,12 @@ void Person::RagDoll(bool checkcollision)
             skeleton.joints[i].velocity = 0;
             skeleton.joints[i].velchange = 0;
         }
-        skeleton.DoConstraints(&coords, &scale);
+        skeleton.DoConstraints(&coords, &scale, Tutorial::active);
         if (Animation::animations[animCurrent].height == lowheight || Animation::animations[animTarget].height == lowheight) {
-            skeleton.DoConstraints(&coords, &scale);
-            skeleton.DoConstraints(&coords, &scale);
-            skeleton.DoConstraints(&coords, &scale);
-            skeleton.DoConstraints(&coords, &scale);
+            skeleton.DoConstraints(&coords, &scale, Tutorial::active);
+            skeleton.DoConstraints(&coords, &scale, Tutorial::active);
+            skeleton.DoConstraints(&coords, &scale, Tutorial::active);
+            skeleton.DoConstraints(&coords, &scale, Tutorial::active);
         }
 
         speed = targetFrame().speed * 2;
@@ -1855,10 +1855,10 @@ void Person::RagDoll(bool checkcollision)
         }
 
         if (checkcollision) {
-            XYZ lowpoint;
-            XYZ colpoint;
+            Vector3 lowpoint;
+            Vector3 colpoint;
             if (!skeleton.joints.empty()) {
-                XYZ average;
+                Vector3 average;
                 average = 0;
                 for (unsigned j = 0; j < skeleton.joints.size(); j++) {
                     average += skeleton.joints[j].position;
@@ -1926,8 +1926,8 @@ void Person::FootLand(bodypart whichfoot, float opacity)
         cerr << "FootLand called on wrong bodypart" << endl;
         return;
     }
-    static XYZ terrainlight;
-    static XYZ footvel, footpoint;
+    static Vector3 terrainlight;
+    static Vector3 footvel, footpoint;
     if (opacity >= 1 || skiddelay <= 0) {
         if (opacity > 1) {
             footvel = 0;
@@ -1976,7 +1976,7 @@ void Person::FootLand(bodypart whichfoot, float opacity)
  */
 void Person::Puff(int whichlabel)
 {
-    static XYZ footvel, footpoint;
+    static Vector3 footvel, footpoint;
 
     footvel = 0;
     footpoint = DoRotation(jointPos(whichlabel), 0, yaw, 0) * scale + coords;
@@ -2027,7 +2027,7 @@ void Person::DoAnimations()
             }
         }
         if ((animCurrent == jumpupanim || animTarget == jumpdownanim) /*&&velocity.y<40*/ && !isFlip() && (!isLanding() && !isLandhard()) && ((crouchkeydown && !crouchtogglekeydown))) {
-            XYZ targfacing;
+            Vector3 targfacing;
             targfacing = 0;
             targfacing.z = 1;
 
@@ -2296,11 +2296,11 @@ void Person::DoAnimations()
                                         victim->skeleton.joints[j].locked = 0;
                                     }
 
-                                    XYZ relative;
+                                    Vector3 relative;
                                     relative = 0;
                                     relative.y = 10;
                                     Normalise(&relative);
-                                    XYZ footvel, footpoint;
+                                    Vector3 footvel, footpoint;
                                     footvel = 0;
                                     footpoint = weapons[i].position;
                                     if (victim->weaponstuck != -1) {
@@ -2351,7 +2351,7 @@ void Person::DoAnimations()
             }
 
             if ((animCurrent == walljumprightkickanim && animTarget == walljumprightkickanim) || (animCurrent == walljumpleftkickanim && animTarget == walljumpleftkickanim)) {
-                XYZ rotatetarget = DoRotation(skeleton.forward, 0, yaw, 0);
+                Vector3 rotatetarget = DoRotation(skeleton.forward, 0, yaw, 0);
                 Normalise(&rotatetarget);
                 targetyaw = -asin(0 - rotatetarget.x);
                 targetyaw *= 360 / 6.28;
@@ -2391,7 +2391,7 @@ void Person::DoAnimations()
                 closestdist = 0;
                 int closestid;
                 closestid = -1;
-                XYZ targetloc;
+                Vector3 targetloc;
                 targetloc = velocity;
                 Normalise(&targetloc);
                 targetloc += coords;
@@ -2412,7 +2412,7 @@ void Person::DoAnimations()
                         animTarget = rabbittacklinganim;
                         frameCurrent = 0;
                         frameTarget = 1;
-                        XYZ rotatetarget;
+                        Vector3 rotatetarget;
                         if (coords.z != victim->coords.z || coords.x != victim->coords.x) {
                             rotatetarget = coords - victim->coords;
                             Normalise(&rotatetarget);
@@ -2457,7 +2457,7 @@ void Person::DoAnimations()
                             victim->DoBloodBig(2 / victim->armorhead, 175);
                         }
                         victim->RagDoll(0);
-                        XYZ relative;
+                        Vector3 relative;
                         relative = victim->coords - coords;
                         relative.y = 0;
                         Normalise(&relative);
@@ -2492,7 +2492,7 @@ void Person::DoAnimations()
                             victim->DoBloodBig(2, 175);
                         }
                         victim->RagDoll(0);
-                        XYZ relative;
+                        Vector3 relative;
                         relative = victim->coords - coords;
                         relative.y = 0;
                         Normalise(&relative);
@@ -2525,7 +2525,7 @@ void Person::DoAnimations()
                             victim->DoBloodBig(2 / victim->armorhead, 175);
                         }
                         victim->RagDoll(0);
-                        XYZ relative;
+                        Vector3 relative;
                         relative = facing;
                         relative.y = 0;
                         Normalise(&relative);
@@ -2562,7 +2562,7 @@ void Person::DoAnimations()
                             victim->DoBloodBig(2 / victim->armorhead, 175);
                         }
                         victim->RagDoll(0);
-                        XYZ relative;
+                        Vector3 relative;
                         relative = facing;
                         relative.y = 0;
                         Normalise(&relative);
@@ -2594,7 +2594,7 @@ void Person::DoAnimations()
                         }
                         emit_sound_at(whooshhitsound, victim->coords);
                         victim->RagDoll(0);
-                        XYZ relative;
+                        Vector3 relative;
                         relative = victim->coords - coords;
                         relative.y = 0;
                         Normalise(&relative);
@@ -2627,7 +2627,7 @@ void Person::DoAnimations()
                             //victim->skeleton.joints[i].velocity=0;
                         }
 
-                        XYZ relative;
+                        Vector3 relative;
                         relative = 0;
                         relative.y = 1;
                         Normalise(&relative);
@@ -2651,7 +2651,7 @@ void Person::DoAnimations()
                         if (!Tutorial::active) {
                             emit_sound_at(heavyimpactsound, coords, 128.);
                         }
-                        XYZ relative;
+                        Vector3 relative;
                         relative = victim->coords - coords;
                         relative.y = 0;
                         Normalise(&relative);
@@ -2688,7 +2688,7 @@ void Person::DoAnimations()
                             //victim->skeleton.joints[i].delay=0;
                             victim->skeleton.joints[i].locked = 0;
                         }
-                        XYZ relative;
+                        Vector3 relative;
                         relative = victim->coords - coords;
                         Normalise(&relative);
                         relative.y += .3;
@@ -2726,7 +2726,7 @@ void Person::DoAnimations()
                     if (victim && hasvictim) {
                         if (distsq(&coords, &victim->coords) < (scale * 5) * (scale * 5) * 3) {
 
-                            XYZ where, startpoint, endpoint, movepoint, colpoint;
+                            Vector3 where, startpoint, endpoint, movepoint, colpoint;
                             float rotationpoint;
                             int whichtri;
                             if (weapons[weaponids[weaponactive]].getType() == knife) {
@@ -2813,7 +2813,7 @@ void Person::DoAnimations()
                     }
 
                     if (victim && hasvictim) {
-                        XYZ footvel, footpoint;
+                        Vector3 footvel, footpoint;
 
                         emit_sound_at(fleshstabremovesound, coords, 128.);
 
@@ -2821,7 +2821,7 @@ void Person::DoAnimations()
                         footpoint = (weapons[weaponids[weaponactive]].tippoint * .8 + weapons[weaponids[weaponactive]].position * .2);
 
                         if (weapons[weaponids[weaponactive]].getType() == sword) {
-                            XYZ where, startpoint, endpoint, movepoint;
+                            Vector3 where, startpoint, endpoint, movepoint;
                             float rotationpoint;
                             int whichtri;
 
@@ -2848,7 +2848,7 @@ void Person::DoAnimations()
                             }
                         }
                         if (weapons[weaponids[weaponactive]].getType() == staff) {
-                            XYZ where, startpoint, endpoint, movepoint;
+                            Vector3 where, startpoint, endpoint, movepoint;
                             float rotationpoint;
                             int whichtri;
 
@@ -2887,7 +2887,7 @@ void Person::DoAnimations()
                                     //victim->skeleton.joints[i].velocity=0;
                                 }
 
-                                XYZ relative;
+                                Vector3 relative;
                                 relative = 0;
                                 relative.y = 10;
                                 Normalise(&relative);
@@ -2926,7 +2926,7 @@ void Person::DoAnimations()
                         }
 
                         victim->RagDoll(0);
-                        XYZ relative;
+                        Vector3 relative;
                         relative = victim->coords - coords;
                         relative.y = 0;
                         Normalise(&relative);
@@ -2972,7 +2972,7 @@ void Person::DoAnimations()
                         if (victim->damage > victim->damagetolerance - 60 || normaldotproduct(victim->facing, victim->coords - coords) > 0 || Animation::animations[victim->animTarget].height == lowheight) {
                             victim->RagDoll(0);
                         }
-                        XYZ relative;
+                        Vector3 relative;
                         relative = victim->coords - coords;
                         relative.y = 0;
                         Normalise(&relative);
@@ -3035,7 +3035,7 @@ void Person::DoAnimations()
                 if (animCurrent == knifethrowanim && currentFrame().label == 5) {
                     if (hasWeapon()) {
                         escapednum = 0;
-                        XYZ aim;
+                        Vector3 aim;
                         aim = victim->coords + DoRotation(victim->jointPos(abdomen), 0, victim->yaw, 0) * victim->scale + victim->velocity * findDistance(&victim->coords, &coords) / 50 - (coords + DoRotation(jointPos(righthand), 0, yaw, 0) * scale);
                         Normalise(&aim);
                         weapons[weaponids[0]].thrown(aim * 50);
@@ -3081,7 +3081,7 @@ void Person::DoAnimations()
                                 weapons[weaponids[weaponactive]].blooddrip += 3;
                             }
 
-                            XYZ footvel, footpoint;
+                            Vector3 footvel, footpoint;
                             footvel = 0;
                             if (skeleton.free) {
                                 footpoint = (victim->jointPos(abdomen) + victim->jointPos(neck)) / 2 * victim->scale + victim->coords;
@@ -3131,7 +3131,7 @@ void Person::DoAnimations()
                                 victim->bloodloss += bloodlossamount / victim->armorhigh;
                                 victim->DoDamage(damagemult * 0);
 
-                                XYZ footvel, footpoint;
+                                Vector3 footvel, footpoint;
                                 footvel = 0;
                                 if (skeleton.free) {
                                     footpoint = (victim->jointPos(abdomen) + victim->jointPos(neck)) / 2 * victim->scale + victim->coords;
@@ -3164,7 +3164,7 @@ void Person::DoAnimations()
                                 }
                             }
 
-                            XYZ aim;
+                            Vector3 aim;
                             victim->Puff(righthand);
                             victim->target = 0;
                             victim->frameTarget = 0;
@@ -3203,7 +3203,7 @@ void Person::DoAnimations()
                             emit_sound_at(staffheadsound, victim->coords);
                         }
                         victim->RagDoll(0);
-                        XYZ relative;
+                        Vector3 relative;
                         relative = victim->coords - coords;
                         relative.y = 0;
                         Normalise(&relative);
@@ -3238,7 +3238,7 @@ void Person::DoAnimations()
                             emit_sound_at(staffheadsound, victim->coords);
                         }
                         victim->RagDoll(0);
-                        XYZ relative;
+                        Vector3 relative;
                         relative = victim->coords - coords;
                         relative.y = 0;
                         Normalise(&relative);
@@ -3283,7 +3283,7 @@ void Person::DoAnimations()
                         }
 
                         victim->RagDoll(0);
-                        XYZ relative;
+                        Vector3 relative;
                         relative = 0;
                         relative.y = -1;
                         Normalise(&relative);
@@ -3315,7 +3315,7 @@ void Person::DoAnimations()
                         if (id == 0) {
                             camerashake += .4;
                         }
-                        XYZ relative;
+                        Vector3 relative;
                         relative = victim->coords - coords;
                         relative.y = 0;
                         Normalise(&relative);
@@ -3382,7 +3382,7 @@ void Person::DoAnimations()
                         if (!Tutorial::active) {
                             emit_sound_at(landsound2, victim->coords, 128.);
                         }
-                        XYZ relative;
+                        Vector3 relative;
                         relative = victim->coords - coords;
                         relative.y = 0;
                         Normalise(&relative);
@@ -3451,7 +3451,7 @@ void Person::DoAnimations()
                         victim->DoBloodBig(2 / victim->armorhigh, 170);
                     }
                     victim->RagDoll(0);
-                    XYZ relative;
+                    Vector3 relative;
                     relative = victim->coords - oldcoords;
                     relative.y = 0;
                     Normalise(&relative);
@@ -3489,7 +3489,7 @@ void Person::DoAnimations()
                     }
                     emit_sound_at(whooshhitsound, victim->coords, 128.);
                     victim->RagDoll(0);
-                    XYZ relative;
+                    Vector3 relative;
                     relative = victim->coords - oldcoords;
                     relative.y = 0;
                     Normalise(&relative);
@@ -3519,7 +3519,7 @@ void Person::DoAnimations()
                     victim->RagDoll(0);
                     award_bonus(id, staffreversebonus); // Huh, again?
 
-                    XYZ relative;
+                    Vector3 relative;
                     relative = victim->coords - oldcoords;
                     relative.y = 0;
                     Normalise(&relative);
@@ -3534,7 +3534,7 @@ void Person::DoAnimations()
                 if (animCurrent == upunchreversalanim && currentFrame().label == 7) {
                     escapednum = 0;
                     victim->RagDoll(1);
-                    XYZ relative;
+                    Vector3 relative;
                     relative = facing;
                     relative.y = 0;
                     Normalise(&relative);
@@ -3581,7 +3581,7 @@ void Person::DoAnimations()
                 if (animCurrent == swordslashreversalanim && currentFrame().label == 7) {
                     escapednum = 0;
                     victim->RagDoll(1);
-                    XYZ relative;
+                    Vector3 relative;
                     relative = facing;
                     relative.y = 0;
                     Normalise(&relative);
@@ -3614,7 +3614,7 @@ void Person::DoAnimations()
                         emit_sound_at(heavyimpactsound, victim->coords, 128.);
                     }
                     victim->RagDoll(0);
-                    XYZ relative;
+                    Vector3 relative;
                     relative = victim->coords - oldcoords;
                     relative.y = 0;
                     Normalise(&relative);
@@ -3633,7 +3633,7 @@ void Person::DoAnimations()
                     escapednum = 0;
                     victim->RagDoll(0);
                     victim->skeleton.spinny = 0;
-                    XYZ relative;
+                    Vector3 relative;
                     relative = facing * -1;
                     relative.y = -3;
                     Normalise(&relative);
@@ -3675,7 +3675,7 @@ void Person::DoAnimations()
                             victim->DoBloodBig(200, 210);
                         }
                         if (animTarget == knifesneakattackanim) {
-                            XYZ footvel, footpoint;
+                            Vector3 footvel, footpoint;
                             footvel = 0;
                             footpoint = weapons[weaponids[0]].tippoint;
                             if (bloodtoggle) {
@@ -3691,7 +3691,7 @@ void Person::DoAnimations()
                         }
                         if (animTarget == knifefollowanim) {
                             award_bonus(id, Stabbonus);
-                            XYZ footvel, footpoint;
+                            Vector3 footvel, footpoint;
                             footvel = 0;
                             footpoint = weapons[weaponids[0]].tippoint;
                             if (bloodtoggle) {
@@ -3732,7 +3732,7 @@ void Person::DoAnimations()
                         }
                         weapons[weaponids[weaponactive]].blooddrip += 5;
 
-                        XYZ footvel, footpoint;
+                        Vector3 footvel, footpoint;
                         footvel = 0;
                         footpoint = weapons[weaponids[0]].tippoint;
                         if (bloodtoggle) {
@@ -3752,7 +3752,7 @@ void Person::DoAnimations()
 
                         escapednum = 0;
 
-                        XYZ footvel, footpoint;
+                        Vector3 footvel, footpoint;
                         footvel = 0;
                         footpoint = (weapons[weaponids[0]].tippoint + weapons[weaponids[0]].position) / 2;
                         if (bloodtoggle) {
@@ -3788,7 +3788,7 @@ void Person::DoAnimations()
                         }
                         weapons[weaponids[weaponactive]].blooddrip += 5;
 
-                        XYZ footvel, footpoint;
+                        Vector3 footvel, footpoint;
                         footvel = 0;
                         footpoint = weapons[weaponids[0]].tippoint;
                         if (bloodtoggle) {
@@ -3841,7 +3841,7 @@ void Person::DoAnimations()
 
                     victim->Puff(neck);
 
-                    XYZ relative;
+                    Vector3 relative;
                     relative = facing * -1;
                     relative.y = 0;
                     Normalise(&relative);
@@ -3862,7 +3862,7 @@ void Person::DoAnimations()
                 if (animCurrent == sweepreversalanim && ((currentFrame().label == 9 && victim->damage < victim->damagetolerance) || (currentFrame().label == 7 && victim->damage > victim->damagetolerance))) {
                     escapednum = 0;
                     victim->RagDoll(0);
-                    XYZ relative;
+                    Vector3 relative;
                     relative = facing * -1;
                     relative.y = 0;
                     Normalise(&relative);
@@ -3992,7 +3992,7 @@ void Person::DoAnimations()
                             victim = Person::players[closest];
                             animTarget = walljumprightkickanim;
                             frameTarget = 0;
-                            XYZ rotatetarget = victim->coords - coords;
+                            Vector3 rotatetarget = victim->coords - coords;
                             Normalise(&rotatetarget);
                             yaw = -asin(0 - rotatetarget.x);
                             yaw *= 360 / 6.28;
@@ -4054,7 +4054,7 @@ void Person::DoAnimations()
                             victim = Person::players[closest];
                             animTarget = walljumpleftkickanim;
                             frameTarget = 0;
-                            XYZ rotatetarget = victim->coords - coords;
+                            Vector3 rotatetarget = victim->coords - coords;
                             Normalise(&rotatetarget);
                             yaw = -asin(0 - rotatetarget.x);
                             yaw *= 360 / 6.28;
@@ -4475,14 +4475,14 @@ void Person::DoAnimations()
  */
 void Person::DoStuff()
 {
-    static XYZ terrainnormal;
-    static XYZ flatfacing;
-    static XYZ flatvelocity;
+    static Vector3 terrainnormal;
+    static Vector3 flatfacing;
+    static Vector3 flatvelocity;
     static float flatvelspeed;
     static int bloodsize;
     static int startx, starty, endx, endy;
     static GLubyte color;
-    static XYZ bloodvel;
+    static Vector3 bloodvel;
 
     onfiredelay -= multiplier;
     if (onfiredelay < 0 && onfire) {
@@ -4650,7 +4650,7 @@ void Person::DoStuff()
         }
         if (bleeddelay < 0 && bloodtoggle) {
             bleeddelay = 1;
-            XYZ bloodvel;
+            Vector3 bloodvel;
             if (bloodtoggle) {
                 bloodvel = 0;
                 if (skeleton.free) {
@@ -4864,8 +4864,8 @@ void Person::DoStuff()
             targetchestmorphness = 1;
             chestmorphend = 0;
             if (environment == snowyenvironment) {
-                XYZ footpoint;
-                XYZ footvel;
+                Vector3 footpoint;
+                Vector3 footvel;
                 if (skeleton.free) {
                     footvel = skeleton.specialforward[0] * -1;
                     footpoint = ((jointPos(head) + jointPos(neck)) / 2) * scale + coords;
@@ -5043,13 +5043,13 @@ void Person::DoStuff()
     }
 
     if (howactive > typesleeping) {
-        XYZ headpoint;
+        Vector3 headpoint;
         headpoint = coords;
         if (bloodtoggle && !bled) {
             terrain.MakeDecal(blooddecalslow, headpoint, .8, .5, 0);
             for (unsigned int l = 0; l < terrain.patchobjects[whichpatchx][whichpatchz].size(); l++) {
                 unsigned int j = terrain.patchobjects[whichpatchx][whichpatchz][l];
-                XYZ point = DoRotation(headpoint - Object::objects[j]->position, 0, -Object::objects[j]->yaw, 0);
+                Vector3 point = DoRotation(headpoint - Object::objects[j]->position, 0, -Object::objects[j]->yaw, 0);
                 float size = .8;
                 float opacity = .6;
                 float yaw = 0;
@@ -5222,13 +5222,13 @@ void Person::DoStuff()
 
         skeleton.DoGravity(&scale);
         float damageamount;
-        damageamount = skeleton.DoConstraints(&coords, &scale) * 5;
+        damageamount = skeleton.DoConstraints(&coords, &scale, Tutorial::active) * 5;
         if (damage > damagetolerance - damageamount && !dead && (bonus != spinecrusher || bonustime > 1) && (bonus != style || bonustime > 1) && (bonus != cannon || bonustime > 1)) {
             award_bonus(id, deepimpact);
         }
         DoDamage(damageamount / ((protectionhigh + protectionhead + protectionlow) / 3));
 
-        XYZ average;
+        Vector3 average;
         average = 0;
         if (!skeleton.joints.empty()) {
             for (unsigned j = 0; j < skeleton.joints.size(); j++) {
@@ -5264,14 +5264,14 @@ void Person::DoStuff()
                     skeleton.free = 2;
                 }
                 if (dead == 2 && bloodloss < damagetolerance) {
-                    XYZ headpoint;
+                    Vector3 headpoint;
                     headpoint = (jointPos(head) + jointPos(neck)) / 2 * scale + coords;
                     DoBlood(1, 255);
                     if (bloodtoggle && !bled) {
                         terrain.MakeDecal(blooddecal, headpoint, .2 * 1.2, .5, 0);
                         for (unsigned int l = 0; l < terrain.patchobjects[whichpatchx][whichpatchz].size(); l++) {
                             unsigned int j = terrain.patchobjects[whichpatchx][whichpatchz][l];
-                            XYZ point = DoRotation(headpoint - Object::objects[j]->position, 0, -Object::objects[j]->yaw, 0);
+                            Vector3 point = DoRotation(headpoint - Object::objects[j]->position, 0, -Object::objects[j]->yaw, 0);
                             float size = .2 * 1.2;
                             float opacity = .6;
                             float yaw = 0;
@@ -5281,7 +5281,7 @@ void Person::DoStuff()
                     bled = 1;
                 }
                 if (dead == 2 && bloodloss >= damagetolerance) {
-                    XYZ headpoint;
+                    Vector3 headpoint;
                     headpoint = (jointPos(abdomen) + jointPos(neck)) / 2 * scale + coords;
                     if (bleeding <= 0) {
                         DoBlood(1, 255);
@@ -5290,7 +5290,7 @@ void Person::DoStuff()
                         terrain.MakeDecal(blooddecalslow, headpoint, .8, .5, 0);
                         for (unsigned int l = 0; l < terrain.patchobjects[whichpatchx][whichpatchz].size(); l++) {
                             unsigned int j = terrain.patchobjects[whichpatchx][whichpatchz][l];
-                            XYZ point = DoRotation(headpoint - Object::objects[j]->position, 0, -Object::objects[j]->yaw, 0);
+                            Vector3 point = DoRotation(headpoint - Object::objects[j]->position, 0, -Object::objects[j]->yaw, 0);
                             float size = .8;
                             float opacity = .6;
                             float yaw = 0;
@@ -5304,7 +5304,7 @@ void Person::DoStuff()
 
         if (!dead && crouchkeydown && skeleton.freetime > .5 && id == 0 && skeleton.free) {
             bool canrecover = 1;
-            XYZ startpoint, endpoint, colpoint, colviewer, coltarget;
+            Vector3 startpoint, endpoint, colpoint, colviewer, coltarget;
             startpoint = coords;
             endpoint = coords;
             endpoint.y -= .7;
@@ -5325,7 +5325,7 @@ void Person::DoStuff()
             }
             if (canrecover) {
                 skeleton.free = 0;
-                XYZ middle;
+                Vector3 middle;
                 middle = 0;
 
                 terrainnormal = jointPos(groin) - jointPos(abdomen);
@@ -5376,7 +5376,7 @@ void Person::DoStuff()
                 }
                 skeleton.free = 0;
                 velocity = 0;
-                XYZ middle;
+                Vector3 middle;
                 middle = 0;
 
                 terrainnormal = jointPos(groin) - jointPos(abdomen);
@@ -5476,7 +5476,7 @@ void Person::DoStuff()
         }
         if (!skeleton.freefall && freefall && ((jumpkeydown && jumpkeydowntime < .2) || (hasstaff && rabbitkickragdoll)) && !dead) {
             if (velocity.y > -30) {
-                XYZ tempvelocity;
+                Vector3 tempvelocity;
                 tempvelocity = velocity;
                 Normalise(&tempvelocity);
                 targetyaw = -asin(0 - tempvelocity.x);
@@ -5550,8 +5550,8 @@ void Person::DoStuff()
                             }
                         }
                         if (Object::objects[i]->messedwith <= 0) {
-                            XYZ tempvel;
-                            XYZ pos;
+                            Vector3 tempvel;
+                            Vector3 pos;
 
                             emit_sound_at(bushrustle, coords, 40 * findLength(&velocity));
 
@@ -5605,7 +5605,7 @@ void Person::DoStuff()
                         Object::objects[i]->messedwith = .5;
                     }
                 }
-                XYZ tempcoord;
+                Vector3 tempcoord;
                 if (Object::objects[i]->type == treeleavestype && environment != desertenvironment) {
                     if (Object::objects[i]->pitch == 0) {
                         tempcoord = coords;
@@ -5617,8 +5617,8 @@ void Person::DoStuff()
                     }
                     if (distsqflat(&tempcoord, &Object::objects[i]->position) < Object::objects[i]->scale * Object::objects[i]->scale * 8 && distsq(&tempcoord, &Object::objects[i]->position) < Object::objects[i]->scale * Object::objects[i]->scale * 300 && tempcoord.y > Object::objects[i]->position.y + 3 * Object::objects[i]->scale) {
                         if (Object::objects[i]->messedwith <= 0) {
-                            XYZ tempvel;
-                            XYZ pos;
+                            Vector3 tempvel;
+                            Vector3 pos;
 
                             emit_sound_at(bushrustle, coords, 40 * findLength(&velocity));
 
@@ -6237,12 +6237,12 @@ void Person::DoStuff()
     }
     skeleton.oldfree = skeleton.free;
 
-    XYZ midterrain;
+    Vector3 midterrain;
     midterrain = 0;
     midterrain.x = terrain.size * terrain.scale / 2;
     midterrain.z = terrain.size * terrain.scale / 2;
     if (distsqflat(&coords, &midterrain) > (terrain.size * terrain.scale / 2 - viewdistance) * (terrain.size * terrain.scale / 2 - viewdistance)) {
-        XYZ tempposit;
+        Vector3 tempposit;
         tempposit = coords - midterrain;
         tempposit.y = 0;
         Normalise(&tempposit);
@@ -6257,7 +6257,7 @@ void Person::DoStuff()
  */
 void IKHelper(Person* p, float interp)
 {
-    XYZ point, change, change2;
+    Vector3 point, change, change2;
     float heightleft, heightright;
 
     // TODO: implement localToWorld and worldToLocal
@@ -6290,7 +6290,7 @@ void IKHelper(Person* p, float interp)
     p->jointPos(rightknee) = (p->jointPos(rightfoot) + change2) / 2 + (p->jointPos(rightknee)) / 2;
 
     // fix up skeleton now that we've moved body parts?
-    p->skeleton.DoConstraints(&p->coords, &p->scale);
+    p->skeleton.DoConstraints(&p->coords, &p->scale, Tutorial::active);
 }
 
 /* EFFECT
@@ -6312,7 +6312,7 @@ int Person::DrawSkeleton()
         }
 
         glAlphaFunc(GL_GREATER, 0.0001);
-        XYZ terrainlight;
+        Vector3 terrainlight;
         float terrainheight;
         float distance;
         if (!isnormal(yaw)) {
@@ -6352,12 +6352,12 @@ int Person::DrawSkeleton()
                 skeleton.specialforward[1].z = 1;
             }
         }
-        static XYZ mid;
+        static Vector3 mid;
         static float M[16];
         static int k;
         static int weaponattachmuscle;
         static int weaponrotatemuscle;
-        static XYZ weaponpoint;
+        static Vector3 weaponpoint;
         static int start, endthing;
         if ((dead != 2 || skeleton.free != 2) && updatedelay <= 0) {
             if (!isSleeping() && !isSitting()) {
@@ -6470,8 +6470,8 @@ int Person::DrawSkeleton()
 
                     if (playerdetail || skeleton.free == 3) {
                         for (unsigned j = 0; j < skeleton.muscles[i].vertices.size(); j++) {
-                            XYZ& v0 = skeleton.model[start].vertex[skeleton.muscles[i].vertices[j]];
-                            XYZ& v1 = skeleton.model[endthing].vertex[skeleton.muscles[i].vertices[j]];
+                            Vector3& v0 = skeleton.model[start].vertex[skeleton.muscles[i].vertices[j]];
+                            Vector3& v1 = skeleton.model[endthing].vertex[skeleton.muscles[i].vertices[j]];
                             glMatrixMode(GL_MODELVIEW);
                             glPushMatrix();
                             if (p1 == abdomen || p2 == abdomen) {
@@ -6503,7 +6503,7 @@ int Person::DrawSkeleton()
                     }
                     if (!playerdetail || skeleton.free == 3) {
                         for (unsigned j = 0; j < skeleton.muscles[i].verticeslow.size(); j++) {
-                            XYZ& v0 = skeleton.modellow.vertex[skeleton.muscles[i].verticeslow[j]];
+                            Vector3& v0 = skeleton.modellow.vertex[skeleton.muscles[i].verticeslow[j]];
                             glMatrixMode(GL_MODELVIEW);
                             glPushMatrix();
                             if (p1 == abdomen || p2 == abdomen) {
@@ -6559,7 +6559,7 @@ int Person::DrawSkeleton()
                     glRotatef(-skeleton.muscles[i].lastrotate3, 0, 1, 0);
 
                     for (unsigned j = 0; j < skeleton.muscles[i].verticesclothes.size(); j++) {
-                        XYZ& v0 = skeleton.modelclothes.vertex[skeleton.muscles[i].verticesclothes[j]];
+                        Vector3& v0 = skeleton.modelclothes.vertex[skeleton.muscles[i].verticesclothes[j]];
                         glMatrixMode(GL_MODELVIEW);
                         glPushMatrix();
                         if (p1 == abdomen || p2 == abdomen) {
@@ -6595,13 +6595,13 @@ int Person::DrawSkeleton()
             if (skeleton.free != 2 && (skeleton.free == 1 || skeleton.free == 3 || id == 0 || (normalsupdatedelay <= 0) || animTarget == getupfromfrontanim || animTarget == getupfrombackanim || animCurrent == getupfromfrontanim || animCurrent == getupfrombackanim)) {
                 normalsupdatedelay = 1;
                 if (playerdetail || skeleton.free == 3) {
-                    skeleton.drawmodel.CalculateNormals(0);
+                    skeleton.drawmodel.CalculateNormals(0, []() {Game::LoadingScreen(); });
                 }
                 if (!playerdetail || skeleton.free == 3) {
-                    skeleton.drawmodellow.CalculateNormals(0);
+                    skeleton.drawmodellow.CalculateNormals(0, []() {Game::LoadingScreen(); });
                 }
                 if (skeleton.clothes) {
-                    skeleton.drawmodelclothes.CalculateNormals(0);
+                    skeleton.drawmodelclothes.CalculateNormals(0, []() {Game::LoadingScreen(); });
                 }
             } else {
                 if (playerdetail || skeleton.free == 3) {
@@ -6646,7 +6646,7 @@ int Person::DrawSkeleton()
             glBegin(GL_POINTS);
             if (playerdetail) {
                 for (int i = 0; i < skeleton.drawmodel.vertexNum; i++) {
-                    XYZ& v0 = skeleton.drawmodel.vertex[i];
+                    Vector3& v0 = skeleton.drawmodel.vertex[i];
                     glVertex3f(v0.x, v0.y, v0.z);
                 }
             }
@@ -6655,9 +6655,9 @@ int Person::DrawSkeleton()
 
             if (playerdetail) {
                 for (unsigned int i = 0; i < skeleton.drawmodel.Triangles.size(); i++) {
-                    const XYZ& v0 = skeleton.drawmodel.getTriangleVertex(i, 0);
-                    const XYZ& v1 = skeleton.drawmodel.getTriangleVertex(i, 1);
-                    const XYZ& v2 = skeleton.drawmodel.getTriangleVertex(i, 2);
+                    const Vector3& v0 = skeleton.drawmodel.getTriangleVertex(i, 0);
+                    const Vector3& v1 = skeleton.drawmodel.getTriangleVertex(i, 1);
+                    const Vector3& v2 = skeleton.drawmodel.getTriangleVertex(i, 2);
                     glVertex3f(v0.x, v0.y, v0.z);
                     glVertex3f(v1.x, v1.y, v1.z);
                     glVertex3f(v1.x, v1.y, v1.z);
@@ -6820,7 +6820,7 @@ int Person::DrawSkeleton()
                         //weaponpoint=jointPos(rightwrist);
                         weaponpoint = (skeleton.muscles[weaponattachmuscle].parent1->position + skeleton.muscles[weaponattachmuscle].parent2->position) / 2;
                         //weaponpoint+=skeleton.specialforward[1]*.1+(jointPos(rightwrist)-jointPos(rightelbow));
-                        XYZ tempnormthing, vec1, vec2;
+                        Vector3 tempnormthing, vec1, vec2;
                         vec1 = (jointPos(rightwrist) - jointPos(rightelbow));
                         vec2 = (jointPos(rightwrist) - jointPos(rightshoulder));
                         CrossProduct(&vec1, &vec2, &tempnormthing);
@@ -6883,7 +6883,7 @@ int Person::DrawSkeleton()
                             weapons[i].smallrotation2 = 50;
                         }
                         if ((animCurrent == crouchstabanim && animTarget == crouchstabanim) || (animCurrent == backhandspringanim && animTarget == backhandspringanim)) {
-                            XYZ temppoint1, temppoint2;
+                            Vector3 temppoint1, temppoint2;
                             float distance;
 
                             temppoint1 = jointPos(righthand);
@@ -6903,7 +6903,7 @@ int Person::DrawSkeleton()
                             }
                         }
                         if ((animCurrent == knifeslashreversalanim && animTarget == knifeslashreversalanim) || (animCurrent == knifeslashreversedanim && animTarget == knifeslashreversedanim)) {
-                            XYZ temppoint1, temppoint2;
+                            Vector3 temppoint1, temppoint2;
                             float distance;
 
                             temppoint1 = jointPos(righthand);
@@ -6948,7 +6948,7 @@ int Person::DrawSkeleton()
                             weapons[i].rotation3 = 0;
                         }
                         if ((animTarget == swordgroundstabanim && animCurrent == swordgroundstabanim) || (animTarget == swordsneakattackanim && animCurrent == swordsneakattackanim) || (animTarget == swordslashparryanim && animCurrent == swordslashparryanim) || (animTarget == swordslashparriedanim && animCurrent == swordslashparriedanim) || (animTarget == swordslashreversalanim && animCurrent == swordslashreversalanim) || (animTarget == swordslashreversedanim && animCurrent == swordslashreversedanim) || (animTarget == knifeslashreversalanim && animCurrent == knifeslashreversalanim) || (animTarget == knifeslashreversedanim && animCurrent == knifeslashreversedanim) || (animTarget == swordslashanim && animCurrent == swordslashanim) || (animTarget == drawleftanim && animCurrent == drawleftanim) || (animCurrent == backhandspringanim && animTarget == backhandspringanim)) {
-                            XYZ temppoint1, temppoint2;
+                            Vector3 temppoint1, temppoint2;
                             float distance;
 
                             temppoint1 = currentFrame().joints[skeleton.jointlabels[righthand]].position * (1 - target) + targetFrame().joints[skeleton.jointlabels[righthand]].position * (target); //jointPos(righthand);
@@ -6972,7 +6972,7 @@ int Person::DrawSkeleton()
                         weapons[i].smallrotation = 100;
                         weapons[i].smallrotation2 = 0;
                         if ((animTarget == staffhitanim && animCurrent == staffhitanim) || (animTarget == staffhitreversedanim && animCurrent == staffhitreversedanim) || (animTarget == staffspinhitreversedanim && animCurrent == staffspinhitreversedanim) || (animTarget == staffgroundsmashanim && animCurrent == staffgroundsmashanim) || (animTarget == staffspinhitanim && animCurrent == staffspinhitanim)) {
-                            XYZ temppoint1, temppoint2;
+                            Vector3 temppoint1, temppoint2;
                             float distance;
 
                             temppoint1 = currentFrame().joints[skeleton.jointlabels[righthand]].position * (1 - target) + targetFrame().joints[skeleton.jointlabels[righthand]].position * (target); //jointPos(righthand);
@@ -7038,15 +7038,15 @@ int Person::DrawSkeleton()
 
 /* FUNCTION?
  */
-int Person::SphereCheck(XYZ* p1, float radius, XYZ* p, XYZ* move, float* rotate, Model* model)
+int Person::SphereCheck(Vector3* p1, float radius, Vector3* p, Vector3* move, float* rotate, Model* model)
 {
     static float distance;
     static float olddistance;
     static int intersecting;
     static int firstintersecting;
-    static XYZ point;
-    static XYZ oldp1;
-    static XYZ start, end;
+    static Vector3 point;
+    static Vector3 oldp1;
+    static Vector3 start, end;
     static float slopethreshold = -.4;
 
     firstintersecting = -1;
@@ -7136,9 +7136,9 @@ int Person::SphereCheck(XYZ* p1, float radius, XYZ* p, XYZ* move, float* rotate,
                 intersecting = 0;
                 start = *p1;
                 start.y -= radius / 4;
-                XYZ& v0 = model->vertex[model->Triangles[j].vertex[0]];
-                XYZ& v1 = model->vertex[model->Triangles[j].vertex[1]];
-                XYZ& v2 = model->vertex[model->Triangles[j].vertex[2]];
+                Vector3& v0 = model->vertex[model->Triangles[j].vertex[0]];
+                Vector3& v1 = model->vertex[model->Triangles[j].vertex[1]];
+                Vector3& v2 = model->vertex[model->Triangles[j].vertex[2]];
                 distance = abs((model->Triangles[j].facenormal.x * start.x) + (model->Triangles[j].facenormal.y * start.y) + (model->Triangles[j].facenormal.z * start.z) - ((model->Triangles[j].facenormal.x * v0.x) + (model->Triangles[j].facenormal.y * v0.y) + (model->Triangles[j].facenormal.z * v0.z)));
                 if (distance < radius * .5) {
                     point = start - model->Triangles[j].facenormal * distance;
@@ -7349,7 +7349,7 @@ void Person::doAI()
                 float closestdistance;
                 float tempdist = 0.0f;
                 int closest;
-                XYZ colpoint;
+                Vector3 colpoint;
                 closest = -1;
                 closestdistance = -1;
                 for (int j = 0; j < Game::numpathpoints; j++) {
@@ -7379,7 +7379,7 @@ void Person::doAI()
                 float closestdistance;
                 float tempdist = 0.0f;
                 int closest;
-                XYZ colpoint;
+                Vector3 colpoint;
                 closest = -1;
                 closestdistance = -1;
                 if (lastpathfindpoint == -1) {
@@ -7585,7 +7585,7 @@ void Person::doAI()
                     if (!avoidsomething) {
                         targetyaw += 90 * (whichdirection * 2 - 1);
                     } else {
-                        XYZ leftpos, rightpos;
+                        Vector3 leftpos, rightpos;
                         float leftdist, rightdist;
                         leftpos = coords + DoRotation(facing, 0, 90, 0);
                         rightpos = coords - DoRotation(facing, 0, 90, 0);
@@ -7643,7 +7643,7 @@ void Person::doAI()
 
                 //wolf smell
                 if (creature == wolftype) {
-                    XYZ windsmell;
+                    Vector3 windsmell;
                     for (unsigned j = 0; j < Person::players.size(); j++) {
                         if (j == 0 || (Person::players[j]->dead && Person::players[j]->bloodloss > 0)) {
                             float smelldistance = 50;
@@ -7733,9 +7733,9 @@ void Person::doAI()
 
             if (isRun() && !onground) {
                 if (coords.y > terrain.getHeight(coords.x, coords.z) + 10) {
-                    XYZ test2 = coords + facing;
+                    Vector3 test2 = coords + facing;
                     test2.y += 5;
-                    XYZ test = coords + facing;
+                    Vector3 test = coords + facing;
                     test.y -= 10;
                     j = Object::checkcollide(test2, test, laststanding);
                     if (j == -1) {
@@ -7786,7 +7786,7 @@ void Person::doAI()
                     if (!avoidsomething) {
                         targetyaw += 90 * (whichdirection * 2 - 1);
                     } else {
-                        XYZ leftpos, rightpos;
+                        Vector3 leftpos, rightpos;
                         float leftdist, rightdist;
                         leftpos = coords + DoRotation(facing, 0, 90, 0);
                         rightpos = coords - DoRotation(facing, 0, 90, 0);
@@ -7903,8 +7903,8 @@ void Person::doAI()
 
                 lastchecktime = 12;
 
-                XYZ facing = coords;
-                XYZ flatfacing = Person::players[ally]->coords;
+                Vector3 facing = coords;
+                Vector3 flatfacing = Person::players[ally]->coords;
                 facing.y += jointPos(head).y * scale;
                 flatfacing.y += Person::players[ally]->jointPos(head).y * Person::players[ally]->scale;
                 if (-1 != Object::checkcollide(facing, flatfacing)) {
@@ -7942,7 +7942,7 @@ void Person::doAI()
                         if (!avoidsomething) {
                             targetyaw += 90 * (whichdirection * 2 - 1);
                         } else {
-                            XYZ leftpos, rightpos;
+                            Vector3 leftpos, rightpos;
                             float leftdist, rightdist;
                             leftpos = coords + DoRotation(facing, 0, 90, 0);
                             rightpos = coords - DoRotation(facing, 0, 90, 0);
@@ -8024,7 +8024,7 @@ void Person::doAI()
                             if (!avoidsomething) {
                                 targetyaw += 90 * (whichdirection * 2 - 1);
                             } else {
-                                XYZ leftpos, rightpos;
+                                Vector3 leftpos, rightpos;
                                 float leftdist, rightdist;
                                 leftpos = coords + DoRotation(facing, 0, 90, 0);
                                 rightpos = coords - DoRotation(facing, 0, 90, 0);
@@ -8141,9 +8141,9 @@ void Person::doAI()
             //walked off a ledge (?)
             if (isRun() && !onground) {
                 if (coords.y > terrain.getHeight(coords.x, coords.z) + 10) {
-                    XYZ test2 = coords + facing;
+                    Vector3 test2 = coords + facing;
                     test2.y += 5;
-                    XYZ test = coords + facing;
+                    Vector3 test = coords + facing;
                     test.y -= 10;
                     j = Object::checkcollide(test2, test, laststanding);
                     if (j == -1) {
@@ -8195,8 +8195,8 @@ void Person::doAI()
                 }
                 rabbitkickenabled = rand() % 2;
                 //chase player
-                XYZ rotatetarget = Person::players[0]->coords + Person::players[0]->velocity;
-                XYZ targetpoint = Person::players[0]->coords;
+                Vector3 rotatetarget = Person::players[0]->coords + Person::players[0]->velocity;
+                Vector3 targetpoint = Person::players[0]->coords;
                 float vellength = findLength(&velocity);
                 if (vellength != 0 &&
                     distsq(&Person::players[0]->coords, &coords) < distsq(&rotatetarget, &coords)) {
@@ -8329,8 +8329,8 @@ void Person::doAI()
                     }
                 }
 
-                XYZ facing = coords;
-                XYZ flatfacing = Person::players[0]->coords;
+                Vector3 facing = coords;
+                Vector3 flatfacing = Person::players[0]->coords;
                 facing.y += jointPos(head).y * scale;
                 flatfacing.y += Person::players[0]->jointPos(head).y * Person::players[0]->scale;
                 if (occluded >= 2) {
@@ -8356,7 +8356,7 @@ void Person::doAI()
             (aitype == attacktypecutoff ||
              aitype == searchtype)) {
             if (Person::players[0]->coords.y > terrain.getHeight(Person::players[0]->coords.x, Person::players[0]->coords.z) + 10) {
-                XYZ test = Person::players[0]->coords;
+                Vector3 test = Person::players[0]->coords;
                 test.y -= 40;
                 if (-1 == Object::checkcollide(Person::players[0]->coords, test)) {
                     stunned = 1;
@@ -8381,11 +8381,11 @@ void Person::doAI()
             throwkeydown = 0;
         }
 
-        XYZ facing;
+        Vector3 facing;
         facing = 0;
         facing.z = -1;
 
-        XYZ flatfacing = DoRotation(facing, 0, yaw + 180, 0);
+        Vector3 flatfacing = DoRotation(facing, 0, yaw + 180, 0);
         facing = flatfacing;
 
         if (aitype == attacktypecutoff) {

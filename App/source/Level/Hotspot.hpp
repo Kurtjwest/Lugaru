@@ -21,7 +21,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _HOTSPOT_HPP_
 #define _HOTSPOT_HPP_
 
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 
 #include <vector>
 
@@ -33,9 +33,9 @@ public:
     static int killhotspot;
 
     Hotspot();
-    Hotspot(XYZ position, int type, float size);
+    Hotspot(Vector3 position, int type, float size);
 
-    XYZ position;
+    Vector3 position;
     int type;
     float size;
     std::string text;

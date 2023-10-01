@@ -28,7 +28,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 extern float screenwidth, screenheight;
 extern float viewdistance;
-extern XYZ viewer;
+extern Vector3 viewer;
 extern float fadestart;
 extern float texscale;
 extern float gravity;
@@ -664,28 +664,28 @@ void Game::LoadStuff()
 
 	realtexdetail = texdetail;
 
-	Weapon::Load();
+	Weapon::Load([]() { Game::LoadingScreen(); });
 
-	terrain.shadowtexture.load("Textures/Shadow.png", 0, []() {Game::LoadingScreen(); });
-	terrain.bloodtexture.load("Textures/Blood.png", 0, []() {Game::LoadingScreen(); });
-	terrain.breaktexture.load("Textures/Break.png", 0, []() {Game::LoadingScreen(); });
-	terrain.bloodtexture2.load("Textures/Blood.png", 0, []() {Game::LoadingScreen(); });
+	terrain.shadowtexture.load("Textures/Shadow.png", 0, []() {LoadingScreen(); });
+	terrain.bloodtexture.load("Textures/Blood.png", 0, []() {LoadingScreen(); });
+	terrain.breaktexture.load("Textures/Break.png", 0, []() {LoadingScreen(); });
+	terrain.bloodtexture2.load("Textures/Blood.png", 0, []() {LoadingScreen(); });
 
-	terrain.footprinttexture.load("Textures/Footprint.png", 0, []() {Game::LoadingScreen(); });
-	terrain.bodyprinttexture.load("Textures/Bodyprint.png", 0, []() {Game::LoadingScreen(); });
-	hawktexture.load("Textures/Hawk.png", 0, []() {Game::LoadingScreen(); });
+	terrain.footprinttexture.load("Textures/Footprint.png", 0, []() {LoadingScreen(); });
+	terrain.bodyprinttexture.load("Textures/Bodyprint.png", 0, []() {LoadingScreen(); });
+	hawktexture.load("Textures/Hawk.png", 0, []() { LoadingScreen(); });
 
-	Sprite::cloudtexture.load("Textures/Cloud.png", 1, []() {Game::LoadingScreen(); });
-	Sprite::cloudimpacttexture.load("Textures/CloudImpact.png", 1, []() {Game::LoadingScreen(); });
-	Sprite::bloodtexture.load("Textures/BloodParticle.png", 1, []() {Game::LoadingScreen(); });
-	Sprite::snowflaketexture.load("Textures/SnowFlake.png", 1, []() {Game::LoadingScreen(); });
-	Sprite::flametexture.load("Textures/Flame.png", 1, []() {Game::LoadingScreen(); });
-	Sprite::bloodflametexture.load("Textures/BloodFlame.png", 1, []() {Game::LoadingScreen(); });
-	Sprite::smoketexture.load("Textures/Smoke.png", 1, []() {Game::LoadingScreen(); });
-	Sprite::shinetexture.load("Textures/Shine.png", 1, []() {Game::LoadingScreen(); });
-	Sprite::splintertexture.load("Textures/Splinter.png", 1, []() {Game::LoadingScreen(); });
-	Sprite::leaftexture.load("Textures/Leaf.png", 1, []() {Game::LoadingScreen(); });
-	Sprite::toothtexture.load("Textures/Tooth.png", 1, []() {Game::LoadingScreen(); });
+	Sprite::cloudtexture.load("Textures/Cloud.png", 1, []() {LoadingScreen(); });
+	Sprite::cloudimpacttexture.load("Textures/CloudImpact.png", 1, []() { LoadingScreen(); });
+	Sprite::bloodtexture.load("Textures/BloodParticle.png", 1, []() { LoadingScreen(); });
+	Sprite::snowflaketexture.load("Textures/SnowFlake.png", 1, []() {LoadingScreen(); });
+	Sprite::flametexture.load("Textures/Flame.png", 1, []() {LoadingScreen(); });
+	Sprite::bloodflametexture.load("Textures/BloodFlame.png", 1, []() {LoadingScreen(); });
+	Sprite::smoketexture.load("Textures/Smoke.png", 1, []() {LoadingScreen(); });
+	Sprite::shinetexture.load("Textures/Shine.png", 1, []() {LoadingScreen(); });
+	Sprite::splintertexture.load("Textures/Splinter.png", 1, []() {LoadingScreen(); });
+	Sprite::leaftexture.load("Textures/Leaf.png", 1, []() {LoadingScreen(); });
+	Sprite::toothtexture.load("Textures/Tooth.png", 1, []() {LoadingScreen(); });
 
 	yaw = 0;
 	pitch = 0;
@@ -718,26 +718,26 @@ void Game::LoadStuff()
 	viewer.x = terrain.size / 2 * terrain.scale;
 	viewer.z = terrain.size / 2 * terrain.scale;
 
-	hawk.load("Models/Hawk.solid");
+	hawk.load("Models/Hawk.solid", []() { LoadingScreen(); });
 	hawk.Scale(.03, .03, .03);
 	hawk.Rotate(90, 1, 1);
-	hawk.CalculateNormals(0);
+	hawk.CalculateNormals(0, []() { LoadingScreen(); });
 	hawk.ScaleNormals(-1, -1, -1);
 	hawkcoords.x = terrain.size / 2 * terrain.scale - 5 - 7;
 	hawkcoords.z = terrain.size / 2 * terrain.scale - 5 - 7;
 	hawkcoords.y = terrain.getHeight(hawkcoords.x, hawkcoords.z) + 25;
 
-	eye.load("Models/Eye.solid");
+	eye.load("Models/Eye.solid", []() { Game::LoadingScreen(); });
 	eye.Scale(.03, .03, .03);
-	eye.CalculateNormals(0);
+	eye.CalculateNormals(0, []() { LoadingScreen(); });
 
-	cornea.load("Models/Cornea.solid");
+	cornea.load("Models/Cornea.solid", []() { Game::LoadingScreen(); });
 	cornea.Scale(.03, .03, .03);
-	cornea.CalculateNormals(0);
+	cornea.CalculateNormals(0, []() { Game::LoadingScreen(); });
 
-	iris.load("Models/Iris.solid");
+	iris.load("Models/Iris.solid", []() { Game::LoadingScreen(); });
 	iris.Scale(.03, .03, .03);
-	iris.CalculateNormals(0);
+	iris.CalculateNormals(0, []() { LoadingScreen(); });
 
 	LoadSave("Textures/WolfBloodFur.png", &PersonType::types[wolftype].bloodText[0]);
 	LoadSave("Textures/BloodFur.png", &PersonType::types[rabbittype].bloodText[0]);
@@ -748,7 +748,7 @@ void Game::LoadStuff()
 	mainmenu = 0;
 
 	//Fix knife stab, too lazy to do it manually
-	XYZ moveamount;
+	Vector3 moveamount;
 	moveamount = 0;
 	moveamount.z = 2;
 	// FIXME - Why this uses skeleton.joints.size() and not Animation::numjoints? (are they equal?)

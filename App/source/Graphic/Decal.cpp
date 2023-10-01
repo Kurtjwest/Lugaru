@@ -19,9 +19,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Graphic/Decal.hpp"
-
-#include "Environment/Terrain.hpp"
 #include "Graphic/Models.hpp"
+#include "Environment/Terrain.hpp"
 
 Decal::Decal()
     : position()
@@ -33,7 +32,7 @@ Decal::Decal()
 {
 }
 
-Decal::Decal(XYZ _position, decal_type _type, float _opacity, float _rotation, float _brightness, int whichx, int whichy, float size, const Terrain& terrain, bool first)
+Decal::Decal(Vector3 _position, decal_type _type, float _opacity, float _rotation, float _brightness, int whichx, int whichy, float size, const Terrain& terrain, bool first)
     : position(_position)
     , type(_type)
     , opacity(_opacity)
@@ -81,7 +80,7 @@ Decal::Decal(XYZ _position, decal_type _type, float _opacity, float _rotation, f
     vertex[2].z = placez;
     vertex[2].y = terrain.heightmap[whichx][whichy + 1] * terrain.scale + .01f;
 
-    XYZ rot;
+    Vector3 rot;
     if (rotation) {
         for (int i = 0; i < 3; i++) {
             rot.y = 0;
@@ -94,7 +93,7 @@ Decal::Decal(XYZ _position, decal_type _type, float _opacity, float _rotation, f
     }
 }
 
-Decal::Decal(XYZ _position, decal_type _type, float _opacity, float _rotation, float size, const Model& model, int i, int which)
+Decal::Decal(Vector3 _position, decal_type _type, float _opacity, float _rotation, float size, const Model& model, int i, int which)
     : position(_position)
     , type(_type)
     , opacity(_opacity)

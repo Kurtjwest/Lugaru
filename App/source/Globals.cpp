@@ -19,11 +19,13 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Graphic/Stereo.hpp"
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 #include "Objects/Weapons.hpp"
 
 #include <SDL.h>
 #include <string>
+
+// TODO GET RID OF ALL OF THESE!
 
 bool visibleloading = false;
 
@@ -50,8 +52,8 @@ float minscreenwidth = 640, minscreenheight = 480;
 float maxscreenwidth = 3000, maxscreenheight = 3000;
 bool fullscreen = 0;
 float viewdistance = 0;
-XYZ viewer;
-XYZ viewerfacing;
+Vector3 viewer;
+Vector3 viewerfacing;
 float fadestart = 0;
 int environment = 0;
 float texscale = 0;
@@ -91,7 +93,7 @@ bool showdamagebar = false;
 bool alwaysblur = false;
 bool immediate = false;
 bool velocityblur = false;
-XYZ windvector;
+Vector3 windvector;
 int mainmenu = 0;
 int whichjointstartarray[26] = { 0 };
 int whichjointendarray[26] = { 0 };
@@ -125,7 +127,7 @@ float skyboxlightb = 0;
 int hostile = 0;
 float hostiletime = 0;
 
-XYZ envsound[30];
+Vector3 envsound[30];
 float envsoundvol[30] = { 0 };
 float envsoundlife[30] = { 0 };
 int numenvsounds;

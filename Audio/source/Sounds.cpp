@@ -24,7 +24,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 struct OPENAL_SAMPLE* samp[sounds_count];
 
-extern XYZ envsound[30];
+extern Vector3 envsound[30];
 extern float envsoundvol[30];
 extern int numenvsounds;
 extern float envsoundlife[30];
@@ -35,7 +35,7 @@ int channels[100];
 
 static const char* sound_data[sounds_count] = {
 #define DECLARE_SOUND(id, filename) filename,
-#include "Sounds.def"
+#include "Audio/Sounds.def"
 #undef DECLARE_SOUND
 };
 
@@ -75,7 +75,7 @@ void loadAllSounds()
     }
 }
 
-void addEnvSound(XYZ coords, float vol, float life)
+void addEnvSound(Vector3 coords, float vol, float life)
 {
     envsound[numenvsounds] = coords;
     envsoundvol[numenvsounds] = vol;
@@ -83,7 +83,7 @@ void addEnvSound(XYZ coords, float vol, float life)
     numenvsounds++;
 }
 
-void emit_sound_at(int soundid, const XYZ& pos, int vol)
+void emit_sound_at(int soundid, const Vector3& pos, int vol)
 {
     PlaySoundEx(soundid, samp[soundid], NULL, true);
     OPENAL_3D_SetAttributes_(channels[soundid], pos);
@@ -98,7 +98,7 @@ void emit_sound_np(int soundid, int vol)
     OPENAL_SetPaused(channels[soundid], false);
 }
 
-void emit_stream_at(int soundid, const XYZ& pos, int vol)
+void emit_stream_at(int soundid, const Vector3& pos, int vol)
 {
     PlayStreamEx(soundid, samp[soundid], NULL, true);
     OPENAL_3D_SetAttributes_(channels[soundid], pos);

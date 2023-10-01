@@ -26,7 +26,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace Game;
 
-void DefaultSettings()
+Settings DefaultSettings()
 {
     detail = 2;
     ismotionblur = 1;
@@ -66,6 +66,8 @@ void DefaultSettings()
     consolekey = SDL_SCANCODE_GRAVE;
 
     newdetail = detail;
+
+    return Settings{};
 }
 
 void SaveSettings()

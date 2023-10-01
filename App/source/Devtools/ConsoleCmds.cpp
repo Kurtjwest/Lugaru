@@ -810,7 +810,7 @@ void ch_skytint(const char* args)
 
     SetUpLighting();
 
-    terrain.DoShadows();
+    terrain.DoShadows(Tutorial::active);
     Object::DoShadows();
 }
 
@@ -820,7 +820,7 @@ void ch_skylight(const char* args)
 
     SetUpLighting();
 
-    terrain.DoShadows();
+    terrain.DoShadows(Tutorial::active);
     Object::DoShadows();
 }
 
@@ -830,6 +830,6 @@ void ch_skybox(const char*)
 
     SetUpLighting();
 
-    terrain.DoShadows();
+    terrain.DoShadows(Tutorial::active);
     Object::DoShadows();
 }

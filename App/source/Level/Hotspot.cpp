@@ -30,7 +30,7 @@ Hotspot::Hotspot()
 {
 }
 
-Hotspot::Hotspot(XYZ p, int t, float s)
+Hotspot::Hotspot(Vector3 p, int t, float s)
     : position(p)
     , type(t)
     , size(s)

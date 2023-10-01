@@ -27,9 +27,11 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Graphic/Sprite.hpp"
 #include "Graphic/Texture.hpp"
 #include "Graphic/gamegl.hpp"
+
 #include "Math/Frustum.hpp"
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 #include "Utils/ImageIO.hpp"
+#include "Utils/Callbacks.h"
 
 #include <memory>
 #include <vector>
@@ -61,14 +63,14 @@ class Object
 {
 public:
     static std::vector<std::unique_ptr<Object>> objects;
-    static XYZ center;
+    static Vector3 center;
     static float radius;
     static Texture boxtextureptr;
     static Texture treetextureptr;
     static Texture bushtextureptr;
     static Texture rocktextureptr;
 
-    XYZ position;
+    Vector3 position;
     object_type type;
     float yaw;
     float pitch;
@@ -89,33 +91,33 @@ public:
     float flamedelay;
 
     Object();
-    Object(object_type _type, XYZ _position, float _yaw, float _pitch, float _scale);
-    Object(Json::Value, float);
+    Object(object_type _type, Vector3 _position, float _yaw, float _pitch, float _scale, ProgressCallback callback);
+    Object(Json::Value, float, ProgressCallback callback);
 
     static void ComputeCenter();
     static void ComputeRadius();
     static void AddObjectsToTerrain();
-    static void LoadObjectsFromFile(FILE* tfile, bool skip);
-    static void LoadObjectsFromJson(Json::Value);
-    static void SphereCheckPossible(XYZ* p1, float radius);
+    static void LoadObjectsFromFile(FILE* tfile, bool skip, ProgressCallback callback);
+    static void LoadObjectsFromJson(Json::Value, ProgressCallback callback);
+    static void SphereCheckPossible(Vector3* p1, float radius);
     static void DeleteObject(int which);
-    static void MakeObject(int atype, XYZ where, float ayaw, float apitch, float ascale);
+    static void MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, ProgressCallback callback);
     static void Draw();
     static void DoShadows();
     static void DoStuff();
-    static int checkcollide(XYZ startpoint, XYZ endpoint);
-    static int checkcollide(XYZ startpoint, XYZ endpoint, int what);
+    static int checkcollide(Vector3 startpoint, Vector3 endpoint);
+    static int checkcollide(Vector3 startpoint, Vector3 endpoint, int what);
 
     operator Json::Value();
 
 private:
     void handleFire();
     void handleRot(int divide);
-    void doShadows(XYZ lightloc);
+    void doShadows(Vector3 lightloc);
     void draw();
     void drawSecondPass();
     void addToTerrain(unsigned id);
-    static int checkcollide(XYZ startpoint, XYZ endpoint, int what, float minx, float miny, float minz, float maxx, float maxy, float maxz);
+    static int checkcollide(Vector3 startpoint, Vector3 endpoint, int what, float minx, float miny, float minz, float maxx, float maxy, float maxz);
 };
 
 #endif

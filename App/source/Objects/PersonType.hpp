@@ -22,7 +22,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Animation/Animation.hpp"
 #include "Audio/Sounds.hpp"
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 
 enum person_type
 {
@@ -34,7 +34,7 @@ class PersonType
 {
 public:
     // head, body, arms, legs
-    XYZ proportions[4];
+    Vector3 proportions[4];
     animation_type animRun;
     animation_type animRunning;
     animation_type animCrouch;

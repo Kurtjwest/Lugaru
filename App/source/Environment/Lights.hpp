@@ -22,7 +22,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #define _LIGHTS_HPP_
 
 #include "Graphic/gamegl.hpp"
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 
 class Light
 {
@@ -31,7 +31,7 @@ public:
     GLfloat color[3];
     GLfloat ambient[3];
     int attach;
-    XYZ location;
+    Vector3 location;
     inline void setColors(GLfloat cr, GLfloat cg, GLfloat cb,
                           GLfloat ar, GLfloat ag, GLfloat ab)
     {

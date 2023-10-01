@@ -20,12 +20,12 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SOUNDS_HPP_
 #define _SOUNDS_HPP_
 
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 
 enum sound_type
 {
 #define DECLARE_SOUND(id, filename) id,
-#include "Sounds.def"
+#include "Audio/Sounds.def"
 #undef DECLARE_SOUND
     sounds_count
 };
@@ -35,11 +35,11 @@ extern int channels[];
 
 extern void loadAllSounds();
 
-extern void addEnvSound(XYZ coords, float vol = 16.f, float life = .4f);
+extern void addEnvSound(Vector3 coords, float vol = 16.f, float life = .4f);
 
-extern void emit_sound_at(int soundid, const XYZ& pos = XYZ(), int vol = 255);
+extern void emit_sound_at(int soundid, const Vector3& pos = Vector3(), int vol = 255);
 extern void emit_sound_np(int soundid, int vol = 255);
-extern void emit_stream_at(int soundid, const XYZ& pos = XYZ(), int vol = 255);
+extern void emit_stream_at(int soundid, const Vector3& pos = Vector3(), int vol = 255);
 extern void emit_stream_np(int soundid, int vol = 255);
 extern void resume_stream(int soundid);
 extern void pause_sound(int soundid);

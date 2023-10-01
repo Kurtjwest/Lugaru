@@ -21,7 +21,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _OPENAL_WRAPPER_HPP_
 #define _OPENAL_WRAPPER_HPP_
 
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 #include "Platform/Platform.hpp"
 
 #ifdef __APPLE__
@@ -87,7 +87,7 @@ extern "C" {
 
 AL_API void OPENAL_3D_Listener_SetAttributes(const float* pos, const float* vel, float fx, float fy, float fz, float tx, float ty, float tz);
 AL_API signed char OPENAL_3D_SetAttributes(int channel, const float* pos);
-AL_API signed char OPENAL_3D_SetAttributes_(int channel, const XYZ& pos);
+AL_API signed char OPENAL_3D_SetAttributes_(int channel, const Vector3& pos);
 AL_API signed char OPENAL_Init(int mixrate, int maxsoftwarechannels, unsigned int flags, bool printInfo);
 AL_API void OPENAL_Close();
 AL_API OPENAL_SAMPLE* OPENAL_Sample_Load(int index, const char* name_or_data, unsigned int mode, int offset, int length);

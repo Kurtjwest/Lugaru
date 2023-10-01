@@ -18,9 +18,9 @@ You should have received a copy of the GNU General Public License
 along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 
-bool PointInTriangle(XYZ* p, XYZ normal, XYZ* p1, XYZ* p2, XYZ* p3)
+bool PointInTriangle(Vector3* p, Vector3 normal, Vector3* p1, Vector3* p2, Vector3* p3)
 {
     static float u0, u1, u2;
     static float v0, v1, v2;
@@ -102,11 +102,11 @@ bool PointInTriangle(XYZ* p, XYZ normal, XYZ* p1, XYZ* p2, XYZ* p3)
     return bInter;
 }
 
-bool LineFacet(XYZ p1, XYZ p2, XYZ pa, XYZ pb, XYZ pc, XYZ* p)
+bool LineFacet(Vector3 p1, Vector3 p2, Vector3 pa, Vector3 pb, Vector3 pc, Vector3* p)
 {
     static float d;
     static float denom, mu;
-    static XYZ n;
+    static Vector3 n;
 
     //Calculate the parameters for the plane
     n.x = (pb.y - pa.y) * (pc.z - pa.z) - (pb.z - pa.z) * (pc.y - pa.y);
@@ -135,11 +135,11 @@ bool LineFacet(XYZ p1, XYZ p2, XYZ pa, XYZ pb, XYZ pc, XYZ* p)
     return 1;
 }
 
-float LineFacetd(XYZ p1, XYZ p2, XYZ pa, XYZ pb, XYZ pc, XYZ* p)
+float LineFacetd(Vector3 p1, Vector3 p2, Vector3 pa, Vector3 pb, Vector3 pc, Vector3* p)
 {
     static float d;
     static float denom, mu;
-    static XYZ n;
+    static Vector3 n;
 
     //Calculate the parameters for the plane
     n.x = (pb.y - pa.y) * (pc.z - pa.z) - (pb.z - pa.z) * (pc.y - pa.y);
@@ -168,7 +168,7 @@ float LineFacetd(XYZ p1, XYZ p2, XYZ pa, XYZ pb, XYZ pc, XYZ* p)
     return 1;
 }
 
-float LineFacetd(XYZ p1, XYZ p2, XYZ pa, XYZ pb, XYZ pc, XYZ n, XYZ* p)
+float LineFacetd(Vector3 p1, Vector3 p2, Vector3 pa, Vector3 pb, Vector3 pc, Vector3 n, Vector3* p)
 {
     static float d;
     static float denom, mu;
@@ -195,11 +195,11 @@ float LineFacetd(XYZ p1, XYZ p2, XYZ pa, XYZ pb, XYZ pc, XYZ n, XYZ* p)
     return 1;
 }
 
-float LineFacetd(XYZ* p1, XYZ* p2, XYZ* pa, XYZ* pb, XYZ* pc, XYZ* p)
+float LineFacetd(Vector3* p1, Vector3* p2, Vector3* pa, Vector3* pb, Vector3* pc, Vector3* p)
 {
     static float d;
     static float denom, mu;
-    static XYZ n;
+    static Vector3 n;
 
     //Calculate the parameters for the plane
     n.x = (pb->y - pa->y) * (pc->z - pa->z) - (pb->z - pa->z) * (pc->y - pa->y);
@@ -227,7 +227,7 @@ float LineFacetd(XYZ* p1, XYZ* p2, XYZ* pa, XYZ* pb, XYZ* pc, XYZ* p)
     return 1;
 }
 
-float LineFacetd(XYZ* p1, XYZ* p2, XYZ* pa, XYZ* pb, XYZ* pc, XYZ* n, XYZ* p)
+float LineFacetd(Vector3* p1, Vector3* p2, Vector3* pa, Vector3* pb, Vector3* pc, Vector3* n, Vector3* p)
 {
     static float d;
     static float denom, mu;
@@ -254,7 +254,7 @@ float LineFacetd(XYZ* p1, XYZ* p2, XYZ* pa, XYZ* pb, XYZ* pc, XYZ* n, XYZ* p)
     return 1;
 }
 
-XYZ::operator Json::Value()
+Vector3::operator Json::Value()
 {
     Json::Value xyz;
 

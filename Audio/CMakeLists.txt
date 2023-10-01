@@ -1,4 +1,4 @@
-project(FoundationLib)
+project(AudioLib)
 
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS 
 	${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp
@@ -24,9 +24,10 @@ target_compile_definitions(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
-    PUBLIC JsonCpp::JsonCpp
-    PUBLIC PNG::PNG # should be private
-    PRIVATE JPEG::JPEG
+    PUBLIC FoundationLib
+    # TODO These should be private
+    PUBLIC OpenAL::OpenAL
+    PUBLIC vorbis::vorbis
 )
 
 target_include_directories(${PROJECT_NAME} 

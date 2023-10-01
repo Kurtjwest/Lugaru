@@ -23,8 +23,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Graphic/Texture.hpp"
 #include "Graphic/gamegl.hpp"
-#include "Math/XYZ.hpp"
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
+#include "Math/Vector3.hpp"
 #include "Utils/ImageIO.hpp"
 #include "Utils/Callbacks.h"
 
@@ -35,9 +35,9 @@ public:
 
     void load(const std::string& ffront, const std::string& fleft, const std::string& fback,
               const std::string& fright, const std::string& fup, const std::string& fdown, ProgressCallback callback);
-    void draw();
+    void draw(bool desertEnvironment);
 
-    SkyBox() {}
+    SkyBox() = default;
 };
 
 #endif

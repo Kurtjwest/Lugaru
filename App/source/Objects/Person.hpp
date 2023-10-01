@@ -27,7 +27,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Graphic/Models.hpp"
 #include "Graphic/Sprite.hpp"
 #include "Graphic/gamegl.hpp"
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 #include "Objects/PersonType.hpp"
 #include "Objects/Weapons.hpp"
 
@@ -90,14 +90,14 @@ public:
 
     int lastattack, lastattack2, lastattack3;
 
-    XYZ currentoffset, targetoffset, offset;
+    Vector3 currentoffset, targetoffset, offset;
     float target;
     float transspeed;
 
-    XYZ realoldcoords;
-    XYZ oldcoords;
-    XYZ coords;
-    XYZ velocity;
+    Vector3 realoldcoords;
+    Vector3 oldcoords;
+    Vector3 coords;
+    Vector3 velocity;
 
     float unconscioustime;
 
@@ -141,7 +141,7 @@ public:
 
     bool calcrot;
 
-    XYZ facing;
+    Vector3 facing;
 
     float bleeding;
     float bleedx, bleedy;
@@ -199,7 +199,7 @@ public:
     bool whichdirection;
     float whichdirectiondelay;
     bool avoidsomething;
-    XYZ avoidwhere;
+    Vector3 avoidwhere;
     float blooddimamount;
 
     float staggerdelay;
@@ -274,15 +274,15 @@ public:
     int weaponstuckwhere;
 
     int numwaypoints;
-    XYZ waypoints[90];
+    Vector3 waypoints[90];
     int waypointtype[90];
     float pausetime;
 
-    XYZ headtarget;
+    Vector3 headtarget;
     float interestdelay;
 
-    XYZ finalfinaltarget;
-    XYZ finaltarget;
+    Vector3 finalfinaltarget;
+    Vector3 finaltarget;
     int finalpathfindpoint;
     int targetpathfindpoint;
     int lastpathfindpoint;
@@ -292,7 +292,7 @@ public:
 
     int waypoint;
 
-    XYZ lastseen;
+    Vector3 lastseen;
     float lastseentime;
     float lastchecktime;
     float stunned;
@@ -323,14 +323,14 @@ public:
 
     // convenience functions
     inline Joint& joint(int bodypart) { return skeleton.joints[skeleton.jointlabels[bodypart]]; }
-    inline XYZ& jointPos(int bodypart) { return joint(bodypart).position; }
-    inline XYZ& jointVel(int bodypart) { return joint(bodypart).velocity; }
+    inline Vector3& jointPos(int bodypart) { return joint(bodypart).position; }
+    inline Vector3& jointVel(int bodypart) { return joint(bodypart).velocity; }
     inline AnimationFrame& currentFrame() { return Animation::animations.at(animCurrent).frames.at(frameCurrent); }
     inline AnimationFrame& targetFrame() { return Animation::animations.at(animTarget).frames.at(frameTarget); }
 
     void setProportions(float head, float body, float arms, float legs);
     float getProportion(int part) const;
-    XYZ getProportionXYZ(int part) const;
+    Vector3 getProportionXYZ(int part) const;
 
     void changeCreatureType(person_type type);
 
@@ -338,7 +338,7 @@ public:
     void CatchFire();
     void DoBlood(float howmuch, int which);
     void DoBloodBig(float howmuch, int which);
-    bool DoBloodBigWhere(float howmuch, int which, XYZ where);
+    bool DoBloodBigWhere(float howmuch, int which, Vector3 where);
 
     bool wasIdle() { return animation_bits[animCurrent] & ab_idle; }
     bool isIdle() { return animation_bits[animTarget] & ab_idle; }
@@ -386,7 +386,7 @@ public:
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, skeleton.skinsize, skeleton.skinsize, 0, GL_RGB, GL_UNSIGNED_BYTE, &skeleton.skinText[0]);
     }
 
-    int SphereCheck(XYZ* p1, float radius, XYZ* p, XYZ* move, float* rotate, Model* model);
+    int SphereCheck(Vector3* p1, float radius, Vector3* p, Vector3* move, float* rotate, Model* model);
     int DrawSkeleton();
     void Puff(int whichlabel);
     void FootLand(bodypart whichfoot, float opacity);

@@ -21,7 +21,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _DIALOG_HPP_
 #define _DIALOG_HPP_
 
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 
 #include <stdio.h>
 #include <fstream>
@@ -42,12 +42,12 @@ public:
     int sound;
     std::string text;
     std::string name;
-    XYZ camera;
+    Vector3 camera;
     float camerayaw;
     float camerapitch;
     int participantfocus;
     int participantaction;
-    XYZ participantfacing[10];
+    Vector3 participantfacing[10];
     operator Json::Value() {return save();}
 };
 
@@ -65,7 +65,7 @@ public:
     int type;
     int gonethrough;
     std::vector<DialogScene> scenes;
-    XYZ participantlocation[10];
+    Vector3 participantlocation[10];
     float participantyaw[10];
 
     static void loadDialogs(FILE*);

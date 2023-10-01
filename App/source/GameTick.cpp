@@ -62,7 +62,7 @@ using namespace Game;
 #endif
 
 extern float multiplier;
-extern XYZ viewer;
+extern Vector3 viewer;
 extern int environment;
 extern Terrain terrain;
 extern float screenwidth, screenheight;
@@ -84,18 +84,18 @@ extern int bloodtoggle;
 extern bool invertmouse;
 extern float windvar;
 extern float precipdelay;
-extern XYZ viewerfacing;
+extern Vector3 viewerfacing;
 extern bool ambientsound;
 extern bool mousejump;
 extern float viewdistance;
 extern bool freeze;
-extern XYZ windvector;
+extern Vector3 windvector;
 extern bool devtools;
 int leveltheme;
 extern int mainmenu;
 extern int oldmainmenu;
 extern bool visibleloading;
-extern XYZ envsound[30];
+extern Vector3 envsound[30];
 extern float envsoundvol[30];
 extern int numenvsounds;
 extern float envsoundlife[30];
@@ -141,7 +141,7 @@ int whichchoice = 0;
 bool winhotspot = false;
 bool windialogue = false;
 bool realthreat = 0;
-XYZ cameraloc;
+Vector3 cameraloc;
 float cameradist = 0;
 bool oldattackkey = 0;
 int whichlevel = 0;
@@ -155,7 +155,7 @@ STATIC_ASSERT(rabbittype == 0 && wolftype == 1)
 // utility functions
 
 // TODO: this is slightly incorrect
-float roughDirection(XYZ vec)
+float roughDirection(Vector3 vec)
 {
 	Normalise(&vec);
 	float angle = -asin(-vec.x) * 180 / M_PI;
@@ -164,16 +164,16 @@ float roughDirection(XYZ vec)
 	}
 	return angle;
 }
-float roughDirectionTo(XYZ start, XYZ end)
+float roughDirectionTo(Vector3 start, Vector3 end)
 {
 	return roughDirection(end - start);
 }
-inline float pitchOf(XYZ vec)
+inline float pitchOf(Vector3 vec)
 {
 	Normalise(&vec);
 	return -asin(vec.y) * 180 / M_PI;
 }
-float pitchTo(XYZ start, XYZ end)
+float pitchTo(Vector3 start, Vector3 end)
 {
 	return pitchOf(end - start);
 }
@@ -196,7 +196,7 @@ inline float stepTowardf(float from, float to, float by)
 
 void Game::playdialoguescenesound()
 {
-	XYZ temppos;
+	Vector3 temppos;
 	temppos = Person::players.at(Dialog::currentScene().participantfocus)->coords;
 	temppos = temppos - viewer;
 	Normalise(&temppos);
@@ -745,7 +745,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 	}
 	oldenvironment = environment;
 
-	Object::LoadObjectsFromFile(tfile, stealthloading);
+	Object::LoadObjectsFromFile(tfile, stealthloading, []() {Game::LoadingScreen(); });
 
 	if (mapvers >= 7) {
 		int numhotspots;
@@ -819,7 +819,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 
 	if (!stealthloading) {
 		Object::AddObjectsToTerrain();
-		terrain.DoShadows();
+		terrain.DoShadows(Tutorial::active);
 		Game::LoadingScreen();
 		Object::DoShadows();
 		Game::LoadingScreen();
@@ -921,11 +921,11 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 	Person::players[0]->aitype = playercontrolled;
 
 	if (difficulty == 1) {
-		Person::players[0]->power = 10 / .9;
+		Person::players[0]->power = 1 / .9;
 		Person::players[0]->damagetolerance = 250;
 	}
 	else if (difficulty == 0) {
-		Person::players[0]->power = 10 / .8;
+		Person::players[0]->power = 1 / .8;
 		Person::players[0]->damagetolerance = 300;
 		Person::players[0]->armorhead *= 1.5;
 		Person::players[0]->armorhigh *= 1.5;
@@ -1051,7 +1051,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 	oldenvironment = environment;
 
 	if (!stealthloading) {
-		Object::LoadObjectsFromJson(map_data["map"]["objects"]);
+		Object::LoadObjectsFromJson(map_data["map"]["objects"], []() {Game::LoadingScreen(); });
 	}
 
 	Hotspot::hotspots.resize(map_data["map"]["hotspots"].size());
@@ -1075,7 +1075,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 		cout << "Warning: this level contains more players than allowed" << endl;
 	}
 
-	XYZ playerCoords;
+	Vector3 playerCoords;
 	float playerYaw;
 	float playerTargetYaw;
 	if (stealthloading) {
@@ -1121,7 +1121,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 
 	if (!stealthloading) {
 		Object::AddObjectsToTerrain();
-		terrain.DoShadows();
+		terrain.DoShadows(Tutorial::active);
 		Game::LoadingScreen();
 		Object::DoShadows();
 		Game::LoadingScreen();
@@ -1508,8 +1508,8 @@ void Game::ProcessDevInput()
 		if (Input::isKeyPressed(SDL_SCANCODE_I) && !Input::isKeyDown(SDL_SCANCODE_LSHIFT)) {
 			int closest = findClosestPlayer();
 			if (closest > 0 && distsq(&Person::players[closest]->coords, &Person::players[0]->coords) < 144) {
-				XYZ flatfacing2, flatvelocity2, flatvelocity2_orig;
-				XYZ headspurtdirection;
+				Vector3 flatfacing2, flatvelocity2, flatvelocity2_orig;
+				Vector3 headspurtdirection;
 				Joint& headjoint = Person::players[closest]->joint(head);
 
 				if (!Person::players[closest]->skeleton.free) {
@@ -1562,7 +1562,7 @@ void Game::ProcessDevInput()
 		if (Input::isKeyPressed(SDL_SCANCODE_I) && Input::isKeyDown(SDL_SCANCODE_LSHIFT)) {
 			int closest = findClosestPlayer();
 			if (closest >= 0 && distsq(&Person::players[closest]->coords, &Person::players[0]->coords) < 144) {
-				XYZ flatfacing2, flatvelocity2, flatvelocity2_orig;
+				Vector3 flatfacing2, flatvelocity2, flatvelocity2_orig;
 
 				emit_sound_at(splattersound, Person::players[closest]->coords);
 				emit_sound_at(breaksound2, Person::players[closest]->coords);
@@ -1619,7 +1619,7 @@ void Game::ProcessDevInput()
 					Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2 * 2, 1, 1, 1, .4, 1);
 				}
 
-				XYZ temppos;
+				Vector3 temppos;
 				for (unsigned j = 0; j < Person::players.size(); j++) {
 					if (int(j) == closest) {
 						continue;
@@ -1686,7 +1686,7 @@ void Game::ProcessDevInput()
 		/* Add object */
 		if (Input::isKeyPressed(SDL_SCANCODE_O)) {
 			if (Object::objects.size() < max_objects - 1) {
-				XYZ scenecoords = Person::players[0]->coords;
+				Vector3 scenecoords = Person::players[0]->coords;
 				scenecoords.y -= 3;
 				if (editortype == bushtype || editortype == firetype) {
 					scenecoords.y -= 3.5;
@@ -1705,9 +1705,9 @@ void Game::ProcessDevInput()
 					tmppitch = rand() % 360;
 				}
 
-				Object::MakeObject(editortype, scenecoords, (int)tmpyaw - ((int)tmpyaw) % 30, (int)tmppitch, editorsize);
+				Object::MakeObject(editortype, scenecoords, (int)tmpyaw - ((int)tmpyaw) % 30, (int)tmppitch, editorsize, []() {Game::LoadingScreen(); });
 				if (editortype == treetrunktype) {
-					Object::MakeObject(treeleavestype, scenecoords, rand() % 360 * (tmppitch < 2) + (int)editoryaw - ((int)editoryaw) % 30, editorpitch, editorsize);
+					Object::MakeObject(treeleavestype, scenecoords, rand() % 360 * (tmppitch < 2) + (int)editoryaw - ((int)editoryaw) % 30, editorpitch, editorsize, []() {Game::LoadingScreen(); });
 				}
 			}
 		}
@@ -2030,7 +2030,7 @@ void doJumpReversals()
 
 void doAerialAcrobatics()
 {
-	static XYZ facing, flatfacing;
+	static Vector3 facing, flatfacing;
 	for (unsigned k = 0; k < Person::players.size(); k++) {
 		Person::players[k]->turnspeed = 500;
 
@@ -2075,7 +2075,7 @@ void doAerialAcrobatics()
 			!Person::players[k]->skeleton.free &&
 			Person::players[k]->animTarget != climbanim &&
 			Person::players[k]->animTarget != hanganim) {
-			XYZ lowpoint, lowpointtarget, lowpoint2, lowpointtarget2, lowpoint3, lowpointtarget3, lowpoint4, lowpointtarget4, lowpoint5, lowpointtarget5, lowpoint6, lowpointtarget6, lowpoint7, lowpointtarget7, colpoint, colpoint2;
+			Vector3 lowpoint, lowpointtarget, lowpoint2, lowpointtarget2, lowpoint3, lowpointtarget3, lowpoint4, lowpointtarget4, lowpoint5, lowpointtarget5, lowpoint6, lowpointtarget6, lowpoint7, lowpointtarget7, colpoint, colpoint2;
 			int whichhit;
 			bool tempcollide = 0;
 
@@ -2123,7 +2123,7 @@ void doAerialAcrobatics()
 							!Person::players[k]->jumptogglekeydown &&
 							Person::players[k]->jumpkeydown) {
 							lowpointtarget = lowpoint + DoRotation(Person::players[k]->facing, 0, -90, 0) * 1.5;
-							XYZ tempcoords1 = lowpoint;
+							Vector3 tempcoords1 = lowpoint;
 							whichhit = Object::objects[i]->model.LineCheck(&lowpoint, &lowpointtarget, &colpoint, &Object::objects[i]->position, &Object::objects[i]->yaw);
 							if (whichhit != -1 && fabs(Object::objects[i]->model.Triangles[whichhit].facenormal.y) < .3) {
 								Person::players[k]->setTargetAnimation(walljumpleftanim);
@@ -2924,7 +2924,7 @@ void doAttacks()
 									Person::players[k]->frameTarget = 0;
 									Person::players[k]->target = 0;
 
-									XYZ targetpoint = Person::players[i]->coords;
+									Vector3 targetpoint = Person::players[i]->coords;
 									if (Person::players[k]->animTarget == crouchstabanim ||
 										Person::players[k]->animTarget == swordgroundstabanim ||
 										Person::players[k]->animTarget == staffgroundsmashanim) {
@@ -3021,7 +3021,7 @@ void doAttacks()
 
 void doPlayerCollisions()
 {
-	static XYZ rotatetarget;
+	static Vector3 rotatetarget;
 	static float collisionradius;
 	if (Person::players.size() > 1) {
 		for (unsigned k = 0; k < Person::players.size(); k++) {
@@ -3068,8 +3068,8 @@ void doPlayerCollisions()
 																}
 															}
 
-															XYZ tempcoords1 = Person::players[i]->coords;
-															XYZ tempcoords2 = Person::players[k]->coords;
+															Vector3 tempcoords1 = Person::players[i]->coords;
+															Vector3 tempcoords2 = Person::players[k]->coords;
 															if (!Person::players[i]->skeleton.oldfree) {
 																tempcoords1.y += Person::players[i]->jointPos(abdomen).y * Person::players[i]->scale;
 															}
@@ -3250,7 +3250,7 @@ void doPlayerCollisions()
 
 void Game::Tick()
 {
-	static XYZ facing, flatfacing;
+	static Vector3 facing, flatfacing;
 	static int target;
 
 	/* Pump SDL input events and process non-gameplay related ones */
@@ -3365,7 +3365,7 @@ void Game::Tick()
 			//hotspots
 			static float hotspotvisual[40];
 			if (Hotspot::hotspots.size()) {
-				XYZ hotspotsprite;
+				Vector3 hotspotsprite;
 				if (editorenabled) {
 					for (unsigned i = 0; i < Hotspot::hotspots.size(); i++) {
 						hotspotvisual[i] -= multiplier / 320;
@@ -3442,7 +3442,7 @@ void Game::Tick()
 					if (!detail) {
 						precipdelay += .04;
 					}
-					XYZ footvel, footpoint;
+					Vector3 footvel, footpoint;
 
 					footvel = 0;
 					footpoint = viewer + viewerfacing * 6;
@@ -3455,7 +3455,7 @@ void Game::Tick()
 
 			doAerialAcrobatics();
 
-			static XYZ oldviewer;
+			static Vector3 oldviewer;
 
 			//control keys
 			if (!Dialog::inDialog()) {
@@ -4074,11 +4074,11 @@ void Game::Tick()
 																	Person::players[i]->victim->skeleton.joints[l].locked = 0;
 																}
 
-																XYZ relative;
+																Vector3 relative;
 																relative = 0;
 																relative.y = 10;
 																Normalise(&relative);
-																XYZ footvel, footpoint;
+																Vector3 footvel, footpoint;
 																footvel = 0;
 																footpoint = weapons[k].position;
 																if (Person::players[i]->victim->weaponstuck != -1) {
@@ -4147,7 +4147,7 @@ void Game::Tick()
 																if (Person::players[i]->hasWeapon()) {
 																	Person::players[i]->throwtogglekeydown = 1;
 																	Person::players[i]->victim = Person::players[j];
-																	XYZ aim;
+																	Vector3 aim;
 																	aim = Person::players[i]->victim->coords + DoRotation(Person::players[i]->victim->jointPos(abdomen), 0, Person::players[i]->victim->yaw, 0) * Person::players[i]->victim->scale + Person::players[i]->victim->velocity * findDistance(&Person::players[i]->victim->coords, &Person::players[i]->coords) / 50 - (Person::players[i]->coords + DoRotation(Person::players[i]->jointPos(righthand), 0, Person::players[i]->yaw, 0) * Person::players[i]->scale);
 																	Normalise(&aim);
 
@@ -4173,7 +4173,7 @@ void Game::Tick()
 						if (Person::players[i]->hasWeapon() && Person::players[i]->isPlayerControlled()) {
 							if (Person::players[i]->isCrouch() || Person::players[i]->animTarget == sneakanim) {
 								Person::players[i]->throwtogglekeydown = 1;
-								XYZ tempVelocity = Person::players[i]->velocity * .2;
+								Vector3 tempVelocity = Person::players[i]->velocity * .2;
 								if (tempVelocity.x == 0) {
 									tempVelocity.x = .1;
 								}
@@ -4254,7 +4254,7 @@ void Game::Tick()
 						Person::players[i]->drawtogglekeydown = 0;
 					}
 
-					XYZ absflatfacing;
+					Vector3 absflatfacing;
 					if (i == 0) {
 						absflatfacing = 0;
 						absflatfacing.z = -1;
@@ -4738,7 +4738,7 @@ void Game::Tick()
 			vel[2] = (viewer.z - oldviewer.z) / multiplier;
 
 			//Set orientation with forward and up vectors
-			static XYZ upvector;
+			static Vector3 upvector;
 			upvector = 0;
 			upvector.z = -1;
 
@@ -4791,11 +4791,11 @@ void Game::TickOnce()
 
 void Game::TickOnceAfter()
 {
-	static XYZ colviewer;
-	static XYZ coltarget;
-	static XYZ target;
-	static XYZ col;
-	static XYZ facing;
+	static Vector3 colviewer;
+	static Vector3 coltarget;
+	static Vector3 target;
+	static Vector3 col;
+	static Vector3 facing;
 	static float changedelay;
 	static bool alldead;
 	static float unseendelay;

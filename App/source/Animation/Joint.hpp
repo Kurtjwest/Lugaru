@@ -21,7 +21,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _JOINT_HPP_
 #define _JOINT_HPP_
 
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 
 #include <vector>
 
@@ -52,12 +52,12 @@ enum bodypart
 class Joint
 {
 public:
-    XYZ position;
-    XYZ oldposition;
-    XYZ realoldposition;
-    XYZ velocity;
-    XYZ oldvelocity;
-    XYZ startpos;
+    Vector3 position;
+    Vector3 oldposition;
+    Vector3 realoldposition;
+    Vector3 velocity;
+    Vector3 oldvelocity;
+    Vector3 startpos;
     float blurred;
     float length;
     float mass;
@@ -71,7 +71,7 @@ public:
     bodypart label;
     int hasgun;
     float delay;
-    XYZ velchange;
+    Vector3 velchange;
 
     Joint();
     void load(FILE* tfile, std::vector<Joint>& joints);

@@ -23,7 +23,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Game.hpp"
 #include "Objects/Person.hpp"
 
-extern XYZ viewer;
+extern Vector3 viewer;
 extern float viewdistance;
 extern float fadestart;
 extern int environment;
@@ -33,9 +33,9 @@ extern float multiplier;
 extern float gravity;
 extern Terrain terrain;
 extern int detail;
-extern XYZ viewerfacing;
+extern Vector3 viewerfacing;
 extern int bloodtoggle;
-extern XYZ windvector;
+extern Vector3 windvector;
 
 // init statics
 Texture Sprite::cloudtexture;
@@ -59,19 +59,19 @@ void Sprite::Draw()
 {
 	int k;
 	static float M[16];
-	static XYZ point;
+	static Vector3 point;
 	static float distancemult;
 	static int lasttype;
 	static int lastspecial;
 	static int whichpatchx, whichpatchz;
-	static XYZ start, end, colpoint;
+	static Vector3 start, end, colpoint;
 	static bool check;
 	static bool blend;
 	static float tempmult;
-	static XYZ difference;
+	static Vector3 difference;
 	static float lightcolor[3];
 	static float viewdistsquared = viewdistance * viewdistance;
-	static XYZ tempviewer;
+	static Vector3 tempviewer;
 
 	tempviewer = viewer + viewerfacing * 6;
 	check = 0;
@@ -320,7 +320,7 @@ void Sprite::Draw()
 				sprites[i]->velocity = 0;
 			}
 			else {
-				XYZ slowdown;
+				Vector3 slowdown;
 				slowdown = sprites[i]->velocity * -1;
 				Normalise(&slowdown);
 				slowdown *= multiplier;
@@ -357,7 +357,7 @@ void Sprite::Draw()
 			sprites[i]->rotation += multiplier * 100;
 			sprites[i]->velocity.y += gravity * multiplier;
 			if (check) {
-				XYZ where, startpoint, endpoint, movepoint, footpoint;
+				Vector3 where, startpoint, endpoint, movepoint, footpoint;
 				float rotationpoint;
 				int whichtri;
 
@@ -479,7 +479,7 @@ void Sprite::DeleteSprite(int i)
 	sprites.erase(sprites.begin() + i);
 }
 
-void Sprite::MakeSprite(int atype, XYZ where, XYZ avelocity, float red, float green, float blue, float asize, float aopacity)
+void Sprite::MakeSprite(int atype, Vector3 where, Vector3 avelocity, float red, float green, float blue, float asize, float aopacity)
 {
 	if (sprites.size() < max_sprites - 1) {
 		sprites.push_back(std::unique_ptr<Sprite>(new Sprite()));

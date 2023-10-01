@@ -26,7 +26,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Graphic/Texture.hpp"
 #include "Graphic/gamegl.hpp"
 #include "Math/Frustum.hpp"
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 #include "Objects/Object.hpp"
 #include "Utils/ImageIO.hpp"
 
@@ -53,9 +53,9 @@ enum
 class Sprite
 {
 private:
-    XYZ oldposition;
-    XYZ position;
-    XYZ velocity;
+    Vector3 oldposition;
+    Vector3 position;
+    Vector3 velocity;
     float size;
     float initialsize;
     int type;
@@ -73,7 +73,7 @@ private:
 
 public:
     static void DeleteSprite(int which);
-    static void MakeSprite(int atype, XYZ where, XYZ avelocity, float red, float green, float blue, float asize, float aopacity);
+    static void MakeSprite(int atype, Vector3 where, Vector3 avelocity, float red, float green, float blue, float asize, float aopacity);
     static void Draw();
     static void deleteSprites()
     {

@@ -37,3 +37,26 @@ On Linux use
 cmake --build build/Debug
 cmake --build build/Release
 ```
+
+## Design
+
+The game follows a layered design where a layer can access any layer below but not on the same level.
+```
+      App
+---------------
+     Audio
+---------------
+   Foundation
+```
+
+Dependencies
+```
+Animation -> Graphics
+          -> Objects
+          -> Audio
+          -> Foundation
+
+Environment -> Graphics
+            -> Foundation
+```
+       

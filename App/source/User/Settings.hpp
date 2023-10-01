@@ -21,8 +21,44 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SETTINGS_HPP_
 #define _SETTINGS_HPP_
 
-#include "Game.hpp"
+struct Settings
+{
+	float usermousesensitivity = 0.f;
+	bool ismotionblur = false;
+	bool floatjump = false;
+	bool mousejump = false;
+	bool ambientsound = false;
+	int bloodtoggle = 0;
+	bool autoslomo = false;
+	bool foliage = false;
+	bool musictoggle = false;
+	bool trilinear = false;
+	bool decalstoggle = false;
+	bool invertmouse = false;
+	float gamespeed = 0.f;
+	float oldgamespeed = 0.f;
+	bool damageeffects = false;
+	bool texttoggle = false;
+	bool devtools = false;
+	bool showpoints = false;
+	bool showdamagebar = false;
+	bool alwaysblur = false;
+	bool immediate = false;
+	bool velocityblur = false;
+	float volume = 0.f;
+	int detail = 0;
+	int kContextWidth = 0;
+	int kContextHeight = 0;
+	float screenwidth = 0.f;
+	float screenheight = 0.f;
+	bool fullscreen = false;
+	float minscreenwidth = 0.f;
+	float minscreenheight = 0.f;
+	float maxscreenwidth = 0.f;
+	float maxscreenheight = 0.f;
+};
 
+// TODO Get rid of gLobals
 extern float usermousesensitivity;
 extern bool ismotionblur;
 extern bool floatjump;
@@ -54,7 +90,7 @@ extern bool fullscreen;
 extern float minscreenwidth, minscreenheight;
 extern float maxscreenwidth, maxscreenheight;
 
-void DefaultSettings();
+Settings DefaultSettings();
 void SaveSettings();
 bool LoadSettings();
 

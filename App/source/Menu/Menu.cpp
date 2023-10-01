@@ -255,16 +255,16 @@ void Menu::drawItems()
                 Game::text->glPrintOutlined(0.9, 0, 0, 1, it->x, it->y, it->text.c_str(), 0, 0.6, 640, 480);
                 break;
             case MenuItem::MAPLINE: {
-                XYZ linestart;
+                Vector3 linestart;
                 linestart.x = it->x;
                 linestart.y = it->y;
                 linestart.z = 0;
-                XYZ lineend;
+                Vector3 lineend;
                 lineend.x = it->x + it->w;
                 lineend.y = it->y + it->h;
                 lineend.z = 0;
-                XYZ offset = lineend - linestart;
-                XYZ fac = offset;
+                Vector3 offset = lineend - linestart;
+                Vector3 fac = offset;
                 Normalise(&fac);
                 offset = DoRotation(offset, 0, 0, 90);
                 Normalise(&offset);
@@ -434,7 +434,7 @@ void Menu::Load()
             int numlevels = Account::active().getCampaignChoicesMade();
             numlevels += numlevels > 0 ? campaignlevels[numlevels - 1].nextlevel.size() : 1;
             for (int i = 0; i < numlevels; i++) {
-                XYZ midpoint = campaignlevels[i].getCenter();
+                Vector3 midpoint = campaignlevels[i].getCenter();
                 float itemsize = campaignlevels[i].getWidth();
                 const bool active = (i >= Account::active().getCampaignChoicesMade());
                 if (!active) {
@@ -442,7 +442,7 @@ void Menu::Load()
                 }
 
                 if (i >= 1) {
-                    XYZ start = campaignlevels[i - 1].getCenter();
+                    Vector3 start = campaignlevels[i - 1].getCenter();
                     addMapLine(start.x, start.y, midpoint.x - start.x, midpoint.y - start.y, 0.5, active ? 1 : 0.5, active ? 1 : 0.5, 0, 0);
                 }
                 addMapMarker(NB_CAMPAIGN_MENU_ITEM + i, Mapcircletexture,

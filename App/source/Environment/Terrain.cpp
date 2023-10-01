@@ -22,10 +22,10 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Game.hpp"
 #include "Objects/Object.hpp"
-#include "Tutorial.hpp"
+//#include "Tutorial.hpp"
 #include "Utils/Folders.hpp"
 
-extern XYZ viewer;
+extern Vector3 viewer;
 extern float viewdistance;
 extern float fadestart;
 extern int environment;
@@ -42,14 +42,14 @@ extern bool skyboxtexture;
 
 //Functions
 
-int Terrain::lineTerrain(XYZ p1, XYZ p2, XYZ* p)
+int Terrain::lineTerrain(Vector3 p1, Vector3 p2, Vector3* p)
 {
 	static int i, j, k;
 	static float distance;
 	static float olddistance;
 	static int intersecting;
 	static int firstintersecting;
-	static XYZ point;
+	static Vector3 point;
 	static int startx, starty;
 	static int endx, endy;
 	static float highest, lowest;
@@ -58,7 +58,7 @@ int Terrain::lineTerrain(XYZ p1, XYZ p2, XYZ* p)
 	olddistance = 10000;
 	distance = 1;
 
-	XYZ triangles[3];
+	Vector3 triangles[3];
 
 	p1 /= scale;
 	p2 /= scale;
@@ -158,7 +158,7 @@ int Terrain::lineTerrain(XYZ p1, XYZ p2, XYZ* p)
 
 void Terrain::UpdateTransparency(int whichx, int whichy)
 {
-	static XYZ vertex;
+	static Vector3 vertex;
 	static int i, j, a, b, c, d, patch_size, stepsize;
 	static float distance;
 
@@ -236,7 +236,7 @@ void Terrain::UpdateTransparencyother(int whichx, int whichy)
 
 void Terrain::UpdateTransparencyotherother(int whichx, int whichy)
 {
-	static XYZ vertex;
+	static Vector3 vertex;
 	static int i, j, a, b, c, d, patch_size, stepsize;
 	static float distance;
 
@@ -692,8 +692,8 @@ bool Terrain::load(const std::string& fileName)
 void Terrain::CalculateNormals()
 {
 	static int i, j;
-	static XYZ facenormal;
-	static XYZ p, q, a, b, c;
+	static Vector3 facenormal;
+	static Vector3 p, q, a, b, c;
 
 	for (i = 0; i < size; i++) {
 		for (j = 0; j < size; j++) {
@@ -848,10 +848,10 @@ void Terrain::drawpatchotherother(int whichx, int whichy)
 	glMatrixMode(GL_MODELVIEW);
 }
 
-float Terrain::getHeight(float pointx, float pointz)
+float Terrain::getHeight(float pointx, float pointz) const
 {
 	static int tilex, tiley;
-	static XYZ startpoint, endpoint, intersect, triangle[3];
+	static Vector3 startpoint, endpoint, intersect, triangle[3];
 
 	pointx /= scale;
 	pointz /= scale;
@@ -899,7 +899,7 @@ float Terrain::getHeight(float pointx, float pointz)
 	return intersect.y * scale + getOpacity(pointx * scale, pointz * scale) / 8;
 }
 
-float Terrain::getOpacity(float pointx, float pointz)
+float Terrain::getOpacity(float pointx, float pointz) const
 {
 	static float height1, height2;
 	static int tilex, tiley;
@@ -920,9 +920,9 @@ float Terrain::getOpacity(float pointx, float pointz)
 	return height1 * (1 - (pointz - tiley)) + height2 * (pointz - tiley);
 }
 
-XYZ Terrain::getNormal(float pointx, float pointz)
+Vector3 Terrain::getNormal(float pointx, float pointz) const
 {
-	static XYZ height1, height2, total;
+	static Vector3 height1, height2, total;
 	static int tilex, tiley;
 
 	pointx /= scale;
@@ -942,9 +942,9 @@ XYZ Terrain::getNormal(float pointx, float pointz)
 	return total;
 }
 
-XYZ Terrain::getLighting(float pointx, float pointz)
+Vector3 Terrain::getLighting(float pointx, float pointz) const
 {
-	static XYZ height1, height2;
+	static Vector3 height1, height2;
 	static int tilex, tiley;
 
 	pointx /= scale;
@@ -971,7 +971,7 @@ void Terrain::draw(int layer)
 {
 	static int i, j;
 	static float opacity;
-	static XYZ terrainpoint;
+	static Vector3 terrainpoint;
 	static float distance[subdivision][subdivision];
 
 	static int beginx, endx;
@@ -1218,9 +1218,9 @@ void Terrain::deleteDeadDecals()
 	}
 }
 
-void Terrain::AddObject(XYZ where, float radius, int id)
+void Terrain::AddObject(Vector3 where, float radius, int id)
 {
-	XYZ points[2];
+	Vector3 points[2];
 	if (id >= 0 && id < 10000) {
 		for (int i = 0; i < subdivision; i++) {
 			for (int j = 0; j < subdivision; j++) {
@@ -1270,12 +1270,12 @@ void Terrain::DeleteDecal(int which)
 	}
 }
 
-void Terrain::MakeDecal(decal_type type, XYZ where, float size, float opacity, float rotation)
+void Terrain::MakeDecal(decal_type type, Vector3 where, float size, float opacity, float rotation)
 {
 	if (decalstoggle) {
 		if (opacity > 0 && size > 0) {
-			static int patchx[4];
-			static int patchy[4];
+			int patchx[4];
+			int patchy[4];
 
 			patchx[0] = (where.x + size) / scale;
 			patchx[1] = (where.x - size) / scale;
@@ -1304,10 +1304,10 @@ void Terrain::MakeDecal(decal_type type, XYZ where, float size, float opacity, f
 	}
 }
 
-void Terrain::MakeDecalLock(decal_type type, XYZ where, int whichx, int whichy, float size, float opacity, float rotation)
+void Terrain::MakeDecalLock(decal_type type, Vector3 where, int whichx, int whichy, float size, float opacity, float rotation)
 {
 	if (decalstoggle) {
-		XYZ rot = getLighting(where.x, where.z);
+		Vector3 rot = getLighting(where.x, where.z);
 		float decalbright = (rot.x + rot.y + rot.z) / 3;
 
 		if (decalbright < .4) {
@@ -1352,15 +1352,15 @@ void Terrain::MakeDecalLock(decal_type type, XYZ where, int whichx, int whichy, 
 	}
 }
 
-void Terrain::DoShadows()
+void Terrain::DoShadows(bool tutorialActive)
 {
-	static XYZ testpoint, testpoint2, terrainpoint, lightloc, col;
+	static Vector3 testpoint, testpoint2, terrainpoint, lightloc, col;
 	lightloc = light.location;
 	if (!skyboxtexture) {
 		lightloc.x = 0;
 		lightloc.z = 0;
 	}
-	if (skyboxtexture && Tutorial::active) {
+	if (skyboxtexture && tutorialActive) {
 		lightloc.x *= .4;
 		lightloc.z *= .4;
 	}
@@ -1480,6 +1480,14 @@ void Terrain::DoShadows()
 			UpdateVertexArray(i, j);
 		}
 	}
+}
+
+float Terrain::getHeightByTile(int x, int y) const
+{
+	if (x + 1 < 0) return 0.f;
+	if (y < 0) return 0.f;
+
+	return heightmap[x + 1][y] * scale + .01f;
 }
 
 Terrain::Terrain()

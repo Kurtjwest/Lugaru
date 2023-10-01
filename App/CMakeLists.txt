@@ -21,13 +21,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 target_link_libraries (${PROJECT_NAME}
     PRIVATE OpenGL::GL
-    PRIVATE OpenAL::OpenAL
     PRIVATE SDL2::SDL2
-    PRIVATE vorbis::vorbis
     PRIVATE glext::glext
     PRIVATE glu::glu
 
-	PRIVATE FoundationLib
+	PRIVATE AudioLib
 )
 
 target_compile_definitions(${PROJECT_NAME} 

@@ -25,7 +25,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Animation/Animation.hpp"
 #include "Audio/Sounds.hpp"
 #include "Audio/openal_wrapper.hpp"
-#include "Game.hpp"
+//#include "Game.hpp"
 #include "Level/Awards.hpp"
 #include "Tutorial.hpp"
 
@@ -35,7 +35,7 @@ extern float gravity;
 extern int environment;
 extern int detail;
 extern Frustum frustum;
-extern XYZ viewer;
+extern Vector3 viewer;
 extern float realmultiplier;
 extern int slomo;
 extern float slomodelay;
@@ -98,59 +98,59 @@ void Weapon::setType(int t)
 }
 
 /* Load weapons models and textures */
-void Weapon::Load()
+void Weapon::Load(ProgressCallback callback)
 {
 	LOG("Loading weapon data...");
 
-	knifetextureptr.load("Textures/Knife.png", 0, []() {Game::LoadingScreen(); });
-	bloodknifetextureptr.load("Textures/BloodKnife.png", 0, []() {Game::LoadingScreen(); });
-	lightbloodknifetextureptr.load("Textures/BloodKnifeLight.png", 0, []() {Game::LoadingScreen(); });
-	swordtextureptr.load("Textures/Sword.jpg", 1, []() {Game::LoadingScreen(); });
-	bloodswordtextureptr.load("Textures/SwordBlood.jpg", 1, []() {Game::LoadingScreen(); });
-	lightbloodswordtextureptr.load("Textures/SwordBloodLight.jpg", 1, []() {Game::LoadingScreen(); });
-	stafftextureptr.load("Textures/Staff.jpg", 1, []() {Game::LoadingScreen(); });
+	knifetextureptr.load("Textures/Knife.png", 0, callback);
+	bloodknifetextureptr.load("Textures/BloodKnife.png", 0, callback);
+	lightbloodknifetextureptr.load("Textures/BloodKnifeLight.png", 0, callback);
+	swordtextureptr.load("Textures/Sword.jpg", 1, callback);
+	bloodswordtextureptr.load("Textures/SwordBlood.jpg", 1, callback);
+	lightbloodswordtextureptr.load("Textures/SwordBloodLight.jpg", 1, callback);
+	stafftextureptr.load("Textures/Staff.jpg", 1, callback);
 
-	throwingknifemodel.load("Models/ThrowingKnife.solid");
+	throwingknifemodel.load("Models/ThrowingKnife.solid", callback);
 	throwingknifemodel.Scale(.001, .001, .001);
 	throwingknifemodel.Rotate(90, 0, 0);
 	throwingknifemodel.Rotate(0, 90, 0);
 	throwingknifemodel.flat = 0;
-	throwingknifemodel.CalculateNormals(1);
+	throwingknifemodel.CalculateNormals(1, callback);
 
-	swordmodel.load("Models/Sword.solid");
+	swordmodel.load("Models/Sword.solid", callback);
 	swordmodel.Scale(.001, .001, .001);
 	swordmodel.Rotate(90, 0, 0);
 	swordmodel.Rotate(0, 90, 0);
 	swordmodel.Rotate(0, 0, 90);
 	swordmodel.flat = 1;
-	swordmodel.CalculateNormals(1);
+	swordmodel.CalculateNormals(1, callback);
 
-	staffmodel.load("Models/Staff.solid");
+	staffmodel.load("Models/Staff.solid", callback);
 	staffmodel.Scale(.005, .005, .005);
 	staffmodel.Rotate(90, 0, 0);
 	staffmodel.Rotate(0, 90, 0);
 	staffmodel.Rotate(0, 0, 90);
 	staffmodel.flat = 1;
-	staffmodel.CalculateNormals(1);
+	staffmodel.CalculateNormals(1, callback);
 }
 
 void Weapon::doStuff(int i)
 {
 	static int whichpatchx, whichpatchz, whichhit;
-	static XYZ start, end, colpoint, normalrot, footvel, footpoint;
-	static XYZ terrainnormal;
-	static XYZ vel;
-	static XYZ midp;
-	static XYZ newpoint1, newpoint2;
+	static Vector3 start, end, colpoint, normalrot, footvel, footpoint;
+	static Vector3 terrainnormal;
+	static Vector3 vel;
+	static Vector3 midp;
+	static Vector3 newpoint1, newpoint2;
 	static float friction = 3.5;
 	static float elasticity = .4;
-	static XYZ bounceness;
+	static Vector3 bounceness;
 	static float frictionness;
 	static float closestdistance;
 	static float distance;
-	static XYZ point[3];
-	static XYZ closestpoint;
-	static XYZ closestswordpoint;
+	static Vector3 point[3];
+	static Vector3 closestpoint;
+	static Vector3 closestswordpoint;
 	static float tempmult;
 
 	if (multiplier <= 0) {
@@ -162,7 +162,7 @@ void Weapon::doStuff(int i)
 	}
 	if (damage >= 2 && type == staff && owner != -1) { // the staff breaks
 		emit_sound_at(staffbreaksound, tippoint);
-		XYZ tempvel;
+		Vector3 tempvel;
 		for (int j = 0; j < 40; j++) {
 			tempvel.x = float(abs(rand() % 100) - 50) / 20;
 			tempvel.y = float(abs(rand() % 100) - 50) / 20;
@@ -214,7 +214,7 @@ void Weapon::doStuff(int i)
 						else if (type == staff) {
 							position = colpoint - normalrot * .2;
 						}
-						XYZ temppoint1, temppoint2;
+						Vector3 temppoint1, temppoint2;
 						float distance;
 
 						temppoint1 = 0;
@@ -367,7 +367,7 @@ void Weapon::doStuff(int i)
 				tippoint.z = M[14];
 				glPopMatrix();
 				position -= tippoint * .15;
-				XYZ temppoint1, temppoint2;
+				Vector3 temppoint1, temppoint2;
 
 				rotation3 = 0;
 				smallrotation = 90;
@@ -378,7 +378,7 @@ void Weapon::doStuff(int i)
 
 				emit_sound_at(knifesheathesound, position, 128.);
 
-				XYZ terrainlight;
+				Vector3 terrainlight;
 				terrainlight = terrain.getLighting(position.x, position.z);
 				if (environment == snowyenvironment) {
 					if (distsq(&position, &viewer) < viewdistance * viewdistance / 4) {
@@ -409,7 +409,7 @@ void Weapon::doStuff(int i)
 		if (velocity.x != 0 || velocity.z != 0 || velocity.y != 0) {
 			velocity.y += gravity * multiplier;
 
-			XYZ temppoint1, temppoint2;
+			Vector3 temppoint1, temppoint2;
 			float distance;
 
 			temppoint1 = 0;
@@ -434,9 +434,9 @@ void Weapon::doStuff(int i)
 	}
 
 	//Sword physics
-	XYZ mid;
-	XYZ oldmid;
-	XYZ oldmid2;
+	Vector3 mid;
+	Vector3 oldmid;
+	Vector3 oldmid2;
 
 	tempmult = multiplier;
 	multiplier /= 10;
@@ -474,7 +474,7 @@ void Weapon::doStuff(int i)
 							end = position + (position - tippoint) / 30;
 							whichhit = Object::objects[k]->model.LineCheck(&start, &end, &colpoint, &Object::objects[k]->position, &Object::objects[k]->yaw);
 							if (whichhit != -1) {
-								XYZ diff;
+								Vector3 diff;
 								diff = (colpoint - position);
 								Normalise(&diff);
 								hitsomething = 1;
@@ -490,7 +490,7 @@ void Weapon::doStuff(int i)
 							end = tippoint + (tippoint - position) / 30;
 							whichhit = Object::objects[k]->model.LineCheck(&start, &end, &colpoint, &Object::objects[k]->position, &Object::objects[k]->yaw);
 							if (whichhit != -1) {
-								XYZ diff;
+								Vector3 diff;
 								diff = (colpoint - tippoint);
 								Normalise(&diff);
 								hitsomething = 1;
@@ -749,7 +749,7 @@ void Weapon::doStuff(int i)
 						findLengthfast(&bounceness) * (terrain.getOpacity(position.x, position.z) > .2 ? 128. : 32.));
 
 					if (terrain.getOpacity(position.x, position.z) < .2) {
-						XYZ terrainlight;
+						Vector3 terrainlight;
 						terrainlight = terrain.getLighting(position.x, position.z);
 						if (environment == snowyenvironment) {
 							if (distsq(&position, &viewer) < viewdistance * viewdistance / 4) {
@@ -817,7 +817,7 @@ void Weapon::doStuff(int i)
 						findLengthfast(&bounceness) * (terrain.getOpacity(tippoint.x, tippoint.z) > .2 ? 128. : 32.));
 
 					if (terrain.getOpacity(tippoint.x, tippoint.z) < .2) {
-						XYZ terrainlight;
+						Vector3 terrainlight;
 						terrainlight = terrain.getLighting(tippoint.x, tippoint.z);
 						if (environment == snowyenvironment) {
 							if (distsq(&tippoint, &viewer) < viewdistance * viewdistance / 4) {
@@ -945,7 +945,7 @@ void Weapon::doStuff(int i)
 			tipvelocity.y += gravity * multiplier;
 
 			//Rotation
-			XYZ temppoint1, temppoint2;
+			Vector3 temppoint1, temppoint2;
 			float distance;
 
 			temppoint1 = position;
@@ -991,8 +991,8 @@ void Weapon::doStuff(int i)
 		}
 		if (blooddripdelay < 0 && bloodtoggle) {
 			blooddripdelay = 1;
-			XYZ bloodvel;
-			XYZ bloodloc;
+			Vector3 bloodvel;
+			Vector3 bloodloc;
 			bloodloc = position + (tippoint - position) * .7;
 			bloodloc.y -= .05;
 			if (bloodtoggle) {
@@ -1029,7 +1029,7 @@ void Weapon::doStuff(int i)
 			flamedelay -= multiplier;
 			normalrot = 0;
 			if (rand() % 50 == 0 && distsq(&position, &viewer) > 80) {
-				XYZ shinepoint;
+				Vector3 shinepoint;
 				shinepoint = position + (tippoint - position) * (((float)abs(rand() % 100)) / 100);
 				Sprite::MakeSprite(weaponshinesprite, shinepoint, normalrot, 1, 1, 1, (.1 + (float)abs(rand() % 100) / 200 - .25) * 1 / 3 * fast_sqrt(findDistance(&shinepoint, &viewer)), 1);
 				Sprite::setLastSpriteSpeed(4);
@@ -1050,7 +1050,7 @@ void Weapons::DoStuff()
 
 void Weapon::draw()
 {
-	static XYZ terrainlight;
+	static Vector3 terrainlight;
 	static GLfloat M[16];
 
 	if ((frustum.SphereInFrustum(position.x, position.y, position.z, 1) &&
@@ -1210,7 +1210,7 @@ void Weapon::draw()
 	}
 }
 
-void Weapon::drop(XYZ v, XYZ tv, bool sethitsomething)
+void Weapon::drop(Vector3 v, Vector3 tv, bool sethitsomething)
 {
 	owner = -1;
 	velocity = v;
@@ -1224,7 +1224,7 @@ void Weapon::drop(XYZ v, XYZ tv, bool sethitsomething)
 	physics = 1;
 }
 
-void Weapon::thrown(XYZ v, bool sethitsomething)
+void Weapon::thrown(Vector3 v, bool sethitsomething)
 {
 	drop(v, v, sethitsomething);
 	missed = 0;

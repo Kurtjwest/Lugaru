@@ -24,7 +24,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 class Terrain;
 class Model;
 
-#include "Math/XYZ.hpp"
+#include "Math/Vector3.hpp"
 
 enum decal_type
 {
@@ -41,7 +41,7 @@ enum decal_type
 class Decal
 {
 public:
-    XYZ position;
+    Vector3 position;
     decal_type type;
     float opacity;
     float rotation;
@@ -49,11 +49,11 @@ public:
     float brightness;
 
     float texcoords[3][2];
-    XYZ vertex[3];
+    Vector3 vertex[3];
 
     Decal();
-    Decal(XYZ position, decal_type type, float opacity, float rotation, float brightness, int whichx, int whichy, float size, const Terrain& terrain, bool first);
-    Decal(XYZ position, decal_type type, float opacity, float rotation, float size, const Model& model, int i, int which);
+    Decal(Vector3 position, decal_type type, float opacity, float rotation, float brightness, int whichx, int whichy, float size, const Terrain& terrain, bool first);
+    Decal(Vector3 position, decal_type type, float opacity, float rotation, float size, const Model& model, int i, int which);
 };
 
 #endif

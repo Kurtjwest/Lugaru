@@ -26,9 +26,10 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Animation/Muscle.hpp"
 
 #include "Graphic/Models.hpp"
-#include "Math/XYZ.hpp"
 #include "Objects/Object.hpp"
 #include "Utils/binio.h"
+#include "Utils/Callbacks.h"
+#include "Math/Vector3.hpp"
 
 const int max_joints = 50;
 
@@ -42,14 +43,14 @@ public:
 	int selected;
 
 	int forwardjoints[3];
-	XYZ forward;
+	Vector3 forward;
 
 	int id;
 
 	int lowforwardjoints[3];
-	XYZ lowforward;
+	Vector3 lowforward;
 
-	XYZ specialforward[5];
+	Vector3 specialforward[5];
 	int jointlabels[max_joints];
 
 	Model model[7];
@@ -78,13 +79,14 @@ public:
 	bool freefall;
 
 	void FindForwards();
-	float DoConstraints(XYZ* coords, float* scale);
+	float DoConstraints(Vector3* coords, float* scale, bool tutorialActive);
 	void DoGravity(float* scale);
 	void FindRotationMuscle(int which, int animation);
 	void Load(const std::string& fileName, const std::string& lowfileName, const std::string& clothesfileName, 
 		const std::string& modelfileName, const std::string& model2fileName, const std::string& model3fileName, 
 		const std::string& model4fileName, const std::string& model5fileNamee, const std::string& model6fileName, 
-		const std::string& model7fileName, const std::string& modellowfileName, const std::string& modelclothesfileName, bool aclothes);
+		const std::string& model7fileName, const std::string& modellowfileName, const std::string& modelclothesfileName, 
+		bool aclothes, bool tutorialActive, ProgressCallback callback);
 
 	Skeleton();
 
@@ -92,8 +94,8 @@ private:
 	// convenience functions
 	// only for Skeleton.cpp
 	inline Joint& joint(int bodypart) { return joints[jointlabels[bodypart]]; }
-	inline XYZ& jointPos(int bodypart) { return joint(bodypart).position; }
-	inline XYZ& jointVel(int bodypart) { return joint(bodypart).velocity; }
+	inline Vector3& jointPos(int bodypart) { return joint(bodypart).position; }
+	inline Vector3& jointVel(int bodypart) { return joint(bodypart).velocity; }
 };
 
 #endif

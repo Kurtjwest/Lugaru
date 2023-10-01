@@ -77,7 +77,7 @@ void Tutorial::Do(float multiplier)
             case 14: {
                 maxtime = 3;
 
-                XYZ temp, temp2;
+                Vector3 temp, temp2;
 
                 temp.x = 1011;
                 temp.y = 84;
@@ -186,7 +186,7 @@ void Tutorial::Do(float multiplier)
                 Person::players[1]->aitype = passivetype;
                 break;
             case 39: {
-                XYZ temp, temp2;
+                Vector3 temp, temp2;
 
                 temp.x = 1011;
                 temp.y = 84;
@@ -253,7 +253,7 @@ void Tutorial::Do(float multiplier)
             case 47: {
                 maxtime = 10;
 
-                XYZ temp, temp2;
+                Vector3 temp, temp2;
 
                 temp.x = 1011;
                 temp.y = 84;
@@ -331,7 +331,7 @@ void Tutorial::Do(float multiplier)
             case 50: {
                 maxtime = 8;
 
-                XYZ temp, temp2;
+                Vector3 temp, temp2;
                 emit_sound_at(fireendsound, Person::players[1]->coords);
 
                 for (unsigned i = 0; i < Person::players[1]->skeleton.joints.size(); i++) {
@@ -795,11 +795,11 @@ void Tutorial::DrawTextInfo()
 
 void Tutorial::DoStuff(float multiplier)
 {
-    XYZ temp;
-    XYZ temp2;
-    XYZ temp3;
-    XYZ oldtemp;
-    XYZ oldtemp2;
+    Vector3 temp;
+    Vector3 temp2;
+    Vector3 temp3;
+    Vector3 oldtemp;
+    Vector3 oldtemp2;
     temp.x = 1011;
     temp.y = 84;
     temp.z = 491;

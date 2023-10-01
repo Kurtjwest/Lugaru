@@ -80,8 +80,8 @@ extern float wonleveltime;
 extern float loadtime;
 
 extern Model hawk;
-extern XYZ hawkcoords;
-extern XYZ realhawkcoords;
+extern Vector3 hawkcoords;
+extern Vector3 realhawkcoords;
 extern Texture hawktexture;
 extern float hawkyaw;
 extern float hawkcalldelay;
@@ -95,7 +95,7 @@ extern int loading;
 
 extern int musictype;
 
-extern XYZ mapcenter;
+extern Vector3 mapcenter;
 extern float mapradius;
 
 extern Text* text;
@@ -110,7 +110,7 @@ extern float editorpitch;
 
 extern int tryquit;
 
-extern XYZ pathpoint[30];
+extern Vector3 pathpoint[30];
 extern int numpathpoints;
 extern int numpathpointconnect[30];
 extern int pathpointconnect[30][30];
@@ -167,9 +167,9 @@ void fireSound(int sound = fireendsound);
 void inputText(std::string& str, unsigned* charselected);
 void flash(float amount = 1, int delay = 1);
 }
-float roughDirection(XYZ vec);
-float roughDirectionTo(XYZ start, XYZ end);
-float pitchTo(XYZ start, XYZ end);
+float roughDirection(Vector3 vec);
+float roughDirectionTo(Vector3 start, Vector3 end);
+float pitchTo(Vector3 start, Vector3 end);
 float sq(float n);
 
 #ifndef __forceinline
