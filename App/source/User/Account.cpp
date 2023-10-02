@@ -27,11 +27,9 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 #include <string.h>
 
-using namespace std;
-
 extern bool devtools;
 
-vector<Account> Account::accounts;
+std::vector<Account> Account::accounts;
 int Account::i_active = -1;
 
 Account::Account(const std::string& name)
@@ -120,7 +118,7 @@ void Account::save(FILE* tfile)
     fpackf(tfile, "Bi", progress);
     fpackf(tfile, "Bi", campaignProgress.size());
 
-    map<string, CampaignProgress>::const_iterator it;
+    std::map<std::string, CampaignProgress>::const_iterator it;
     for (it = campaignProgress.begin(); it != campaignProgress.end(); ++it) {
         fpackf(tfile, "Bi", it->first.size());
         for (unsigned j = 0; j < it->first.size(); j++) {
@@ -241,7 +239,7 @@ void Account::winLevel(int level, int score, float time)
     }
 }
 
-void Account::loadFile(string filename)
+void Account::loadFile(std::string filename)
 {
     FILE* tfile;
     int numaccounts;
@@ -267,7 +265,7 @@ void Account::loadFile(string filename)
     }
 }
 
-void Account::saveFile(string filename)
+void Account::saveFile(std::string filename)
 {
     FILE* tfile;
     errno = 0;

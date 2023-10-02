@@ -23,8 +23,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Utils/Folders.hpp"
 #include "Utils/ImageIO.hpp"
 
-using namespace std;
-
 void TextureRes::load(bool trilinear, ProgressCallback callback)
 {
     ImageRec texture;
