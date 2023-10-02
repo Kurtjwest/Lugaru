@@ -25,7 +25,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 extern float blurness;
 extern float targetblurness;
-extern bool skyboxtexture;
+//extern bool skyboxtexture;
 
 //Functions
 
@@ -1325,7 +1325,7 @@ void Terrain::MakeDecalLock(decal_type type, Vector3 where, int whichx, int whic
 	}
 }
 
-void Terrain::DoShadows(bool tutorialActive, float texscale, const Light& light, ProgressCallback callback)
+void Terrain::DoShadows(bool tutorialActive, float texscale, const Light& light, bool skyboxtexture, ProgressCallback callback)
 {
 	Vector3 testpoint, testpoint2, terrainpoint, lightloc, col;
 	lightloc = light.location;

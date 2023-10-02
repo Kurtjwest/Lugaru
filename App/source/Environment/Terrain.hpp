@@ -103,7 +103,7 @@ public:
     void CalculateNormals();
     void drawdecals(const Vector3& viewer, float viewdistance, float fadestart, float multiplier);
     void draw(int layer, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Frustum& frustum);
-    void DoShadows(bool tutorialActive, float texscale, const Light& light, ProgressCallback callback);
+    void DoShadows(bool tutorialActive, float texscale, const Light& light, bool skyboxtexture, ProgressCallback callback);
     void deleteDeadDecals();
 
     float getHeightByTile(int x, int y) const;
