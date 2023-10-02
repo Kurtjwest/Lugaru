@@ -37,6 +37,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Utils/Folders.hpp"
 #include "Utils/Input.hpp"
 #include "Utils/dirent.h"
+#include "Math/Math.h"
 
 #if PLATFORM_UNIX
 #include <sys/stat.h>
@@ -151,48 +152,6 @@ float oldmusicvolume[4] = {};
 int musicselected = 0;
 
 static_assert(rabbittype == 0 && wolftype == 1);
-
-// utility functions
-
-// TODO: this is slightly incorrect
-float roughDirection(Vector3 vec)
-{
-	Normalise(&vec);
-	float angle = -asin(-vec.x) * 180 / M_PI;
-	if (vec.z < 0) {
-		angle = 180 - angle;
-	}
-	return angle;
-}
-float roughDirectionTo(Vector3 start, Vector3 end)
-{
-	return roughDirection(end - start);
-}
-inline float pitchOf(Vector3 vec)
-{
-	Normalise(&vec);
-	return -asin(vec.y) * 180 / M_PI;
-}
-float pitchTo(Vector3 start, Vector3 end)
-{
-	return pitchOf(end - start);
-}
-float sq(float n)
-{
-	return n * n;
-}
-inline float stepTowardf(float from, float to, float by)
-{
-	if (fabs(from - to) < by) {
-		return to;
-	}
-	else if (from > to) {
-		return from - by;
-	}
-	else {
-		return from + by;
-	}
-}
 
 void Game::playdialoguescenesound()
 {
@@ -1388,7 +1347,7 @@ void Game::ProcessDevInput()
 
 		/* Ragdoll */
 		if (Input::isKeyPressed(SDL_SCANCODE_N)) {
-			Person::players[0]->RagDoll(0);
+			Person::players[0]->RagDoll(0, terrain);
 			emit_sound_at(whooshsound, Person::players[0]->coords, 128.);
 		}
 
@@ -1547,7 +1506,7 @@ void Game::ProcessDevInput()
 				if (Person::players[closest]->skeleton.free == 2) {
 					Person::players[closest]->skeleton.free = 0;
 				}
-				Person::players[closest]->RagDoll(0);
+				Person::players[closest]->RagDoll(0, terrain);
 				Person::players[closest]->dead = 2;
 				Person::players[closest]->headless = 1;
 				Person::players[closest]->DoBloodBig(3, 165);
@@ -1623,12 +1582,12 @@ void Game::ProcessDevInput()
 						continue;
 					}
 					if (distsq(&Person::players[j]->coords, &Person::players[closest]->coords) < 25) {
-						Person::players[j]->DoDamage((25 - distsq(&Person::players[j]->coords, &Person::players[closest]->coords)) * 60);
+						Person::players[j]->DoDamage((25 - distsq(&Person::players[j]->coords, &Person::players[closest]->coords)) * 60, terrain);
 						if (Person::players[j]->skeleton.free == 2) {
 							Person::players[j]->skeleton.free = 1;
 						}
 						Person::players[j]->skeleton.longdead = 0;
-						Person::players[j]->RagDoll(0);
+						Person::players[j]->RagDoll(0, terrain);
 						for (unsigned i = 0; i < Person::players[j]->skeleton.joints.size(); i++) {
 							temppos = Person::players[j]->skeleton.joints[i].position + Person::players[j]->coords;
 							if (distsq(&temppos, &Person::players[closest]->coords) < 25) {
@@ -1641,8 +1600,8 @@ void Game::ProcessDevInput()
 					}
 				}
 
-				Person::players[closest]->DoDamage(10000);
-				Person::players[closest]->RagDoll(0);
+				Person::players[closest]->DoDamage(10000, terrain);
+				Person::players[closest]->RagDoll(0, terrain);
 				Person::players[closest]->dead = 2;
 				Person::players[closest]->coords = 20;
 				Person::players[closest]->skeleton.free = 2;
@@ -2063,7 +2022,7 @@ void doAerialAcrobatics()
 			Person::players[k]->yaw = stepTowardf(Person::players[k]->yaw, Person::players[k]->targetyaw, multiplier * Person::players[k]->turnspeed * 4);
 		}
 
-		Person::players[k]->DoStuff();
+		Person::players[k]->DoStuff(terrain);
 		if (Person::players[k]->immobile && k != 0) {
 			Person::players[k]->coords = Person::players[k]->realoldcoords;
 		}
@@ -2106,7 +2065,7 @@ void doAerialAcrobatics()
 						Person::players[k]->coords.y > terrain.getHeight(Person::players[k]->coords.x, Person::players[k]->coords.z) - .1) {
 						Person::players[k]->coords.y = terrain.getHeight(Person::players[k]->coords.x, Person::players[k]->coords.z);
 					}
-					if (Person::players[k]->SphereCheck(&lowpoint, 1.3, &colpoint, &Object::objects[i]->position, &Object::objects[i]->yaw, &Object::objects[i]->model) != -1) {
+					if (Person::players[k]->SphereCheck(&lowpoint, 1.3, &colpoint, &Object::objects[i]->position, &Object::objects[i]->yaw, &Object::objects[i]->model, terrain) != -1) {
 						flatfacing = lowpoint - Person::players[k]->coords;
 						Person::players[k]->coords = lowpoint;
 						Person::players[k]->coords.y -= 1.3;
@@ -2226,7 +2185,7 @@ void doAerialAcrobatics()
 						if (Person::players[k]->animTarget == jumpdownanim || Person::players[k]->isFlip()) {
 							//flipped into a rock
 							if (Person::players[k]->isFlip() && Person::players[k]->targetFrame().label == 7) {
-								Person::players[k]->RagDoll(0);
+								Person::players[k]->RagDoll(0, terrain);
 							}
 
 							if (Person::players[k]->animTarget == jumpupanim) {
@@ -2264,7 +2223,7 @@ void doAerialAcrobatics()
 					lowpoint = Person::players[k]->coords;
 					lowpoint.y += 1.35;
 					if (Object::objects[i]->type != rocktype) {
-						if (Person::players[k]->SphereCheck(&lowpoint, 1.33, &colpoint, &Object::objects[i]->position, &Object::objects[i]->yaw, &Object::objects[i]->model) != -1) {
+						if (Person::players[k]->SphereCheck(&lowpoint, 1.33, &colpoint, &Object::objects[i]->position, &Object::objects[i]->yaw, &Object::objects[i]->model, terrain) != -1) {
 							if (Person::players[k]->animTarget != jumpupanim &&
 								Person::players[k]->animTarget != jumpdownanim &&
 								Person::players[k]->onterrain) {
@@ -2417,7 +2376,7 @@ void doAerialAcrobatics()
 							Person::players[k]->frameTarget > 6)) {
 						//stagger off ledge (?)
 						if (Person::players[k]->animTarget == staggerbackhighanim || Person::players[k]->animTarget == staggerbackhardanim) {
-							Person::players[k]->RagDoll(0);
+							Person::players[k]->RagDoll(0, terrain);
 						}
 						Person::players[k]->setTargetAnimation(jumpdownanim);
 
@@ -3099,8 +3058,8 @@ void doPlayerCollisions()
 																		Person::players[l]->velocity = Person::players[0]->velocity;
 																		Person::players[l]->skeleton.free = 0;
 																		Person::players[l]->yaw = 0;
-																		Person::players[l]->RagDoll(0);
-																		Person::players[l]->DoDamage(20);
+																		Person::players[l]->RagDoll(0, terrain);
+																		Person::players[l]->DoDamage(20, terrain);
 																		camerashake += .3;
 																		Person::players[l]->skeleton.longdead = 0;
 																		Person::players[0]->lastcollide = 1;
@@ -3133,16 +3092,16 @@ void doPlayerCollisions()
 																					emit_sound_at(heavyimpactsound, Person::players[i]->coords);
 																				}
 
-																				Person::players[i]->RagDoll(0);
+																				Person::players[i]->RagDoll(0, terrain);
 																				if (Person::players[i]->damage > Person::players[i]->damagetolerance - findLengthfast(&rotatetarget) / 4 && !Person::players[i]->dead) {
 																					award_bonus(0, aimbonus);
 																				}
-																				Person::players[i]->DoDamage(findLengthfast(&rotatetarget) / 4);
-																				Person::players[k]->RagDoll(0);
+																				Person::players[i]->DoDamage(findLengthfast(&rotatetarget) / 4, terrain);
+																				Person::players[k]->RagDoll(0, terrain);
 																				if (Person::players[k]->damage > Person::players[k]->damagetolerance - findLengthfast(&rotatetarget) / 4 && !Person::players[k]->dead) {
 																					award_bonus(0, aimbonus); // Huh, again?
 																				}
-																				Person::players[k]->DoDamage(findLengthfast(&rotatetarget) / 4);
+																				Person::players[k]->DoDamage(findLengthfast(&rotatetarget) / 4, terrain);
 
 																				for (unsigned j = 0; j < Person::players[i]->skeleton.joints.size(); j++) {
 																					Person::players[i]->skeleton.joints[j].velocity = Person::players[i]->skeleton.joints[j].velocity / 5 + Person::players[k]->velocity;
@@ -3203,8 +3162,8 @@ void doPlayerCollisions()
 																					Person::players[i]->velocity = Person::players[k]->velocity;
 																					Person::players[k]->velocity = Person::players[k]->velocity * -.5;
 																					Person::players[k]->velocity.y = Person::players[i]->velocity.y;
-																					Person::players[i]->DoDamage(20);
-																					Person::players[i]->RagDoll(0);
+																					Person::players[i]->DoDamage(20, terrain);
+																					Person::players[i]->RagDoll(0, terrain);
 																					Person::players[k]->lastcollide = 1;
 																					award_bonus(k, AboveBonus);
 																				}
@@ -3218,8 +3177,8 @@ void doPlayerCollisions()
 																					Person::players[k]->velocity = Person::players[i]->velocity;
 																					Person::players[i]->velocity = Person::players[i]->velocity * -.3;
 																					Person::players[i]->velocity.y = Person::players[k]->velocity.y;
-																					Person::players[k]->DoDamage(20);
-																					Person::players[k]->RagDoll(0);
+																					Person::players[k]->DoDamage(20, terrain);
+																					Person::players[k]->RagDoll(0, terrain);
 																					Person::players[i]->lastcollide = 1;
 																					award_bonus(i, AboveBonus);
 																				}
@@ -3227,8 +3186,8 @@ void doPlayerCollisions()
 																		}
 																	}
 																}
-																Person::players[i]->CheckKick();
-																Person::players[k]->CheckKick();
+																Person::players[i]->CheckKick(terrain);
+																Person::players[k]->CheckKick(terrain);
 															}
 														}
 													}
@@ -3722,7 +3681,7 @@ void Game::Tick()
 			for (unsigned k = 0; k < Person::players.size(); k++) {
 				if (!isnormal(Person::players[k]->coords.x) || !isnormal(Person::players[k]->coords.y) || !isnormal(Person::players[k]->coords.z)) {
 					if (!isnormal(Person::players[k]->coords.x) || !isnormal(Person::players[k]->coords.y) || !isnormal(Person::players[k]->coords.z)) {
-						Person::players[k]->DoDamage(1000);
+						Person::players[k]->DoDamage(1000, terrain);
 					}
 				}
 			}
@@ -3864,7 +3823,7 @@ void Game::Tick()
 						Person::players[i]->avoidcollided = 0;
 					}
 
-					Person::players[i]->doAI();
+					Person::players[i]->doAI(terrain);
 
 					if (Animation::animations[Person::players[i]->animTarget].attack == reversed) {
 						//Person::players[i]->targetyaw=Person::players[i]->yaw;
@@ -4088,7 +4047,7 @@ void Game::Tick()
 																		weapons[k].blooddrip = 5;
 																		Person::players[i]->victim->weaponstuck = -1;
 																		Person::players[i]->victim->bloodloss += 2000;
-																		Person::players[i]->victim->DoDamage(2000);
+																		Person::players[i]->victim->DoDamage(2000, terrain);
 																	}
 																}
 																if (Person::players[i]->victim->num_weapons > 0) {
@@ -4540,8 +4499,8 @@ void Game::Tick()
 								Person::players[i]->setTargetAnimation(jumpupanim);
 								Person::players[i]->yaw = Person::players[i]->targetyaw;
 								Person::players[i]->transspeed = 20;
-								Person::players[i]->FootLand(leftfoot, 1);
-								Person::players[i]->FootLand(rightfoot, 1);
+								Person::players[i]->FootLand(leftfoot, 1, terrain);
+								Person::players[i]->FootLand(rightfoot, 1, terrain);
 
 								facing = 0;
 								facing.z = -1;
@@ -4703,7 +4662,7 @@ void Game::Tick()
 
 			//do animations
 			for (unsigned k = 0; k < Person::players.size(); k++) {
-				Person::players[k]->DoAnimations();
+				Person::players[k]->DoAnimations(terrain);
 				Person::players[k]->whichpatchx = Person::players[k]->coords.x / (terrain.size / subdivision * terrain.scale);
 				Person::players[k]->whichpatchz = Person::players[k]->coords.z / (terrain.size / subdivision * terrain.scale);
 			}

@@ -334,7 +334,7 @@ public:
 
     void changeCreatureType(person_type type);
 
-    void CheckKick();
+    void CheckKick(const Terrain& terrain);
     void CatchFire();
     void DoBlood(float howmuch, int which);
     void DoBloodBig(float howmuch, int which);
@@ -356,10 +356,6 @@ public:
     bool isStop() { return animation_bits[animTarget] & ab_stop; }
     int getStop();
 
-    bool wasSneak();
-    bool isSneak();
-    int getSneak();
-
     bool wasRun() { return animation_bits[animCurrent] & ab_run; }
     bool isRun() { return animation_bits[animTarget] & ab_run; }
     int getRun();
@@ -377,7 +373,7 @@ public:
 
     bool isWallJump() { return animation_bits[animTarget] & ab_walljump; }
     void Reverse();
-    void DoDamage(float howmuch);
+    void DoDamage(float howmuch, const Terrain& terrain);
     void DoHead();
     void DoMipmaps()
     {
@@ -386,21 +382,21 @@ public:
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, skeleton.skinsize, skeleton.skinsize, 0, GL_RGB, GL_UNSIGNED_BYTE, &skeleton.skinText[0]);
     }
 
-    int SphereCheck(Vector3* p1, float radius, Vector3* p, Vector3* move, float* rotate, Model* model);
-    int DrawSkeleton();
+    int SphereCheck(Vector3* p1, float radius, Vector3* p, Vector3* move, float* rotate, Model* model, const Terrain& terrain);
+    int DrawSkeleton(const Terrain& terrain);
     void Puff(int whichlabel);
-    void FootLand(bodypart whichfoot, float opacity);
-    void DoStuff();
+    void FootLand(bodypart whichfoot, float opacity, Terrain& terrain);
+    void DoStuff(Terrain& terrain);
     void setTargetAnimation(int);
-    void DoAnimations();
-    void RagDoll(bool checkcollision);
+    void DoAnimations(Terrain& terrain);
+    void RagDoll(bool checkcollision, const Terrain& terrain);
 
     void takeWeapon(int weaponId);
 
     bool addClothes(const int& clothesId);
     void addClothes();
 
-    void doAI();
+    void doAI(const Terrain& terrain);
 
     bool catchKnife();
 

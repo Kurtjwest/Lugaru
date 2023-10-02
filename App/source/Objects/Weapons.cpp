@@ -285,7 +285,7 @@ void Weapon::doStuff(int i)
 
 							Person::players[j]->weaponids[Person::players[j]->num_weapons - 1] = i;
 
-							Person::players[j]->RagDoll(0);
+							Person::players[j]->RagDoll(0, terrain);
 							Person::players[j]->jointVel(abdomen) += velocity * 2;
 							Person::players[j]->jointVel(neck) += velocity * 2;
 							Person::players[j]->jointVel(rightshoulder) += velocity * 2;

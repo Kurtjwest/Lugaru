@@ -167,10 +167,6 @@ namespace Game
 	void inputText(std::string& str, unsigned* charselected);
 	void flash(float amount = 1, int delay = 1);
 }
-float roughDirection(Vector3 vec);
-float roughDirectionTo(Vector3 start, Vector3 end);
-float pitchTo(Vector3 start, Vector3 end);
-float sq(float n);
 
 inline void swap_gl_buffers(void)
 {

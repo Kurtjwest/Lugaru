@@ -425,7 +425,7 @@ int Game::DrawGLScene(StereoSide side)
 							Person::players[k]->occluded = 0;
 						}
 						if (Person::players[k]->occluded < 25) {
-							Person::players[k]->DrawSkeleton();
+							Person::players[k]->DrawSkeleton(terrain);
 						}
 					}
 				}
@@ -499,7 +499,7 @@ int Game::DrawGLScene(StereoSide side)
 						Person::players[k]->occluded = 0;
 					}
 					if (Person::players[k]->occluded < 25) {
-						Person::players[k]->DrawSkeleton();
+						Person::players[k]->DrawSkeleton(terrain);
 					}
 				}
 			}

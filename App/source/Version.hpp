@@ -22,14 +22,10 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 const unsigned int VERSION_MAJOR = 1;
 const unsigned int VERSION_MINOR = 0;
 const unsigned int VERSION_PATCH = 0;
-const std::string VERSION_NUMBER = "@LUGARU_VERSION_NUMBER@";
+const std::string VERSION_NUMBER = "1.0.0";
 
 /** Set to "" for stable (tagged) builds, "-dev" for dev builds */
-const std::string VERSION_SUFFIX = "@LUGARU_VERSION_SUFFIX@";
-/** Set to 7-char git commit hash if available, otherwise "" */
-const std::string VERSION_HASH = "@LUGARU_VERSION_HASH@";
-/** Optional release string, e.g. for distro packages release number */
-const std::string VERSION_RELEASE = "@LUGARU_VERSION_RELEASE@";
+const std::string VERSION_SUFFIX = "-dev";
 
 /** Final string built from the above constants, following the scheme
  *  defined in CMakeLists.txt, typically:
@@ -40,7 +36,11 @@ const std::string VERSION_RELEASE = "@LUGARU_VERSION_RELEASE@";
  *      "1.2-dev (git ab12c34) [OSS Lugaru official]"
  *      "1.3.1 [Mageia 1.3.1-2.mga6]"
  */
-const std::string VERSION_STRING = "@LUGARU_VERSION_STRING@";
+const std::string VERSION_STRING = "1.0.0-dev";
 
 /** Build type (Release, Debug, RelWithDebInfo) to output to the terminal */
-const std::string VERSION_BUILD_TYPE = "@CMAKE_BUILD_TYPE@";
+#ifndef NDEBUG
+const std::string VERSION_BUILD_TYPE = "Debug";
+#else
+const std::string VERSION_BUILD_TYPE = "Release";
+#endif
