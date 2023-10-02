@@ -97,27 +97,27 @@ public:
 
 	static void ComputeCenter();
 	static void ComputeRadius();
-	static void AddObjectsToTerrain();
+	static void AddObjectsToTerrain(int environment);
 	static void LoadObjectsFromFile(FILE* tfile, bool skip, ProgressCallback callback);
 	static void LoadObjectsFromJson(Json::Value, ProgressCallback callback);
 	static void SphereCheckPossible(Vector3* p1, float radius);
 	static void DeleteObject(int which);
-	static void MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, ProgressCallback callback);
-	static void Draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart);
-	static void DoShadows(bool skyboxtexture);
-	static void DoStuff(bool bloodtoggle);
+	static void MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, int environment, ProgressCallback callback);
+	static void Draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light);
+	static void DoShadows(bool skyboxtexture, const Light& light);
+	static void DoStuff(bool bloodtoggle, float multiplier);
 	static int checkcollide(Vector3 startpoint, Vector3 endpoint);
 	static int checkcollide(Vector3 startpoint, Vector3 endpoint, int what);
 
 	operator Json::Value();
 
 private:
-	void handleFire(bool bloodtoggle);
-	void handleRot(int divide);
+	void handleFire(bool bloodtoggle, float multiplier);
+	void handleRot(int divide, float multiplier);
 	void doShadows(Vector3 lightloc);
-	void draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart);
-	void drawSecondPass(const Vector3& viewer);
-	void addToTerrain(unsigned id);
+	void draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light);
+	void drawSecondPass(const Vector3& viewer, int environment, float multiplier);
+	void addToTerrain(unsigned id, int environment);
 	static int checkcollide(Vector3 startpoint, Vector3 endpoint, int what, float minx, float miny, float minz, float maxx, float maxy, float maxz);
 };
 

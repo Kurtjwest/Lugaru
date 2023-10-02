@@ -20,11 +20,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Objects/Object.hpp"
 
-//extern float fadestart;
-extern int environment;
-extern float texscale;
-extern Light light;
-extern float multiplier;
+//extern float multiplier;
 extern Frustum frustum;
 extern Terrain terrain;
 extern bool foliage;
@@ -159,7 +155,7 @@ Object::Object(object_type _type, Vector3 _position, float _yaw, float _pitch, f
     model.ScaleNormals(-1, -1, -1);
 }
 
-void Object::handleFire(bool bloodtoggle)
+void Object::handleFire(bool bloodtoggle, float multiplier)
 {
     if (type == firetype) {
         onfire = 1;
@@ -243,7 +239,7 @@ void Object::doShadows(Vector3 lightloc)
     shadowed = 0;
 }
 
-void Object::handleRot(int divide)
+void Object::handleRot(int divide, float multiplier)
 {
     messedwith -= multiplier;
     if (rotxvel || rotx) {
@@ -325,7 +321,7 @@ void Object::handleRot(int divide)
     }
 }
 
-void Object::draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart)
+void Object::draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light)
 {
     float distance = 0.0;
     Vector3 moved, terrainlight;
@@ -361,13 +357,13 @@ void Object::draw(bool decalstoggle, float multiplier, const Vector3& viewer, fl
                     glDepthMask(1);
                     glTranslatef(position.x, position.y, position.z);
                     if (type == bushtype) {
-                        handleRot(1);
+                        handleRot(1, multiplier);
                     }
                     if (type == treetrunktype || type == treeleavestype) {
                         if (type == treetrunktype || environment == desertenvironment) {
-                            handleRot(6);
+                            handleRot(6, multiplier);
                         } else {
-                            handleRot(4);
+                            handleRot(4, multiplier);
                         }
                     }
                     if (environment == snowyenvironment) {
@@ -452,7 +448,7 @@ void Object::draw(bool decalstoggle, float multiplier, const Vector3& viewer, fl
     }
 }
 
-void Object::drawSecondPass(const Vector3& viewer)
+void Object::drawSecondPass(const Vector3& viewer, int environment, float multiplier)
 {
     static float distance;
     static Vector3 moved, terrainlight;
@@ -471,10 +467,10 @@ void Object::drawSecondPass(const Vector3& viewer)
             glDepthMask(1);
             glTranslatef(position.x, position.y, position.z);
             if (type == bushtype) {
-                handleRot(1);
+                handleRot(1, multiplier);
             }
             if (type == treetrunktype || type == treeleavestype) {
-                handleRot(2);
+                handleRot(2, multiplier);
             }
             if (environment == snowyenvironment) {
                 if (type == treeleavestype) {
@@ -582,7 +578,7 @@ void Object::LoadObjectsFromJson(Json::Value values, ProgressCallback callback)
     }
 }
 
-void Object::addToTerrain(unsigned id)
+void Object::addToTerrain(unsigned id, int environment)
 {
     if ((type != treeleavestype) && (type != bushtype) && (type != firetype)) {
         terrain.AddObject(position + DoRotation(model.boundingspherecenter, 0, yaw, 0), model.boundingsphereradius, id);
@@ -599,10 +595,10 @@ void Object::addToTerrain(unsigned id)
     }
 }
 
-void Object::AddObjectsToTerrain()
+void Object::AddObjectsToTerrain(int environment)
 {
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->addToTerrain(i);
+        objects[i]->addToTerrain(i, environment);
     }
 }
 
@@ -624,15 +620,15 @@ void Object::SphereCheckPossible(Vector3* p1, float radius)
     }
 }
 
-void Object::Draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart)
+void Object::Draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light)
 {
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->draw(decalstoggle, multiplier, viewer, viewdistance, fadestart);
+        objects[i]->draw(decalstoggle, multiplier, viewer, viewdistance, fadestart, environment, light);
     }
 
     glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT, 0);
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->drawSecondPass(viewer);
+        objects[i]->drawSecondPass(viewer, environment, multiplier);
     }
     if (environment == desertenvironment) {
         glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT, 0);
@@ -647,23 +643,23 @@ void Object::DeleteObject(int which)
     terrain.DeleteObject(which);
 }
 
-void Object::MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, ProgressCallback callback)
+void Object::MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, int environment, ProgressCallback callback)
 {
     if ((atype != treeleavestype && atype != bushtype) || foliage == 1) {
         unsigned nextid = objects.size();
         objects.emplace_back(new Object(object_type(atype), where, ayaw, apitch, ascale, callback));
-        objects.back()->addToTerrain(nextid);
+        objects.back()->addToTerrain(nextid, environment);
     }
 }
 
-void Object::DoStuff(bool bloodtoggle)
+void Object::DoStuff(bool bloodtoggle, float multiplier)
 {
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->handleFire(bloodtoggle);
+        objects[i]->handleFire(bloodtoggle, multiplier);
     }
 }
 
-void Object::DoShadows(bool skyboxtexture)
+void Object::DoShadows(bool skyboxtexture, const Light& light)
 {
     Vector3 lightloc;
     lightloc = light.location;

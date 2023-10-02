@@ -44,6 +44,6 @@ public:
     }
 };
 
-void SetUpLight(Light* whichsource, int whichlight);
+void SetUpLight(const Light* whichsource, int whichlight);
 
 #endif

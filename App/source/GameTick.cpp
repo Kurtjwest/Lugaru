@@ -769,10 +769,10 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 	SetUpLighting();
 
 	if (!stealthloading) {
-		Object::AddObjectsToTerrain();
+		Object::AddObjectsToTerrain(environment);
 		terrain.DoShadows(Tutorial::active, texscale, light, skyboxtexture, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
-		Object::DoShadows(skyboxtexture);
+		Object::DoShadows(skyboxtexture, light);
 		Game::LoadingScreen();
 	}
 
@@ -1065,10 +1065,10 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 	SetUpLighting();
 
 	if (!stealthloading) {
-		Object::AddObjectsToTerrain();
+		Object::AddObjectsToTerrain(environment);
 		terrain.DoShadows(Tutorial::active, texscale, light, skyboxtexture, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
-		Object::DoShadows(skyboxtexture);
+		Object::DoShadows(skyboxtexture, light);
 		Game::LoadingScreen();
 	}
 
@@ -1646,9 +1646,9 @@ void Game::ProcessDevInput()
 					tmppitch = rand() % 360;
 				}
 
-				Object::MakeObject(editortype, scenecoords, (int)tmpyaw - ((int)tmpyaw) % 30, (int)tmppitch, editorsize, []() {Game::LoadingScreen(); });
+				Object::MakeObject(editortype, scenecoords, (int)tmpyaw - ((int)tmpyaw) % 30, (int)tmppitch, editorsize, environment, []() {Game::LoadingScreen(); });
 				if (editortype == treetrunktype) {
-					Object::MakeObject(treeleavestype, scenecoords, rand() % 360 * (tmppitch < 2) + (int)editoryaw - ((int)editoryaw) % 30, editorpitch, editorsize, []() {Game::LoadingScreen(); });
+					Object::MakeObject(treeleavestype, scenecoords, rand() % 360 * (tmppitch < 2) + (int)editoryaw - ((int)editoryaw) % 30, editorpitch, editorsize, environment, []() {Game::LoadingScreen(); });
 				}
 			}
 		}
@@ -4652,7 +4652,7 @@ void Game::Tick()
 			}
 
 			//do stuff
-			Object::DoStuff(bloodtoggle);
+			Object::DoStuff(bloodtoggle, multiplier);
 
 			for (int j = numenvsounds - 1; j >= 0; j--) {
 				envsoundlife[j] -= multiplier;
