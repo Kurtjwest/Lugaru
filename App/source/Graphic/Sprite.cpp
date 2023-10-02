@@ -23,7 +23,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Objects/Person.hpp"
 
 // TODO Get rid of globals
-extern float viewdistance;
+//extern float viewdistance;
 extern float fadestart;
 extern int environment;
 extern float texscale;
@@ -54,26 +54,23 @@ float Sprite::checkdelay = 0;
 vector<std::unique_ptr<Sprite> > Sprite::sprites = vector<std::unique_ptr<Sprite> >();
 
 //Functions
-void Sprite::Draw(const Vector3& viewer)
+void Sprite::Draw(const Vector3& viewer, float viewdistance)
 {
-	int k;
-	static float M[16];
-	static Vector3 point;
-	static float distancemult;
-	static int lasttype;
-	static int lastspecial;
-	static int whichpatchx, whichpatchz;
-	static Vector3 start, end, colpoint;
-	static bool check;
-	static bool blend;
-	static float tempmult;
-	static Vector3 difference;
-	static float lightcolor[3];
-	static float viewdistsquared = viewdistance * viewdistance;
-	static Vector3 tempviewer;
-
-	tempviewer = viewer + viewerfacing * 6;
-	check = 0;
+	int k = 0;
+	float M[16];
+	Vector3 point;
+	float distancemult = 0.f;
+	int lasttype = -1;
+	int lastspecial = -1;
+	int whichpatchx = 0, whichpatchz = 0;
+	Vector3 start, end, colpoint;
+	bool check = 0;
+	bool blend = 0;
+	float tempmult = 0.f;
+	Vector3 difference;
+	float lightcolor[3];
+	float viewdistsquared = viewdistance * viewdistance;
+	Vector3 tempviewer = viewer + viewerfacing * 6;
 
 	lightcolor[0] = light.color[0] * .5 + light.ambient[0];
 	lightcolor[1] = light.color[1] * .5 + light.ambient[1];
@@ -86,8 +83,6 @@ void Sprite::Draw(const Vector3& viewer)
 		checkdelay = 1;
 	}
 
-	lasttype = -1;
-	lastspecial = -1;
 	glEnable(GL_BLEND);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_CULL_FACE);

@@ -518,7 +518,7 @@ int Game::DrawGLScene(StereoSide side)
 
 		glDepthMask(0);
 
-		Sprite::Draw(viewer);
+		Sprite::Draw(viewer, viewdistance);
 
 		//waypoints, pathpoints in editor
 		if (editorenabled) {
