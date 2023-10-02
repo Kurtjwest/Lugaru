@@ -77,7 +77,9 @@ private:
 public:
     static void DeleteSprite(int which);
     static void MakeSprite(int atype, Vector3 where, Vector3 avelocity, float red, float green, float blue, float asize, float aopacity);
-    static void Draw(const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light);
+
+    // TODO Update and draw in one?
+    static void Draw(const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light, float multiplier, float gravity, Terrain& terrain);
     static void deleteSprites()
     {
         sprites.clear();
