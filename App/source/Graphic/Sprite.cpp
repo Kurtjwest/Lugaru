@@ -23,10 +23,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Objects/Person.hpp"
 
 // TODO Get rid of globals
-//extern Terrain terrain;
-extern int detail;
-extern Vector3 viewerfacing;
-extern int bloodtoggle;
+//extern int bloodtoggle;
 extern Vector3 windvector;
 
 // init statics
@@ -47,7 +44,7 @@ float Sprite::checkdelay = 0;
 std::vector<std::unique_ptr<Sprite>> Sprite::sprites = std::vector<std::unique_ptr<Sprite>>();
 
 //Functions
-void Sprite::Draw(const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light, float multiplier, float gravity, Terrain& terrain)
+void Sprite::Draw(const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light, float multiplier, float gravity, Terrain& terrain, int detail, const Vector3& viewerfacing, bool bloodtoggle)
 {
 	int k = 0;
 	float M[16];
@@ -425,7 +422,7 @@ void Sprite::Draw(const Vector3& viewer, float viewdistance, float fadestart, in
 			sprites[i]->opacity -= multiplier * 5 / 4;
 			if (sprites[i]->type != weaponshinesprite && sprites[i]->type != bloodflamesprite) {
 				if (sprites[i]->opacity < .5 && sprites[i]->opacity + multiplier * 5 / 4 >= .5 && (abs(rand() % 4) == 0 || (sprites[i]->initialsize > 2 && rand() % 2 == 0))) {
-					MakeSprite(smoketype, sprites[i]->position, sprites[i]->velocity, .9, .9, .6, sprites[i]->size * 1.2, .4);
+					MakeSprite(smoketype, sprites[i]->position, sprites[i]->velocity, .9, .9, .6, sprites[i]->size * 1.2, .4, bloodtoggle);
 				}
 			}
 			if (sprites[i]->alivetime > .14 && (sprites[i]->type == flamesprite)) {
@@ -473,7 +470,7 @@ void Sprite::DeleteSprite(int i)
 	sprites.erase(sprites.begin() + i);
 }
 
-void Sprite::MakeSprite(int atype, Vector3 where, Vector3 avelocity, float red, float green, float blue, float asize, float aopacity)
+void Sprite::MakeSprite(int atype, Vector3 where, Vector3 avelocity, float red, float green, float blue, float asize, float aopacity, bool bloodtoggle)
 {
 	if (sprites.size() < max_sprites - 1) {
 		sprites.push_back(std::unique_ptr<Sprite>(new Sprite()));

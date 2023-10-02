@@ -1478,11 +1478,11 @@ void Game::ProcessDevInput()
 					flatvelocity2.z += (float)(abs(rand() % 100) - 50) / 10;
 					printf("Test: %f\n", flatvelocity2.x);
 					printf("Test orig: %f\n", flatvelocity2_orig.x);
-					Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2, 1, 1, 1, .6, 1);
+					Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2, 1, 1, 1, .6, 1, bloodtoggle);
 					flatvelocity2 += headspurtdirection * 8;
-					Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2 / 2, 1, 1, 1, .16, 1);
+					Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2 / 2, 1, 1, 1, .16, 1, bloodtoggle);
 				}
-				Sprite::MakeSprite(cloudsprite, flatfacing2, flatvelocity2 * 0, .6, 0, 0, 1, .5);
+				Sprite::MakeSprite(cloudsprite, flatfacing2, flatvelocity2 * 0, .6, 0, 0, 1, .5, bloodtoggle);
 
 				emit_sound_at(splattersound, Person::players[closest]->coords);
 				emit_sound_at(breaksound2, Person::players[closest]->coords, 100.);
@@ -1531,33 +1531,33 @@ void Game::ProcessDevInput()
 					flatvelocity2.x += (float)(abs(rand() % 100) - 50) / 10;
 					flatvelocity2.y += (float)(abs(rand() % 100) - 50) / 10;
 					flatvelocity2.z += (float)(abs(rand() % 100) - 50) / 10;
-					Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2, 1, 1, 1, 3, 1);
-					Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2, 1, 1, 1, .3, 1);
-					Sprite::MakeSprite(cloudsprite, flatfacing2, flatvelocity2 * 0, .6, 0, 0, 1, .5);
+					Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2, 1, 1, 1, 3, 1, bloodtoggle);
+					Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2, 1, 1, 1, .3, 1, bloodtoggle);
+					Sprite::MakeSprite(cloudsprite, flatfacing2, flatvelocity2 * 0, .6, 0, 0, 1, .5, bloodtoggle);
 
 					// Animation part 2
 					flatvelocity2 = flatvelocity2_orig;
 					flatvelocity2.x += (float)(abs(rand() % 100) - 50) / 10;
 					flatvelocity2.y += (float)(abs(rand() % 100) - 50) / 10;
 					flatvelocity2.z += (float)(abs(rand() % 100) - 50) / 10;
-					Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2, 1, 1, 1, 3, 1);
-					Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2, 1, 1, 1, .4, 1);
+					Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2, 1, 1, 1, 3, 1, bloodtoggle);
+					Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2, 1, 1, 1, .4, 1, bloodtoggle);
 
 					// Animation part 3
 					flatvelocity2 = flatvelocity2_orig;
 					flatvelocity2.x += (float)(abs(rand() % 100) - 50) / 10;
 					flatvelocity2.y += (float)(abs(rand() % 100) - 50) / 10;
 					flatvelocity2.z += (float)(abs(rand() % 100) - 50) / 10;
-					Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2 * 2, 1, 1, 1, 3, 1);
-					Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2 * 2, 1, 1, 1, .4, 1);
+					Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2 * 2, 1, 1, 1, 3, 1, bloodtoggle);
+					Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2 * 2, 1, 1, 1, .4, 1, bloodtoggle);
 
 					// Animation part 4
 					flatvelocity2 = flatvelocity2_orig;
 					flatvelocity2.x += (float)(abs(rand() % 100) - 50) / 10;
 					flatvelocity2.y += (float)(abs(rand() % 100) - 50) / 10;
 					flatvelocity2.z += (float)(abs(rand() % 100) - 50) / 10;
-					Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2 * 2, 1, 1, 1, 3, 1);
-					Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2 * 2, 1, 1, 1, .4, 1);
+					Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2 * 2, 1, 1, 1, 3, 1, bloodtoggle);
+					Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2 * 2, 1, 1, 1, .4, 1, bloodtoggle);
 				}
 
 				Vector3 temppos;
@@ -3320,7 +3320,7 @@ void Game::Tick()
 						hotspotsprite = DoRotation(hotspotsprite, 0, 0, rand() % 360);
 						hotspotsprite = DoRotation(hotspotsprite, 0, rand() % 360, 0);
 						hotspotsprite += Hotspot::hotspots[i].position;
-						Sprite::MakeSprite(breathsprite, hotspotsprite, hotspotsprite * 0, 1, 0.5, 0, 7, 0.4);
+						Sprite::MakeSprite(breathsprite, hotspotsprite, hotspotsprite * 0, 1, 0.5, 0, 7, 0.4, bloodtoggle);
 						hotspotvisual[i] += 0.1 / Hotspot::hotspots[i].size / Hotspot::hotspots[i].size / Hotspot::hotspots[i].size;
 					}
 				}
@@ -3334,7 +3334,7 @@ void Game::Tick()
 
 			//Tutorial
 			if (Tutorial::active) {
-				Tutorial::Do(multiplier);
+				Tutorial::Do(multiplier, bloodtoggle);
 			}
 
 			//bonuses
@@ -3390,7 +3390,7 @@ void Game::Tick()
 					footpoint.y += ((float)abs(rand() % 1200)) / 100 - 6;
 					footpoint.x += ((float)abs(rand() % 1200)) / 100 - 6;
 					footpoint.z += ((float)abs(rand() % 1200)) / 100 - 6;
-					Sprite::MakeSprite(snowsprite, footpoint, footvel, 1, 1, 1, .1, 1);
+					Sprite::MakeSprite(snowsprite, footpoint, footvel, 1, 1, 1, .1, 1, bloodtoggle);
 				}
 			}
 
@@ -4025,7 +4025,7 @@ void Game::Tick()
 																if (Person::players[i]->victim->weaponstuck != -1) {
 																	if (Person::players[i]->victim->weaponids[Person::players[i]->victim->weaponstuck] == k) {
 																		if (bloodtoggle) {
-																			Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .8, .3);
+																			Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .8, .3, bloodtoggle);
 																		}
 																		weapons[k].bloody = 2;
 																		weapons[k].blooddrip = 5;
@@ -4652,7 +4652,7 @@ void Game::Tick()
 			}
 
 			//do stuff
-			Object::DoStuff();
+			Object::DoStuff(bloodtoggle);
 
 			for (int j = numenvsounds - 1; j >= 0; j--) {
 				envsoundlife[j] -= multiplier;
@@ -4665,7 +4665,7 @@ void Game::Tick()
 			OPENAL_SetFrequency(OPENAL_ALL, slomo);
 
 			if (Tutorial::active) {
-				Tutorial::DoStuff(multiplier);
+				Tutorial::DoStuff(multiplier, bloodtoggle);
 			}
 
 			//3d sound

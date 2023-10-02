@@ -591,7 +591,7 @@ void Person::CatchFire()
 			flatvelocity = velocity;
 			flatfacing = DoRotation(DoRotation(DoRotation(skeleton.joints[howmany].position, 0, 0, tilt), tilt2, 0, 0), 0, yaw, 0) * scale + coords;
 		}
-		Sprite::MakeSprite(flamesprite, flatfacing, flatvelocity, 1, 1, 1, 2, 1);
+		Sprite::MakeSprite(flamesprite, flatfacing, flatvelocity, 1, 1, 1, 2, 1, bloodtoggle);
 	}
 
 	onfiredelay = 0.5;
@@ -741,15 +741,15 @@ void Person::DoBlood(float howmuch, int which)
 				if (skeleton.free) {
 					bloodvel -= DoRotation(skeleton.forward * 10 * scale, ((float)(rand() % 100)) / 4, ((float)(rand() % 100)) / 4, 0);
 					bloodvel += DoRotation(jointVel(head), ((float)(rand() % 100)) / 4, yaw + ((float)(rand() % 100)) / 4, 0) * scale;
-					Sprite::MakeSprite(bloodsprite, jointPos(head) * scale + coords, bloodvel, 1, 1, 1, .05, 1);
-					Sprite::MakeSprite(bloodflamesprite, jointPos(head) * scale + coords, bloodvel, 1, 1, 1, .3, 1);
+					Sprite::MakeSprite(bloodsprite, jointPos(head) * scale + coords, bloodvel, 1, 1, 1, .05, 1, bloodtoggle);
+					Sprite::MakeSprite(bloodflamesprite, jointPos(head) * scale + coords, bloodvel, 1, 1, 1, .3, 1, bloodtoggle);
 				}
 				else {
 					bloodvel.z = 10;
 					bloodvel = DoRotation(bloodvel, ((float)(rand() % 100)) / 4, yaw + ((float)(rand() % 100)) / 4, 0) * scale;
 					bloodvel += DoRotation(velocity, ((float)(rand() % 100)) / 4, ((float)(rand() % 100)) / 4, 0) * scale;
-					Sprite::MakeSprite(bloodsprite, DoRotation((jointPos(head) + jointPos(neck)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .05, 1);
-					Sprite::MakeSprite(bloodflamesprite, DoRotation((jointPos(head) + jointPos(neck)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .3, 1);
+					Sprite::MakeSprite(bloodsprite, DoRotation((jointPos(head) + jointPos(neck)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .05, 1, bloodtoggle);
+					Sprite::MakeSprite(bloodflamesprite, DoRotation((jointPos(head) + jointPos(neck)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .3, 1, bloodtoggle);
 				}
 			}
 			if (rand() % 2 == 0) { // 50% chance
@@ -768,10 +768,10 @@ void Person::DoBlood(float howmuch, int which)
 						}
 						bloodvel *= .2;
 						if (skeleton.free) {
-							Sprite::MakeSprite(splintersprite, jointPos(head) * scale + coords, bloodvel, 1, 1, 1, .05, 1);
+							Sprite::MakeSprite(splintersprite, jointPos(head) * scale + coords, bloodvel, 1, 1, 1, .05, 1, bloodtoggle);
 						}
 						else {
-							Sprite::MakeSprite(splintersprite, DoRotation((jointPos(head) + jointPos(neck)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .05, 1);
+							Sprite::MakeSprite(splintersprite, DoRotation((jointPos(head) + jointPos(neck)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .05, 1, bloodtoggle);
 						}
 						Sprite::setLastSpriteSpecial(3); // sets it to teeth
 					}
@@ -856,15 +856,15 @@ void Person::DoBloodBig(float howmuch, int which)
 				if (skeleton.free) {
 					bloodvel -= DoRotation(skeleton.forward * 10 * scale, ((float)(rand() % 100)) / 4, ((float)(rand() % 100)) / 4, 0);
 					bloodvel += DoRotation(jointVel(head), ((float)(rand() % 100)) / 4, yaw + ((float)(rand() % 100)) / 4, 0) * scale;
-					Sprite::MakeSprite(bloodsprite, jointPos(head) * scale + coords, bloodvel, 1, 1, 1, .05, 1);
-					Sprite::MakeSprite(bloodflamesprite, jointPos(head) * scale + coords, bloodvel, 1, 1, 1, .3, 1);
+					Sprite::MakeSprite(bloodsprite, jointPos(head) * scale + coords, bloodvel, 1, 1, 1, .05, 1, bloodtoggle);
+					Sprite::MakeSprite(bloodflamesprite, jointPos(head) * scale + coords, bloodvel, 1, 1, 1, .3, 1, bloodtoggle);
 				}
 				else {
 					bloodvel.z = 10;
 					bloodvel = DoRotation(bloodvel, ((float)(rand() % 100)) / 4, yaw + ((float)(rand() % 100)) / 4, 0) * scale;
 					bloodvel += DoRotation(velocity, ((float)(rand() % 100)) / 4, ((float)(rand() % 100)) / 4, 0) * scale;
-					Sprite::MakeSprite(bloodsprite, DoRotation((jointPos(head) + jointPos(neck)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .05, 1);
-					Sprite::MakeSprite(bloodflamesprite, DoRotation((jointPos(head) + jointPos(neck)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .3, 1);
+					Sprite::MakeSprite(bloodsprite, DoRotation((jointPos(head) + jointPos(neck)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .05, 1, bloodtoggle);
+					Sprite::MakeSprite(bloodflamesprite, DoRotation((jointPos(head) + jointPos(neck)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .3, 1, bloodtoggle);
 				}
 			}
 		}
@@ -1084,15 +1084,15 @@ bool Person::DoBloodBigWhere(float howmuch, int which, Vector3 where)
 				if (skeleton.free) {
 					bloodvel -= DoRotation(skeleton.forward * 10 * scale, ((float)(rand() % 100)) / 4, ((float)(rand() % 100)) / 4, 0);
 					bloodvel += DoRotation(jointVel(head), ((float)(rand() % 100)) / 4, yaw + ((float)(rand() % 100)) / 4, 0) * scale;
-					Sprite::MakeSprite(bloodsprite, jointPos(head) * scale + coords, bloodvel, 1, 1, 1, .05, 1);
-					Sprite::MakeSprite(bloodflamesprite, jointPos(head) * scale + coords, bloodvel, 1, 1, 1, .3, 1);
+					Sprite::MakeSprite(bloodsprite, jointPos(head) * scale + coords, bloodvel, 1, 1, 1, .05, 1, bloodtoggle);
+					Sprite::MakeSprite(bloodflamesprite, jointPos(head) * scale + coords, bloodvel, 1, 1, 1, .3, 1, bloodtoggle);
 				}
 				else {
 					bloodvel.z = 10;
 					bloodvel = DoRotation(bloodvel, ((float)(rand() % 100)) / 4, yaw + ((float)(rand() % 100)) / 4, 0) * scale;
 					bloodvel += DoRotation(velocity, ((float)(rand() % 100)) / 4, ((float)(rand() % 100)) / 4, 0) * scale;
-					Sprite::MakeSprite(bloodsprite, DoRotation((jointPos(head) + jointPos(neck)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .05, 1);
-					Sprite::MakeSprite(bloodflamesprite, DoRotation((jointPos(head) + jointPos(neck)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .3, 1);
+					Sprite::MakeSprite(bloodsprite, DoRotation((jointPos(head) + jointPos(neck)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .05, 1, bloodtoggle);
+					Sprite::MakeSprite(bloodflamesprite, DoRotation((jointPos(head) + jointPos(neck)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .3, 1, bloodtoggle);
 				}
 			}
 		}
@@ -1613,9 +1613,9 @@ void Person::DoDamage(float howmuch, const Terrain& terrain)
 			flatvelocity2.x += (float)(abs(rand() % 100) - 50) / 10;
 			flatvelocity2.y += (float)(abs(rand() % 100) - 50) / 10;
 			flatvelocity2.z += (float)(abs(rand() % 100) - 50) / 10;
-			Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2, 1, 1, 1, 3, 1);
-			Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2, 1, 1, 1, .4, 1);
-			Sprite::MakeSprite(cloudsprite, flatfacing2, flatvelocity2 * 0, .6, 0, 0, 1, .5);
+			Sprite::MakeSprite(bloodflamesprite, flatfacing2, flatvelocity2, 1, 1, 1, 3, 1, bloodtoggle);
+			Sprite::MakeSprite(bloodsprite, flatfacing2, flatvelocity2, 1, 1, 1, .4, 1, bloodtoggle);
+			Sprite::MakeSprite(cloudsprite, flatfacing2, flatvelocity2 * 0, .6, 0, 0, 1, .5, bloodtoggle);
 		}
 
 		emit_sound_at(splattersound, coords);
@@ -1852,12 +1852,12 @@ void Person::RagDoll(bool checkcollision, const Terrain& terrain)
 			skeleton.joints[i].velocity = 0;
 			skeleton.joints[i].velchange = 0;
 		}
-		skeleton.DoConstraints(&coords, &scale, Tutorial::active);
+		skeleton.DoConstraints(&coords, &scale, Tutorial::active, bloodtoggle);
 		if (Animation::animations[animCurrent].height == lowheight || Animation::animations[animTarget].height == lowheight) {
-			skeleton.DoConstraints(&coords, &scale, Tutorial::active);
-			skeleton.DoConstraints(&coords, &scale, Tutorial::active);
-			skeleton.DoConstraints(&coords, &scale, Tutorial::active);
-			skeleton.DoConstraints(&coords, &scale, Tutorial::active);
+			skeleton.DoConstraints(&coords, &scale, Tutorial::active, bloodtoggle);
+			skeleton.DoConstraints(&coords, &scale, Tutorial::active, bloodtoggle);
+			skeleton.DoConstraints(&coords, &scale, Tutorial::active, bloodtoggle);
+			skeleton.DoConstraints(&coords, &scale, Tutorial::active, bloodtoggle);
 		}
 
 		speed = targetFrame().speed * 2;
@@ -1969,7 +1969,7 @@ void Person::FootLand(bodypart whichfoot, float opacity, Terrain& terrain)
 			footvel = 0;
 			footpoint = DoRotation(jointPos(whichfoot), 0, yaw, 0) * scale + coords;
 			if (distsq(&footpoint, &viewer)) {
-				Sprite::MakeSprite(cloudsprite, footpoint, footvel, 1, 1, 1, .5, .2 * opacity);
+				Sprite::MakeSprite(cloudsprite, footpoint, footvel, 1, 1, 1, .5, .2 * opacity, bloodtoggle);
 			}
 		}
 		else if (onterrain && terrain.getOpacity(coords.x, coords.z) < .2) {
@@ -1982,16 +1982,16 @@ void Person::FootLand(bodypart whichfoot, float opacity, Terrain& terrain)
 			terrainlight = terrain.getLighting(footpoint.x, footpoint.z);
 			if (distsq(&footpoint, &viewer) < viewdistance * viewdistance / 4) {
 				if (environment == snowyenvironment) {
-					Sprite::MakeSprite(cloudsprite, footpoint, footvel * .6, terrainlight.x, terrainlight.y, terrainlight.z, .5, .7 * opacity);
+					Sprite::MakeSprite(cloudsprite, footpoint, footvel * .6, terrainlight.x, terrainlight.y, terrainlight.z, .5, .7 * opacity, bloodtoggle);
 					if (detail == 2) {
 						terrain.MakeDecal(footprintdecal, footpoint, .2, 1 * opacity, yaw, environment);
 					}
 				}
 				else if (environment == grassyenvironment) {
-					Sprite::MakeSprite(cloudsprite, footpoint, footvel * .6, terrainlight.x * 90 / 255, terrainlight.y * 70 / 255, terrainlight.z * 8 / 255, .5, .5 * opacity);
+					Sprite::MakeSprite(cloudsprite, footpoint, footvel * .6, terrainlight.x * 90 / 255, terrainlight.y * 70 / 255, terrainlight.z * 8 / 255, .5, .5 * opacity, bloodtoggle);
 				}
 				else if (environment == desertenvironment) {
-					Sprite::MakeSprite(cloudsprite, footpoint, footvel * .6, terrainlight.x * 190 / 255, terrainlight.y * 170 / 255, terrainlight.z * 108 / 255, .5, .7 * opacity);
+					Sprite::MakeSprite(cloudsprite, footpoint, footvel * .6, terrainlight.x * 190 / 255, terrainlight.y * 170 / 255, terrainlight.z * 108 / 255, .5, .7 * opacity, bloodtoggle);
 					if (detail == 2) {
 						terrain.MakeDecal(footprintdecal, footpoint, .2, .25 * opacity, yaw, environment);
 					}
@@ -2005,7 +2005,7 @@ void Person::FootLand(bodypart whichfoot, float opacity, Terrain& terrain)
 			}
 			footpoint = DoRotation(jointPos(whichfoot), 0, yaw, 0) * scale + coords;
 			if (distsq(&footpoint, &viewer) < viewdistance * viewdistance / 4) {
-				Sprite::MakeSprite(cloudsprite, footpoint, footvel * .6, 1, 1, 1, .5, .2 * opacity);
+				Sprite::MakeSprite(cloudsprite, footpoint, footvel * .6, 1, 1, 1, .5, .2 * opacity, bloodtoggle);
 			}
 		}
 	}
@@ -2020,7 +2020,7 @@ void Person::Puff(int whichlabel)
 
 	footvel = 0;
 	footpoint = DoRotation(jointPos(whichlabel), 0, yaw, 0) * scale + coords;
-	Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 1, 1, .9, .3);
+	Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 1, 1, .9, .3, bloodtoggle);
 }
 
 /* EFFECT
@@ -2357,7 +2357,7 @@ void Person::DoAnimations(Terrain& terrain)
 									if (victim->weaponstuck != -1) {
 										if (victim->weaponids[victim->weaponstuck] == int(i)) {
 											if (bloodtoggle) {
-												Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .8, .3);
+												Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .8, .3, bloodtoggle);
 											}
 											weapons[i].bloody = 2;
 											weapons[i].blooddrip = 5;
@@ -2947,7 +2947,7 @@ void Person::DoAnimations(Terrain& terrain)
 								Normalise(&relative);
 								//victim->Puff(abdomen);
 								if (bloodtoggle) {
-									Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .8, .3);
+									Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .8, .3, bloodtoggle);
 								}
 
 								if (victim->bloodloss < victim->damagetolerance) {
@@ -3147,17 +3147,17 @@ void Person::DoAnimations(Terrain& terrain)
 								footpoint = DoRotation((victim->jointPos(abdomen) + victim->jointPos(neck)) / 2, 0, victim->yaw, 0) * victim->scale + victim->coords;
 							}
 							if (Tutorial::active) {
-								Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 1, 1, .6, .3);
+								Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 1, 1, .6, .3, bloodtoggle);
 							}
 							else {
 								if (bloodtoggle) {
-									Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .6, .3);
+									Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .6, .3, bloodtoggle);
 								}
 								footvel = DoRotation(facing, 0, 90, 0) * .8;
-								Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 7, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9);
-								Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9);
-								Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 5, 1, 1, 1, .2, 1);
-								Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 2, 1, 1, 1, .2, 1);
+								Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 7, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9, bloodtoggle);
+								Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9, bloodtoggle);
+								Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 5, 1, 1, 1, .2, 1, bloodtoggle);
+								Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 2, 1, 1, 1, .2, 1, bloodtoggle);
 							}
 							victim->DoDamage(damagemult * 0, terrain);
 						}
@@ -3200,14 +3200,14 @@ void Person::DoAnimations(Terrain& terrain)
 									footpoint = DoRotation((victim->jointPos(abdomen) + victim->jointPos(neck)) / 2, 0, victim->yaw, 0) * victim->scale + victim->coords;
 								}
 								if (bloodtoggle) {
-									Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .9, .3);
+									Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .9, .3, bloodtoggle);
 								}
 								footvel = DoRotation(facing, 0, 90, 0) * .8;
 								footvel.y -= .3;
-								Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 7, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9);
-								Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9);
-								Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 5, 1, 1, 1, .3, 1);
-								Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 2, 1, 1, 1, .3, 1);
+								Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 7, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9, bloodtoggle);
+								Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9, bloodtoggle);
+								Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 5, 1, 1, 1, .3, 1, bloodtoggle);
+								Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 2, 1, 1, 1, .3, 1, bloodtoggle);
 							}
 						}
 						else {
@@ -3748,13 +3748,13 @@ void Person::DoAnimations(Terrain& terrain)
 							footvel = 0;
 							footpoint = weapons[weaponids[0]].tippoint;
 							if (bloodtoggle) {
-								Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .9, .3);
+								Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .9, .3, bloodtoggle);
 							}
 							footvel = (weapons[weaponids[0]].tippoint - weapons[weaponids[0]].position);
-							Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 7, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9);
-							Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9);
-							Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 5, 1, 1, 1, .3, 1);
-							Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 2, 1, 1, 1, .3, 1);
+							Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 7, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9, bloodtoggle);
+							Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9, bloodtoggle);
+							Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 5, 1, 1, 1, .3, 1, bloodtoggle);
+							Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 2, 1, 1, 1, .3, 1, bloodtoggle);
 							victim->DoBloodBig(200, 195);
 							award_bonus(id, tracheotomy);
 						}
@@ -3764,13 +3764,13 @@ void Person::DoAnimations(Terrain& terrain)
 							footvel = 0;
 							footpoint = weapons[weaponids[0]].tippoint;
 							if (bloodtoggle) {
-								Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .9, .3);
+								Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .9, .3, bloodtoggle);
 							}
 							footvel = (weapons[weaponids[0]].tippoint - weapons[weaponids[0]].position) * -1;
-							Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 7, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9);
-							Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9);
-							Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 5, 1, 1, 1, .2, 1);
-							Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 2, 1, 1, 1, .2, 1);
+							Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 7, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9, bloodtoggle);
+							Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9, bloodtoggle);
+							Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 5, 1, 1, 1, .2, 1, bloodtoggle);
+							Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 2, 1, 1, 1, .2, 1, bloodtoggle);
 						}
 						victim->bloodloss += 10000;
 						victim->velocity = 0;
@@ -3805,13 +3805,13 @@ void Person::DoAnimations(Terrain& terrain)
 						footvel = 0;
 						footpoint = weapons[weaponids[0]].tippoint;
 						if (bloodtoggle) {
-							Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .9, .3);
+							Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .9, .3, bloodtoggle);
 						}
 						footvel = (weapons[weaponids[0]].tippoint - weapons[weaponids[0]].position) * -1;
-						Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 7, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9);
-						Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9);
-						Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 5, 1, 1, 1, .3, 1);
-						Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 2, 1, 1, 1, .3, 1);
+						Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 7, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9, bloodtoggle);
+						Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9, bloodtoggle);
+						Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 5, 1, 1, 1, .3, 1, bloodtoggle);
+						Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 2, 1, 1, 1, .3, 1, bloodtoggle);
 					}
 				}
 
@@ -3825,13 +3825,13 @@ void Person::DoAnimations(Terrain& terrain)
 						footvel = 0;
 						footpoint = (weapons[weaponids[0]].tippoint + weapons[weaponids[0]].position) / 2;
 						if (bloodtoggle) {
-							Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .9, .3);
+							Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .9, .3, bloodtoggle);
 						}
 						footvel = (weapons[weaponids[0]].tippoint - weapons[weaponids[0]].position);
-						Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 7, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9);
-						Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9);
-						Sprite::MakeSprite(bloodflamesprite, footpoint, DoRotation(footvel * 5, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .3, 1);
-						Sprite::MakeSprite(bloodflamesprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .3, 1);
+						Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 7, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9, bloodtoggle);
+						Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9, bloodtoggle);
+						Sprite::MakeSprite(bloodflamesprite, footpoint, DoRotation(footvel * 5, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .3, 1, bloodtoggle);
+						Sprite::MakeSprite(bloodflamesprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .3, 1, bloodtoggle);
 						victim->DoBloodBig(200, 180);
 						victim->DoBloodBig(200, 215);
 						victim->bloodloss += 10000;
@@ -3861,13 +3861,13 @@ void Person::DoAnimations(Terrain& terrain)
 						footvel = 0;
 						footpoint = weapons[weaponids[0]].tippoint;
 						if (bloodtoggle) {
-							Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .9, .3);
+							Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .9, .3, bloodtoggle);
 						}
 						footvel = (weapons[weaponids[0]].tippoint - weapons[weaponids[0]].position) * -1;
-						Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 7, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9);
-						Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9);
-						Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 5, 1, 1, 1, .3, 1);
-						Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 2, 1, 1, 1, .3, 1);
+						Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 7, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9, bloodtoggle);
+						Sprite::MakeSprite(bloodsprite, footpoint, DoRotation(footvel * 3, (float)(rand() % 20), (float)(rand() % 20), 0), 1, 1, 1, .05, .9, bloodtoggle);
+						Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 5, 1, 1, 1, .3, 1, bloodtoggle);
+						Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * 2, 1, 1, 1, .3, 1, bloodtoggle);
 					}
 				}
 
@@ -4674,7 +4674,7 @@ void Person::DoStuff(Terrain& terrain)
 			flatfacing = DoRotation(DoRotation(DoRotation(skeleton.joints[howmany].position, 0, 0, tilt), tilt2, 0, 0), 0, yaw, 0) * scale + coords;
 			flatvelocity = (coords - oldcoords) / multiplier / 2;
 		}
-		Sprite::MakeSprite(flamesprite, flatfacing, flatvelocity, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, 1);
+		Sprite::MakeSprite(flamesprite, flatfacing, flatvelocity, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, 1, bloodtoggle);
 	}
 
 	while (flamedelay < 0 && !onfire && Tutorial::active && id != 0) {
@@ -4688,7 +4688,7 @@ void Person::DoStuff(Terrain& terrain)
 			flatvelocity = (coords - oldcoords) / multiplier / 2;
 			flatfacing = DoRotation(DoRotation(DoRotation(skeleton.joints[howmany].position, 0, 0, tilt), tilt2, 0, 0), 0, yaw, 0) * scale + coords;
 		}
-		Sprite::MakeSprite(breathsprite, flatfacing, flatvelocity, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, .3);
+		Sprite::MakeSprite(breathsprite, flatfacing, flatvelocity, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, .3, bloodtoggle);
 	}
 
 	if (bleeding > 0) {
@@ -4711,13 +4711,13 @@ void Person::DoStuff(Terrain& terrain)
 			if (skeleton.free) {
 				bloodvel -= DoRotation(skeleton.forward * 10 * scale, ((float)(rand() % 100)) / 40, ((float)(rand() % 100)) / 40, 0);
 				bloodvel += DoRotation(jointVel(head), ((float)(rand() % 100)) / 40, yaw + ((float)(rand() % 100)) / 40, 0) * scale;
-				Sprite::MakeSprite(bloodsprite, (jointPos(neck) + (jointPos(neck) - jointPos(head)) / 5) * scale + coords, bloodvel, 1, 1, 1, .05, .9);
+				Sprite::MakeSprite(bloodsprite, (jointPos(neck) + (jointPos(neck) - jointPos(head)) / 5) * scale + coords, bloodvel, 1, 1, 1, .05, .9, bloodtoggle);
 			}
 			else {
 				bloodvel.z = 5 * neckspurtamount;
 				bloodvel = DoRotation(bloodvel, ((float)(rand() % 100)) / 40, yaw + ((float)(rand() % 100)) / 40, 0) * scale;
 				bloodvel += DoRotation(velocity, ((float)(rand() % 100)) / 40, ((float)(rand() % 100)) / 40, 0) * scale;
-				Sprite::MakeSprite(bloodsprite, DoRotation(jointPos(neck) + (jointPos(neck) - jointPos(head)) / 5, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .05, .9);
+				Sprite::MakeSprite(bloodsprite, DoRotation(jointPos(neck) + (jointPos(neck) - jointPos(head)) / 5, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .05, .9, bloodtoggle);
 			}
 			neckspurtparticledelay = .05;
 		}
@@ -4740,11 +4740,11 @@ void Person::DoStuff(Terrain& terrain)
 				bloodvel = 0;
 				if (skeleton.free) {
 					bloodvel += DoRotation(jointVel(abdomen), ((float)(rand() % 100)) / 4, yaw + ((float)(rand() % 100)) / 4, 0) * scale;
-					Sprite::MakeSprite(bloodsprite, jointPos(abdomen) * scale + coords, bloodvel, 1, 1, 1, .05, 1);
+					Sprite::MakeSprite(bloodsprite, jointPos(abdomen) * scale + coords, bloodvel, 1, 1, 1, .05, 1, bloodtoggle);
 				}
 				else {
 					bloodvel += DoRotation(velocity, ((float)(rand() % 100)) / 4, ((float)(rand() % 100)) / 4, 0) * scale;
-					Sprite::MakeSprite(bloodsprite, DoRotation((jointPos(abdomen) + jointPos(abdomen)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .05, 1);
+					Sprite::MakeSprite(bloodsprite, DoRotation((jointPos(abdomen) + jointPos(abdomen)) / 2, 0, yaw, 0) * scale + coords, bloodvel, 1, 1, 1, .05, 1, bloodtoggle);
 				}
 			}
 		}
@@ -4984,7 +4984,7 @@ void Person::DoStuff(Terrain& terrain)
 				if (animTarget == sleepanim) {
 					footvel = DoRotation(footvel, 0, 90, 0);
 				}
-				Sprite::MakeSprite(breathsprite, footpoint + footvel * .2, footvel * .4, 1, 1, 1, .4, .3);
+				Sprite::MakeSprite(breathsprite, footpoint + footvel * .2, footvel * .4, 1, 1, 1, .4, .3, bloodtoggle);
 			}
 		}
 
@@ -5331,7 +5331,7 @@ void Person::DoStuff(Terrain& terrain)
 
 		skeleton.DoGravity(&scale);
 		float damageamount;
-		damageamount = skeleton.DoConstraints(&coords, &scale, Tutorial::active) * 5;
+		damageamount = skeleton.DoConstraints(&coords, &scale, Tutorial::active, bloodtoggle) * 5;
 		if (damage > damagetolerance - damageamount && !dead && (bonus != spinecrusher || bonustime > 1) && (bonus != style || bonustime > 1) && (bonus != cannon || bonustime > 1)) {
 			award_bonus(id, deepimpact);
 		}
@@ -5687,7 +5687,7 @@ void Person::DoStuff(Terrain& terrain)
 										pos.x += float(abs(rand() % 100) - 50) / 200;
 										pos.y += float(abs(rand() % 100) - 50) / 200;
 										pos.z += float(abs(rand() % 100) - 50) / 200;
-										Sprite::MakeSprite(splintersprite, pos, tempvel * .5 + velocity * float(abs(rand() % 100)) / 100, 165 / 255 + float(abs(rand() % 100) - 50) / 400, 0, 0, .2 + float(abs(rand() % 100) - 50) / 1300, 1);
+										Sprite::MakeSprite(splintersprite, pos, tempvel * .5 + velocity * float(abs(rand() % 100)) / 100, 165 / 255 + float(abs(rand() % 100) - 50) / 400, 0, 0, .2 + float(abs(rand() % 100) - 50) / 1300, 1, bloodtoggle);
 										Sprite::setLastSpriteSpecial(1);
 									}
 								}
@@ -5704,7 +5704,7 @@ void Person::DoStuff(Terrain& terrain)
 										pos.x += float(abs(rand() % 100) - 50) / 200;
 										pos.y += float(abs(rand() % 100) - 50) / 200;
 										pos.z += float(abs(rand() % 100) - 50) / 200;
-										Sprite::MakeSprite(splintersprite, pos, tempvel * .3 + velocity * float(abs(rand() % 100)) / 100 / 2, 1, 1, 1, .1, 1);
+										Sprite::MakeSprite(splintersprite, pos, tempvel * .3 + velocity * float(abs(rand() % 100)) / 100 / 2, 1, 1, 1, .1, 1, bloodtoggle);
 										Sprite::setLastSpriteSpecial(2);
 									}
 								}
@@ -5756,7 +5756,7 @@ void Person::DoStuff(Terrain& terrain)
 										pos.x += float(abs(rand() % 100) - 50) / 150;
 										pos.y += float(abs(rand() % 100) - 50) / 150;
 										pos.z += float(abs(rand() % 100) - 50) / 150;
-										Sprite::MakeSprite(splintersprite, pos, tempvel * .5 + velocity * float(abs(rand() % 100)) / 100, 165 / 255 + float(abs(rand() % 100) - 50) / 400, 0, 0, .2 + float(abs(rand() % 100) - 50) / 1300, 1);
+										Sprite::MakeSprite(splintersprite, pos, tempvel * .5 + velocity * float(abs(rand() % 100)) / 100, 165 / 255 + float(abs(rand() % 100) - 50) / 400, 0, 0, .2 + float(abs(rand() % 100) - 50) / 1300, 1, bloodtoggle);
 										Sprite::setLastSpriteSpecial(1);
 									}
 								}
@@ -5774,7 +5774,7 @@ void Person::DoStuff(Terrain& terrain)
 										pos.x += float(abs(rand() % 100) - 50) / 150;
 										pos.y += float(abs(rand() % 100) - 50) / 150;
 										pos.z += float(abs(rand() % 100) - 50) / 150;
-										Sprite::MakeSprite(splintersprite, pos, tempvel * .3 + velocity * float(abs(rand() % 100)) / 100 / 2, 1, 1, 1, .1, 1);
+										Sprite::MakeSprite(splintersprite, pos, tempvel * .3 + velocity * float(abs(rand() % 100)) / 100 / 2, 1, 1, 1, .1, 1, bloodtoggle);
 										Sprite::setLastSpriteSpecial(2);
 									}
 								}
@@ -6409,7 +6409,7 @@ static void IKHelper(Person* p, float interp, const Terrain& terrain)
 	p->jointPos(rightknee) = (p->jointPos(rightfoot) + change2) / 2 + (p->jointPos(rightknee)) / 2;
 
 	// fix up skeleton now that we've moved body parts?
-	p->skeleton.DoConstraints(&p->coords, &p->scale, Tutorial::active);
+	p->skeleton.DoConstraints(&p->coords, &p->scale, Tutorial::active, bloodtoggle);
 }
 
 /* EFFECT

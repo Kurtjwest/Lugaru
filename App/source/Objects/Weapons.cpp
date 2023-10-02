@@ -163,7 +163,7 @@ void Weapon::doStuff(int i)
 			tempvel.x = float(abs(rand() % 100) - 50) / 20;
 			tempvel.y = float(abs(rand() % 100) - 50) / 20;
 			tempvel.z = float(abs(rand() % 100) - 50) / 20;
-			Sprite::MakeSprite(splintersprite, position + (tippoint - position) * ((float)j - 8) / 32, tempvel * .5, 115 / 255, 73 / 255, 12 / 255, .1, 1);
+			Sprite::MakeSprite(splintersprite, position + (tippoint - position) * ((float)j - 8) / 32, tempvel * .5, 115 / 255, 73 / 255, 12 / 255, .1, 1, bloodtoggle);
 		}
 		if (owner != -1) {
 			Person::players[owner]->weaponactive = -1;
@@ -237,7 +237,7 @@ void Weapon::doStuff(int i)
 
 						bloody = 0;
 
-						Sprite::MakeSprite(cloudimpactsprite, position, velocity, 1, 1, 1, .8, .3);
+						Sprite::MakeSprite(cloudimpactsprite, position, velocity, 1, 1, 1, .8, .3, bloodtoggle);
 					}
 					else {
 						physics = 1;
@@ -289,15 +289,15 @@ void Weapon::doStuff(int i)
 							Person::players[j]->jointVel(rightshoulder) += velocity * 2;
 							Person::players[j]->jointVel(leftshoulder) += velocity * 2;
 							if (bloodtoggle && !Tutorial::active) {
-								Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .8, .3);
+								Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .8, .3, bloodtoggle);
 							}
 							if (Tutorial::active) {
-								Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 1, 1, .8, .3);
+								Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 1, 1, .8, .3, bloodtoggle);
 							}
 							footvel = tippoint - position;
 							Normalise(&footvel);
 							if (bloodtoggle && !Tutorial::active) {
-								Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * -1, 1, 0, 0, .6, 1);
+								Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * -1, 1, 0, 0, .6, 1, bloodtoggle);
 							}
 
 							if (!Tutorial::active) {
@@ -378,17 +378,17 @@ void Weapon::doStuff(int i)
 				terrainlight = terrain.getLighting(position.x, position.z);
 				if (environment == snowyenvironment) {
 					if (distsq(position, viewer) < viewdistance * viewdistance / 4) {
-						Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x, terrainlight.y, terrainlight.z, .5, .7);
+						Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x, terrainlight.y, terrainlight.z, .5, .7, bloodtoggle);
 					}
 				}
 				else if (environment == grassyenvironment) {
 					if (distsq(position, viewer) < viewdistance * viewdistance / 4) {
-						Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x * 90 / 255, terrainlight.y * 70 / 255, terrainlight.z * 8 / 255, .5, .5);
+						Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x * 90 / 255, terrainlight.y * 70 / 255, terrainlight.z * 8 / 255, .5, .5, bloodtoggle);
 					}
 				}
 				else if (environment == desertenvironment) {
 					if (distsq(position, viewer) < viewdistance * viewdistance / 4) {
-						Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x * 190 / 255, terrainlight.y * 170 / 255, terrainlight.z * 108 / 255, .5, .7);
+						Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x * 190 / 255, terrainlight.y * 170 / 255, terrainlight.z * 108 / 255, .5, .7, bloodtoggle);
 					}
 				}
 
@@ -749,17 +749,17 @@ void Weapon::doStuff(int i)
 						terrainlight = terrain.getLighting(position.x, position.z);
 						if (environment == snowyenvironment) {
 							if (distsq(&position, &viewer) < viewdistance * viewdistance / 4) {
-								Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x, terrainlight.y, terrainlight.z, .5, .7);
+								Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x, terrainlight.y, terrainlight.z, .5, .7, bloodtoggle);
 							}
 						}
 						else if (environment == grassyenvironment) {
 							if (distsq(&position, &viewer) < viewdistance * viewdistance / 4) {
-								Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x * 90 / 255, terrainlight.y * 70 / 255, terrainlight.z * 8 / 255, .5, .5);
+								Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x * 90 / 255, terrainlight.y * 70 / 255, terrainlight.z * 8 / 255, .5, .5, bloodtoggle);
 							}
 						}
 						else if (environment == desertenvironment) {
 							if (distsq(&position, &viewer) < viewdistance * viewdistance / 4) {
-								Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x * 190 / 255, terrainlight.y * 170 / 255, terrainlight.z * 108 / 255, .5, .7);
+								Sprite::MakeSprite(cloudsprite, position, velocity, terrainlight.x * 190 / 255, terrainlight.y * 170 / 255, terrainlight.z * 108 / 255, .5, .7, bloodtoggle);
 							}
 						}
 					}
@@ -817,17 +817,17 @@ void Weapon::doStuff(int i)
 						terrainlight = terrain.getLighting(tippoint.x, tippoint.z);
 						if (environment == snowyenvironment) {
 							if (distsq(&tippoint, &viewer) < viewdistance * viewdistance / 4) {
-								Sprite::MakeSprite(cloudsprite, tippoint, tipvelocity, terrainlight.x, terrainlight.y, terrainlight.z, .5, .7);
+								Sprite::MakeSprite(cloudsprite, tippoint, tipvelocity, terrainlight.x, terrainlight.y, terrainlight.z, .5, .7, bloodtoggle);
 							}
 						}
 						else if (environment == grassyenvironment) {
 							if (distsq(&tippoint, &viewer) < viewdistance * viewdistance / 4) {
-								Sprite::MakeSprite(cloudsprite, tippoint, tipvelocity, terrainlight.x * 90 / 255, terrainlight.y * 70 / 255, terrainlight.z * 8 / 255, .5, .5);
+								Sprite::MakeSprite(cloudsprite, tippoint, tipvelocity, terrainlight.x * 90 / 255, terrainlight.y * 70 / 255, terrainlight.z * 8 / 255, .5, .5, bloodtoggle);
 							}
 						}
 						else if (environment == desertenvironment) {
 							if (distsq(&tippoint, &viewer) < viewdistance * viewdistance / 4) {
-								Sprite::MakeSprite(cloudsprite, tippoint, tipvelocity, terrainlight.x * 190 / 255, terrainlight.y * 170 / 255, terrainlight.z * 108 / 255, .5, .7);
+								Sprite::MakeSprite(cloudsprite, tippoint, tipvelocity, terrainlight.x * 190 / 255, terrainlight.y * 170 / 255, terrainlight.z * 108 / 255, .5, .7, bloodtoggle);
 							}
 						}
 					}
@@ -993,7 +993,7 @@ void Weapon::doStuff(int i)
 			bloodloc.y -= .05;
 			if (bloodtoggle) {
 				bloodvel = 0;
-				Sprite::MakeSprite(bloodsprite, bloodloc, bloodvel, 1, 1, 1, .03, 1);
+				Sprite::MakeSprite(bloodsprite, bloodloc, bloodvel, 1, 1, 1, .03, 1, bloodtoggle);
 			}
 		}
 	}
@@ -1012,7 +1012,7 @@ void Weapon::doStuff(int i)
 					normalrot.y = 1;
 				}
 			}
-			Sprite::MakeSprite(weaponflamesprite, position + tippoint * (((float)abs(rand() % 100)) / 600 + .05), normalrot, 1, 1, 1, (.6 + (float)abs(rand() % 100) / 200 - .25) * 1 / 3, 1);
+			Sprite::MakeSprite(weaponflamesprite, position + tippoint * (((float)abs(rand() % 100)) / 600 + .05), normalrot, 1, 1, 1, (.6 + (float)abs(rand() % 100) / 200 - .25) * 1 / 3, 1, bloodtoggle);
 			Sprite::setLastSpriteSpeed(4);
 			Sprite::setLastSpriteAlivetime(.3);
 		}
@@ -1027,7 +1027,7 @@ void Weapon::doStuff(int i)
 			if (rand() % 50 == 0 && distsq(&position, &viewer) > 80) {
 				Vector3 shinepoint;
 				shinepoint = position + (tippoint - position) * (((float)abs(rand() % 100)) / 100);
-				Sprite::MakeSprite(weaponshinesprite, shinepoint, normalrot, 1, 1, 1, (.1 + (float)abs(rand() % 100) / 200 - .25) * 1 / 3 * fast_sqrt(findDistance(&shinepoint, &viewer)), 1);
+				Sprite::MakeSprite(weaponshinesprite, shinepoint, normalrot, 1, 1, 1, (.1 + (float)abs(rand() % 100) / 200 - .25) * 1 / 3 * fast_sqrt(findDistance(&shinepoint, &viewer)), 1, bloodtoggle);
 				Sprite::setLastSpriteSpeed(4);
 				Sprite::setLastSpriteAlivetime(.3);
 			}

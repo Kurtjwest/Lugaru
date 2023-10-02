@@ -163,7 +163,7 @@ Object::Object(object_type _type, Vector3 _position, float _yaw, float _pitch, f
     model.ScaleNormals(-1, -1, -1);
 }
 
-void Object::handleFire()
+void Object::handleFire(bool bloodtoggle)
 {
     if (type == firetype) {
         onfire = 1;
@@ -183,14 +183,14 @@ void Object::handleFire()
                 spawnpoint.z = 0;
                 spawnpoint = DoRotation(spawnpoint, 0, rand() % 360, 0);
                 spawnpoint += position;
-                Sprite::MakeSprite(flamesprite, spawnpoint, spawnpoint * 0, 1, 1, 1, (.6 + (float)abs(rand() % 100) / 200 - .25) * 5 * scale, 1);
+                Sprite::MakeSprite(flamesprite, spawnpoint, spawnpoint * 0, 1, 1, 1, (.6 + (float)abs(rand() % 100) / 200 - .25) * 5 * scale, 1, bloodtoggle);
             } else if (type == treeleavestype) {
                 spawnpoint.x = ((float)(rand() % 100)) / 80 * scale;
                 spawnpoint.y = ((float)(rand() % 100) + 80) / 12 * scale;
                 spawnpoint.z = 0;
                 spawnpoint = DoRotation(spawnpoint, 0, rand() % 360, 0);
                 spawnpoint += position;
-                Sprite::MakeSprite(flamesprite, spawnpoint, spawnpoint * 0, 1, 1, 1, (.6 + (float)abs(rand() % 100) / 200 - .25) * 6, 1);
+                Sprite::MakeSprite(flamesprite, spawnpoint, spawnpoint * 0, 1, 1, 1, (.6 + (float)abs(rand() % 100) / 200 - .25) * 6, 1, bloodtoggle);
             }
         }
     }
@@ -660,10 +660,10 @@ void Object::MakeObject(int atype, Vector3 where, float ayaw, float apitch, floa
     }
 }
 
-void Object::DoStuff()
+void Object::DoStuff(bool bloodtoggle)
 {
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->handleFire();
+        objects[i]->handleFire(bloodtoggle);
     }
 }
 

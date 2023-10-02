@@ -79,7 +79,7 @@ public:
 	bool freefall;
 
 	void FindForwards();
-	float DoConstraints(Vector3* coords, float* scale, bool tutorialActive);
+	float DoConstraints(Vector3* coords, float* scale, bool tutorialActive, bool bloodtoggle);
 	void DoGravity(float* scale);
 	void FindRotationMuscle(int which, int animation);
 	void Load(const std::string& fileName, const std::string& lowfileName, const std::string& clothesfileName, 

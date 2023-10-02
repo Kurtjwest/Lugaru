@@ -105,14 +105,14 @@ public:
 	static void MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, ProgressCallback callback);
 	static void Draw(bool decalstoggle, float multiplier);
 	static void DoShadows();
-	static void DoStuff();
+	static void DoStuff(bool bloodtoggle);
 	static int checkcollide(Vector3 startpoint, Vector3 endpoint);
 	static int checkcollide(Vector3 startpoint, Vector3 endpoint, int what);
 
 	operator Json::Value();
 
 private:
-	void handleFire();
+	void handleFire(bool bloodtoggle);
 	void handleRot(int divide);
 	void doShadows(Vector3 lightloc);
 	void draw(bool decalstoggle, float multiplier);

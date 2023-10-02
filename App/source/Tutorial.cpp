@@ -41,7 +41,7 @@ float Tutorial::stagetime = 0;
 float Tutorial::maxtime = 0;
 float Tutorial::success = 0;
 
-void Tutorial::Do(float multiplier)
+void Tutorial::Do(float multiplier, bool bloodtoggle)
 {
 	if (stagetime > maxtime) {
 		stage++;
@@ -99,12 +99,13 @@ void Tutorial::Do(float multiplier)
 						temp2 = Person::players[1]->skeleton.joints[i].velocity * Person::players[1]->scale / 2;
 					}
 					if (!Person::players[1]->skeleton.free) {
-						temp = DoRotation(DoRotation(DoRotation(Person::players[1]->skeleton.joints[i].position, 0, 0, Person::players[1]->tilt), Person::players[1]->tilt2, 0, 0), 0, Person::players[1]->yaw, 0) * Person::players[1]->scale + Person::players[1]->coords;
+						temp = DoRotation(DoRotation(DoRotation(Person::players[1]->skeleton.joints[i].position, 0, 0, Person::players[1]->tilt), 
+							Person::players[1]->tilt2, 0, 0), 0, Person::players[1]->yaw, 0) * Person::players[1]->scale + Person::players[1]->coords;
 					}
 					if (Person::players[1]->skeleton.free) {
 						temp = Person::players[1]->skeleton.joints[i].position * Person::players[1]->scale + Person::players[1]->coords;
 					}
-					Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, 1);
+					Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, 1, bloodtoggle);
 				}
 			}
 		} break;
@@ -350,7 +351,7 @@ void Tutorial::Do(float multiplier)
 					if (Person::players[1]->skeleton.free) {
 						temp = Person::players[1]->skeleton.joints[i].position * Person::players[1]->scale + Person::players[1]->coords;
 					}
-					Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, 1);
+					Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, 1, bloodtoggle);
 				}
 			}
 
@@ -796,7 +797,7 @@ void Tutorial::DrawTextInfo()
 	Game::text->glPrintOutlined(0.5, 0.5, 0.5, 1, screenwidth / 2 - 7.6 * string3.size() * screenwidth / 1024 * .8, 0 + screenheight * 1 / 10 - 40 * .8 * screenwidth / 1024, string3, 1, 1.5 * screenwidth / 1024 * .8, screenwidth, screenheight);
 }
 
-void Tutorial::DoStuff(float multiplier)
+void Tutorial::DoStuff(float multiplier, bool bloodtoggle)
 {
 	Vector3 temp;
 	Vector3 temp2;
@@ -856,7 +857,7 @@ void Tutorial::DoStuff(float multiplier)
 					if (Person::players[1]->skeleton.free) {
 						temp = Person::players[1]->skeleton.joints[i].position * Person::players[1]->scale + Person::players[1]->coords;
 					}
-					Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, 1);
+					Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, 1, bloodtoggle);
 				}
 			}
 
@@ -876,7 +877,7 @@ void Tutorial::DoStuff(float multiplier)
 					if (Person::players[1]->skeleton.free) {
 						temp = Person::players[1]->skeleton.joints[i].position * Person::players[1]->scale + Person::players[1]->coords;
 					}
-					Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, 1);
+					Sprite::MakeSprite(breathsprite, temp, temp2, 1, 1, 1, .6 + (float)abs(rand() % 100) / 200 - .25, 1, bloodtoggle);
 				}
 			}
 		}
