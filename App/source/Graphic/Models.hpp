@@ -101,7 +101,7 @@ public:
     void MakeDecal(decal_type atype, Vector3* where, float* size, float* opacity, float* rotation);
     void MakeDecal(decal_type atype, Vector3 where, float size, float opacity, float rotation);
     const Vector3& getTriangleVertex(unsigned triangleId, unsigned vertexId) const;
-    void drawdecals(Texture shadowtexture, Texture bloodtexture, Texture bloodtexture2, Texture breaktexture, bool toggledecals);
+    void drawdecals(Texture shadowtexture, Texture bloodtexture, Texture bloodtexture2, Texture breaktexture, bool toggledecals, float multiplier);
     int SphereCheck(Vector3* p1, float radius, Vector3* p, Vector3* move, float* rotate);
     int SphereCheckPossible(Vector3* p1, float radius, Vector3* move, float* rotate);
     int LineCheck(Vector3* p1, Vector3* p2, Vector3* p, Vector3* move, float* rotate);

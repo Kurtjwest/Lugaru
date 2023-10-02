@@ -329,7 +329,7 @@ void Object::handleRot(int divide)
     }
 }
 
-void Object::draw(bool decalstoggle)
+void Object::draw(bool decalstoggle, float multiplier)
 {
     float distance = 0.0;
     Vector3 moved, terrainlight;
@@ -414,14 +414,14 @@ void Object::draw(bool decalstoggle)
                         glEnable(GL_CULL_FACE);
                         glAlphaFunc(GL_GREATER, 0.0001);
                         model.drawdifftex(boxtextureptr);
-                        model.drawdecals(terrain.shadowtexture, terrain.bloodtexture, terrain.bloodtexture2, terrain.breaktexture, decalstoggle);
+                        model.drawdecals(terrain.shadowtexture, terrain.bloodtexture, terrain.bloodtexture2, terrain.breaktexture, decalstoggle, multiplier);
                     }
                     if (type == rocktype) {
                         glEnable(GL_CULL_FACE);
                         glAlphaFunc(GL_GREATER, 0.0001);
                         glColor4f((1 - shadowed) / 2 + light.ambient[0], (1 - shadowed) / 2 + light.ambient[1], (1 - shadowed) / 2 + light.ambient[2], distance);
                         model.drawdifftex(rocktextureptr);
-                        model.drawdecals(terrain.shadowtexture, terrain.bloodtexture, terrain.bloodtexture2, terrain.breaktexture, decalstoggle);
+                        model.drawdecals(terrain.shadowtexture, terrain.bloodtexture, terrain.bloodtexture2, terrain.breaktexture, decalstoggle, multiplier);
                     }
                     if (type == treeleavestype) {
                         glDisable(GL_CULL_FACE);
@@ -628,10 +628,10 @@ void Object::SphereCheckPossible(Vector3* p1, float radius)
     }
 }
 
-void Object::Draw(bool decalstoggle)
+void Object::Draw(bool decalstoggle, float multiplier)
 {
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->draw(decalstoggle);
+        objects[i]->draw(decalstoggle, multiplier);
     }
 
     glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT, 0);

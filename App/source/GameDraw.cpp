@@ -441,7 +441,7 @@ int Game::DrawGLScene(StereoSide side)
 		glPushMatrix();
 		glCullFace(GL_BACK);
 		glEnable(GL_TEXTURE_2D);
-		Object::Draw(decalstoggle);
+		Object::Draw(decalstoggle, multiplier);
 		glPopMatrix();
 
 		//draw hawk

@@ -21,7 +21,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Graphic/Models.hpp"
 #include "Utils/Folders.hpp"
 
-extern float multiplier;
 extern float viewdistance;
 extern Vector3 viewer;
 extern float fadestart;
@@ -926,7 +925,7 @@ void Model::drawdifftex(Texture texture)
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-void Model::drawdecals(Texture shadowtexture, Texture bloodtexture, Texture bloodtexture2, Texture breaktexture, bool decalstoggle)
+void Model::drawdecals(Texture shadowtexture, Texture bloodtexture, Texture bloodtexture2, Texture breaktexture, bool decalstoggle, float multiplier)
 {
 	if (!decalstoggle) return;
 
