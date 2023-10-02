@@ -51,7 +51,7 @@ Texture Sprite::toothtexture;
 
 float Sprite::checkdelay = 0;
 
-vector<std::unique_ptr<Sprite> > Sprite::sprites = vector<std::unique_ptr<Sprite> >();
+std::vector<std::unique_ptr<Sprite>> Sprite::sprites = std::vector<std::unique_ptr<Sprite>>();
 
 //Functions
 void Sprite::Draw(const Vector3& viewer, float viewdistance)
@@ -288,7 +288,7 @@ void Sprite::Draw(const Vector3& viewer, float viewdistance)
 	}
 
 	tempmult = multiplier;
-	for (int i = sprites.size() - 1; i >= 0; i--) 
+	for (int i = sprites.size() - 1; i >= 0; i--)
 	{
 		multiplier = tempmult;
 		if (sprites[i]->type != snowsprite) {

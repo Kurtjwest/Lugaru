@@ -267,13 +267,13 @@ static int findClosestObject()
 	return closest;
 }
 
-void Game::cmd_dispatch(const string cmd)
+void Game::cmd_dispatch(const std::string cmd)
 {
 	int i, n_cmds = sizeof(cmd_names) / sizeof(cmd_names[0]);
 
 	for (i = 0; i < n_cmds; i++) {
 		if (cmd.substr(0, cmd.find(' ')) == string(cmd_names[i])) {
-			cout << "|" << cmd.substr(cmd.find(' ') + 1) << "|" << endl;
+			std::cout << "|" << cmd.substr(cmd.find(' ') + 1) << "|" << std::endl;
 			cmd_handlers[i](cmd.substr(cmd.find(' ') + 1).c_str());
 			break;
 		}
@@ -583,7 +583,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 
 	funpackf(tfile, "Bi", &mapvers);
 	if (mapvers < 12) {
-		cerr << name << " has obsolete map version " << mapvers << endl;
+		std::cerr << name << " has obsolete map version " << mapvers << std::endl;
 	}
 	if (mapvers >= 15) {
 		funpackf(tfile, "Bi", &indemo);
@@ -702,7 +702,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 		int numhotspots;
 		funpackf(tfile, "Bi", &numhotspots);
 		if (numhotspots < 0) {
-			cerr << "Map " << name << " has an invalid number of hotspots" << endl;
+			std::cerr << "Map " << name << " has an invalid number of hotspots" << std::endl;
 			numhotspots = 0;
 		}
 		Hotspot::hotspots.resize(numhotspots);
@@ -738,7 +738,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 	int numplayers;
 	funpackf(tfile, "Bi", &numplayers);
 	if (numplayers > maxplayers) {
-		cout << "Warning: this level contains more players than allowed" << endl;
+		std::cout << "Warning: this level contains more players than allowed" << std::endl;
 	}
 	unsigned j = 1;
 	for (int i = 1; i < numplayers; i++) {
@@ -747,7 +747,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 			j++;
 		}
 		catch (InvalidPersonException& e) {
-			cerr << "Invalid Person found in " << name << ":" << e.what() << endl;
+			std::cerr << "Invalid Person found in " << name << ":" << e.what() << std::endl;
 		}
 	}
 	Game::LoadingScreen();
@@ -968,7 +968,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 	}
 
 	if (mapvers < 13) {
-		cerr << name << " has obsolete map version " << mapvers << endl;
+		std::cerr << name << " has obsolete map version " << mapvers << std::endl;
 	}
 	maptype = map_data["map"].get("type", mapkilleveryone).asInt();
 	hostile = map_data["map"].get("hostile", 1).asInt();
@@ -1017,7 +1017,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 	Game::LoadingScreen();
 
 	if (map_data["map"]["players"].size() > maxplayers) {
-		cout << "Warning: this level contains more players than allowed" << endl;
+		std::cout << "Warning: this level contains more players than allowed" << std::endl;
 	}
 
 	Vector3 playerCoords;
@@ -1037,7 +1037,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 			j++;
 		}
 		catch (InvalidPersonException& e) {
-			cerr << "Invalid Person found in " << name << endl;
+			std::cerr << "Invalid Person found in " << name << std::endl;
 		}
 	}
 	if (stealthloading) {

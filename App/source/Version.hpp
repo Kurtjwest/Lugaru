@@ -27,7 +27,7 @@ const std::string VERSION_NUMBER = "1.0.0";
 /** Set to "" for stable (tagged) builds, "-dev" for dev builds */
 const std::string VERSION_SUFFIX = "-dev";
 
-/** Final string built from the above constants, following the scheme
+/** Final std::string built from the above constants, following the scheme
  *  defined in CMakeLists.txt, typically:
  *      MAJOR.MINOR[.PATCH][-dev] [(git HASH)] [[RELEASE]]
  *

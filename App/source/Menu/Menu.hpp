@@ -51,7 +51,7 @@ struct MenuItem
 	float linestartsize;
 	float lineendsize;
 
-	MenuItem(MenuItemType _type, int _id, const string& _text, Texture _texture,
+	MenuItem(MenuItemType _type, int _id, const std::string& _text, Texture _texture,
 		int _x, int _y, int _w, int _h, float _r, float _g, float _b,
 		float _linestartsize = 1, float _lineendsize = 1);
 };
@@ -60,15 +60,15 @@ class Menu
 {
 public:
 	static void clearMenu();
-	static void addLabel(int id, const string& text, int x, int y, float r = 1, float g = 0, float b = 0);
-	static void addButton(int id, const string& text, int x, int y, float r = 1, float g = 0, float b = 0);
+	static void addLabel(int id, const std::string& text, int x, int y, float r = 1, float g = 0, float b = 0);
+	static void addButton(int id, const std::string& text, int x, int y, float r = 1, float g = 0, float b = 0);
 	static void addImage(int id, Texture texture, int x, int y, int w, int h, float r = 1, float g = 1, float b = 1);
 	static void addButtonImage(int id, Texture texture, int x, int y, int w, int h, float r = 1, float g = 1, float b = 1);
 	static void addMapLine(int x, int y, int w, int h, float startsize, float endsize, float r, float g, float b);
 	static void addMapMarker(int id, Texture texture, int x, int y, int w, int h, float r, float g, float b);
-	static void addMapLabel(int id, const string& text, int x, int y, float r = 1, float g = 0, float b = 0);
-	static void setText(int id, const string& text);
-	static void setText(int id, const string& text, int x, int y, int w, int h);
+	static void addMapLabel(int id, const std::string& text, int x, int y, float r = 1, float g = 0, float b = 0);
+	static void setText(int id, const std::string& text);
+	static void setText(int id, const std::string& text, int x, int y, int w, int h);
 	static int getSelected(int mousex, int mousey);
 	static void drawItems();
 

@@ -1959,7 +1959,7 @@ void Person::RagDoll(bool checkcollision, const Terrain& terrain)
 void Person::FootLand(bodypart whichfoot, float opacity, Terrain& terrain)
 {
 	if ((whichfoot != leftfoot) && (whichfoot != rightfoot)) {
-		cerr << "FootLand called on wrong bodypart" << endl;
+		std::cerr << "FootLand called on wrong bodypart" << std::endl;
 		return;
 	}
 	static Vector3 terrainlight;

@@ -31,7 +31,7 @@ void TextureRes::load(bool trilinear, ProgressCallback callback)
 
     //load image into 'texture'
     if (!load_image(filename.c_str(), texture, callback)) {
-        cerr << "Texture " << filename << " loading failed" << endl;
+        std::cerr << "Texture " << filename << " loading failed" << std::endl;
         return;
     }
 
@@ -77,7 +77,7 @@ void TextureRes::bind()
     glBindTexture(GL_TEXTURE_2D, id);
 }
 
-TextureRes::TextureRes(const string& _filename, bool _hasMipmap, bool trilinear, ProgressCallback callback)
+TextureRes::TextureRes(const std::string& _filename, bool _hasMipmap, bool trilinear, ProgressCallback callback)
     : id(0)
     , filename(_filename)
     , hasMipmap(_hasMipmap)
@@ -89,7 +89,7 @@ TextureRes::TextureRes(const string& _filename, bool _hasMipmap, bool trilinear,
     load(trilinear, callback);
 }
 
-TextureRes::TextureRes(const string& _filename, bool _hasMipmap, GLubyte* array, int* skinsizep, bool trilinear, ProgressCallback callback)
+TextureRes::TextureRes(const std::string& _filename, bool _hasMipmap, GLubyte* array, int* skinsizep, bool trilinear, ProgressCallback callback)
     : id(0)
     , filename(_filename)
     , hasMipmap(_hasMipmap)
@@ -111,12 +111,12 @@ TextureRes::~TextureRes()
     glDeleteTextures(1, &id);
 }
 
-void Texture::load(const string& filename, bool hasMipmap, bool trilinear, ProgressCallback callback)
+void Texture::load(const std::string& filename, bool hasMipmap, bool trilinear, ProgressCallback callback)
 {
     tex.reset(new TextureRes(Folders::getResourcePath(filename), hasMipmap, trilinear, callback));
 }
 
-void Texture::load(const string& filename, bool hasMipmap, GLubyte* array, int* skinsizep, bool trilinear, ProgressCallback callback)
+void Texture::load(const std::string& filename, bool hasMipmap, GLubyte* array, int* skinsizep, bool trilinear, ProgressCallback callback)
 {
     tex.reset(new TextureRes(Folders::getResourcePath(filename), hasMipmap, array, skinsizep, trilinear, callback));
 }

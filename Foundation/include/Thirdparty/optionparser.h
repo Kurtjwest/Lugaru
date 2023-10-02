@@ -145,14 +145,14 @@
  *     return 0;
  *   }
  *
- *   std::cout << "--plus count: " <<
+ *   std::std::cout << "--plus count: " <<
  *     options[PLUS].count() << "\n";
  *
  *   for (option::Option* opt = options[UNKNOWN]; opt; opt = opt->next())
- *     std::cout << "Unknown option: " << opt->name << "\n";
+ *     std::std::cout << "Unknown option: " << opt->name << "\n";
  *
  *   for (int i = 0; i < parse.nonOptionsCount(); ++i)
- *     std::cout << "Non-option #" << i << ": " << parse.nonOption(i) << "\n";
+ *     std::std::cout << "Non-option #" << i << ": " << parse.nonOption(i) << "\n";
  * }
  * @endcode
  *
@@ -179,9 +179,9 @@
  *     accepted, too.
  * @li a long option may take an argument either separate (<code> --option arg </code>) or
  *     attached (<code> --option=arg </code>). In the attached form the equals sign is mandatory.
- * @li an empty string can be passed as an attached long option argument: <code> --option-name= </code>.
- *     Note the distinction between an empty string as argument and no argument at all.
- * @li an empty string is permitted as separate argument to both long and short options.
+ * @li an empty std::string can be passed as an attached long option argument: <code> --option-name= </code>.
+ *     Note the distinction between an empty std::string as argument and no argument at all.
+ * @li an empty std::string is permitted as separate argument to both long and short options.
  * @li Arguments to both short and long options may start with a @c '-' character. E.g.
  *     <code> -X-X </code>, <code>-X -X</code> or <code> --long-X=-X </code>. If @c -X
  *     and @c --long-X take an argument, that argument will be @c "-X" in all 3 cases.
@@ -340,13 +340,13 @@ struct Descriptor
   const int type;
 
   /**
-   * @brief Each char in this string will be accepted as a short option character.
+   * @brief Each char in this std::string will be accepted as a short option character.
    *
-   * The string must not include the minus character @c '-' or you'll get undefined
+   * The std::string must not include the minus character @c '-' or you'll get undefined
    * behaviour.
    *
    * If this Descriptor should not have short option characters, use the empty
-   * string "". NULL is not permitted here!
+   * std::string "". NULL is not permitted here!
    *
    * See @ref longopt for more information.
    */
@@ -356,7 +356,7 @@ struct Descriptor
    * @brief The long option name (without the leading @c -- ).
    *
    * If this Descriptor should not have a long option name, use the empty
-   * string "". NULL is not permitted here!
+   * std::string "". NULL is not permitted here!
    *
    * While @ref shortopt allows multiple short option characters, each
    * Descriptor can have only a single long option name. If you have multiple
@@ -366,14 +366,14 @@ struct Descriptor
    *
    * @par Dummy Descriptors:
    * You can use dummy Descriptors with an
-   * empty string for both @ref shortopt and @ref longopt to add text to
+   * empty std::string for both @ref shortopt and @ref longopt to add text to
    * the usage that is not related to a specific option. See @ref help.
    * The first dummy Descriptor will be used for unknown options (see below).
    *
    * @par Unknown Option Descriptor:
    * The first dummy Descriptor in the list of Descriptors,
    * whose @ref shortopt and @ref longopt are both the empty string, will be used
-   * as the Descriptor for unknown options. An unknown option is a string in
+   * as the Descriptor for unknown options. An unknown option is a std::string in
    * the argument vector that is not a lone minus @c '-' but starts with a minus
    * character and does not match any Descriptor's @ref shortopt or @ref longopt. @n
    * Note that the dummy descriptor's @ref check_arg function @e will be called and
@@ -404,7 +404,7 @@ struct Descriptor
    *
    * You can use option::printUsage() to format your usage message based on
    * the @c help texts. You can use dummy Descriptors where
-   * @ref shortopt and @ref longopt are both the empty string to add text to
+   * @ref shortopt and @ref longopt are both the empty std::string to add text to
    * the usage that is not related to a specific option.
    *
    * See option::printUsage() for special formatting characters you can use in
@@ -412,7 +412,7 @@ struct Descriptor
    *
    * @attention
    * Must be UTF-8-encoded. If your compiler supports C++11 you can use the "u8"
-   * prefix to make sure string literals are properly encoded.
+   * prefix to make sure std::string literals are properly encoded.
    */
   const char* help;
 };
@@ -462,14 +462,14 @@ public:
   /**
    * @brief The name of the option as used on the command line.
    *
-   * The main purpose of this string is to be presented to the user in messages.
+   * The main purpose of this std::string is to be presented to the user in messages.
    *
    * In the case of a long option, this is the actual @c argv pointer, i.e. the first
    * character is a '-'. In the case of a short option this points to the option
    * character within the @c argv string.
    *
    * Note that in the case of a short option group or an attached option argument, this
-   * string will contain additional characters following the actual name. Use @ref namelen
+   * std::string will contain additional characters following the actual name. Use @ref namelen
    * to filter out the actual option name only.
    *
    */
@@ -478,7 +478,7 @@ public:
   /**
    * @brief Pointer to this Option's argument (if any).
    *
-   * NULL if this option has no argument. Do not confuse this with the empty string which
+   * NULL if this option has no argument. Do not confuse this with the empty std::string which
    * is a valid argument.
    */
   const char* arg;
@@ -1321,7 +1321,7 @@ private:
 
   /**
    * @internal
-   * @brief Returns true iff character @c ch is contained in the string @c st.
+   * @brief Returns true iff character @c ch is contained in the std::string @c st.
    *
    * Returns @c true for @c ch==0 .
    */
@@ -1688,7 +1688,7 @@ struct PrintUsageImplementation
 {
   /**
    * @internal
-   * @brief Interface for Functors that write (part of) a string somewhere.
+   * @brief Interface for Functors that write (part of) a std::string somewhere.
    */
   struct IStringWriter
   {
@@ -1703,7 +1703,7 @@ struct PrintUsageImplementation
   /**
    * @internal
    * @brief Encapsulates a function with signature <code>func(string, size)</code> where
-   * string can be initialized with a const char* and size with an int.
+   * std::string can be initialized with a const char* and size with an int.
    */
   template<typename Function>
   struct FunctionWriter: public IStringWriter
@@ -1767,7 +1767,7 @@ struct PrintUsageImplementation
    * @internal
    * @brief Encapsulates a function with the signature <code>func(fd, string, size)</code> (the
    * signature of the @c write() system call)
-   * where fd can be initialized from an int, string from a const char* and size from an int.
+   * where fd can be initialized from an int, std::string from a const char* and size from an int.
    */
   template<typename Syscall>
   struct SyscallWriter: public IStringWriter
@@ -2182,7 +2182,7 @@ struct PrintUsageImplementation
    * The difficulty in producing this output is that the whole string
    * "This is a long text that does not fit into a single line" is the
    * 1st and only part of column 3. In order to produce the above
-   * output the string must be output piecemeal, interleaved with
+   * output the std::string must be output piecemeal, interleaved with
    * the data from the other columns.
    */
   class LineWrapper
@@ -2578,7 +2578,7 @@ struct PrintUsageImplementation
 ;
 
 /**
- * @brief Outputs a nicely formatted usage string with support for multi-column formatting
+ * @brief Outputs a nicely formatted usage std::string with support for multi-column formatting
  * and line-wrapping.
  *
  * printUsage() takes the @c help texts of a Descriptor[] array and formats them into

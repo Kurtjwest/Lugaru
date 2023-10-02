@@ -59,7 +59,7 @@ bool newuserblink = false;
 
 std::vector<MenuItem> Menu::items;
 
-MenuItem::MenuItem(MenuItemType _type, int _id, const string& _text, Texture _texture,
+MenuItem::MenuItem(MenuItemType _type, int _id, const std::string& _text, Texture _texture,
                    int _x, int _y, int _w, int _h, float _r, float _g, float _b,
                    float _linestartsize, float _lineendsize)
     : type(_type)
@@ -92,11 +92,11 @@ void Menu::clearMenu()
     items.clear();
 }
 
-void Menu::addLabel(int id, const string& text, int x, int y, float r, float g, float b)
+void Menu::addLabel(int id, const std::string& text, int x, int y, float r, float g, float b)
 {
     items.emplace_back(MenuItem::LABEL, id, text, Texture(), x, y, -1, -1, r, g, b);
 }
-void Menu::addButton(int id, const string& text, int x, int y, float r, float g, float b)
+void Menu::addButton(int id, const std::string& text, int x, int y, float r, float g, float b)
 {
     items.emplace_back(MenuItem::BUTTON, id, text, Texture(), x, y, -1, -1, r, g, b);
 }
@@ -116,14 +116,14 @@ void Menu::addMapMarker(int id, Texture texture, int x, int y, int w, int h, flo
 {
     items.emplace_back(MenuItem::MAPMARKER, id, "", texture, x, y, w, h, r, g, b);
 }
-void Menu::addMapLabel(int id, const string& text, int x, int y, float r, float g, float b)
+void Menu::addMapLabel(int id, const std::string& text, int x, int y, float r, float g, float b)
 {
     items.emplace_back(MenuItem::MAPLABEL, id, text, Texture(), x, y, -1, -1, r, g, b);
 }
 
-void Menu::setText(int id, const string& text)
+void Menu::setText(int id, const std::string& text)
 {
-    for (vector<MenuItem>::iterator it = items.begin(); it != items.end(); it++) {
+    for (std::vector<MenuItem>::iterator it = items.begin(); it != items.end(); it++) {
         if (it->id == id) {
             it->text = text;
             it->w = it->text.length() * 10;
@@ -132,9 +132,9 @@ void Menu::setText(int id, const string& text)
     }
 }
 
-void Menu::setText(int id, const string& text, int x, int y, int w, int h)
+void Menu::setText(int id, const std::string& text, int x, int y, int w, int h)
 {
-    for (vector<MenuItem>::iterator it = items.begin(); it != items.end(); it++) {
+    for (std::vector<MenuItem>::iterator it = items.begin(); it != items.end(); it++) {
         if (it->id == id) {
             it->text = text;
             it->x = x;
@@ -152,7 +152,7 @@ void Menu::setText(int id, const string& text, int x, int y, int w, int h)
 
 int Menu::getSelected(int mousex, int mousey)
 {
-    for (vector<MenuItem>::reverse_iterator it = items.rbegin(); it != items.rend(); it++) {
+    for (std::vector<MenuItem>::reverse_iterator it = items.rbegin(); it != items.rend(); it++) {
         if (it->type == MenuItem::BUTTON || it->type == MenuItem::IMAGEBUTTON || it->type == MenuItem::MAPMARKER) {
             int mx = mousex;
             int my = mousey;
@@ -170,7 +170,7 @@ int Menu::getSelected(int mousex, int mousey)
 
 void Menu::handleFadeEffect()
 {
-    for (vector<MenuItem>::iterator it = items.begin(); it != items.end(); it++) {
+    for (std::vector<MenuItem>::iterator it = items.begin(); it != items.end(); it++) {
         if (it->id == Game::selected) {
             it->effectfade += multiplier * 5;
             if (it->effectfade > 1) {
@@ -191,7 +191,7 @@ void Menu::drawItems()
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_ALPHA_TEST);
     glEnable(GL_BLEND);
-    for (vector<MenuItem>::iterator it = items.begin(); it != items.end(); it++) {
+    for (std::vector<MenuItem>::iterator it = items.begin(); it != items.end(); it++) {
         switch (it->type) {
             case MenuItem::IMAGE:
             case MenuItem::IMAGEBUTTON:
@@ -297,7 +297,7 @@ void Menu::drawItems()
 
 void Menu::updateSettingsMenu()
 {
-    std::string sbuf = std::string("Resolution: ") + to_string(newscreenwidth) + "*" + to_string(newscreenheight);
+    std::string sbuf = std::string("Resolution: ") + std::to_string(newscreenwidth) + "*" + std::to_string(newscreenheight);
     if (((float)newscreenwidth <= (float)newscreenheight * 1.61) && ((float)newscreenwidth >= (float)newscreenheight * 1.59)) {
         sbuf += " (widescreen)";
     }
@@ -325,8 +325,8 @@ void Menu::updateSettingsMenu()
     setText(5, decalstoggle ? "Decals: Enabled (slower)" : "Decals: Disabled");
     setText(6, musictoggle ? "Music: Enabled" : "Music: Disabled");
     setText(9, invertmouse ? "Invert mouse: Yes" : "Invert mouse: No");
-    setText(10, std::string("Mouse Speed: ") + to_string(int(usermousesensitivity * 5)));
-    setText(11, std::string("Volume: ") + to_string(int(volume * 100)) + "%");
+    setText(10, std::string("Mouse Speed: ") + std::to_string(int(usermousesensitivity * 5)));
+    setText(11, std::string("Volume: ") + std::to_string(int(volume * 100)) + "%");
     setText(13, showdamagebar ? "Damage Bar: On" : "Damage Bar: Off");
     if ((newdetail == detail) && (newscreenheight == (int)screenheight) && (newscreenwidth == (int)screenwidth)) {
         setText(8, "Back");
@@ -338,7 +338,7 @@ void Menu::updateSettingsMenu()
 void Menu::updateStereoConfigMenu()
 {
     setText(0, std::string("Stereo mode: ") + StereoModeName(newstereomode));
-    setText(1, std::string("Stereo separation: ") + to_string(stereoseparation));
+    setText(1, std::string("Stereo separation: ") + std::to_string(stereoseparation));
     setText(2, std::string("Reverse stereo: ") + (stereoreverse ? "Yes" : "No"));
 }
 
@@ -481,22 +481,22 @@ void Menu::Load()
             break;
         case 9:
             for (int i = 0; i < numchallengelevels; i++) {
-                string name = "Level ";
-                name += to_string(i + 1);
+               std::string name = "Level ";
+                name += std::to_string(i + 1);
                 if (name.size() < 17) {
                     name.append((17 - name.size()), ' ');
                 }
-                name += to_string(int(Account::active().getHighScore(i)));
+                name += std::to_string(int(Account::active().getHighScore(i)));
                 if (name.size() < 32) {
                     name.append((32 - name.size()), ' ');
                 }
                 int fasttime = (int)round(Account::active().getFastTime(i));
-                name += to_string(int((fasttime - fasttime % 60) / 60));
+                name += std::to_string(int((fasttime - fasttime % 60) / 60));
                 name += ":";
                 if (fasttime % 60 < 10) {
                     name += "0";
                 }
-                name += to_string(fasttime % 60);
+                name += std::to_string(fasttime % 60);
 
                 addButton(i, name, 10, 400 - i * 25, i > Account::active().getProgress() ? 0.5 : 1, 0, 0);
             }
@@ -509,8 +509,8 @@ void Menu::Load()
             addLabel(1, campaignEndText[1], 80, 300);
             addLabel(2, campaignEndText[2], 80, 270);
             addButton(3, "Back", 10, 10);
-            addLabel(4, string("Your score:         ") + to_string((int)Account::active().getCampaignScore()), 190, 200);
-            addLabel(5, string("Highest score:      ") + to_string((int)Account::active().getCampaignHighScore()), 190, 180);
+            addLabel(4, string("Your score:         ") + std::to_string((int)Account::active().getCampaignScore()), 190, 200);
+            addLabel(5, string("Highest score:      ") + std::to_string((int)Account::active().getCampaignHighScore()), 190, 180);
         } break;
         case 18:
             addButton(0, "", 70, 400);
@@ -598,7 +598,7 @@ void Menu::Tick()
     static int oldmainmenu = mainmenu;
 
     if (Input::MouseClicked() && (selected >= 0)) { // handling of the left mouse clic in menus
-        set<pair<int, int>>::iterator newscreenresolution;
+        std::set<std::pair<int, int>>::iterator newscreenresolution;
         switch (mainmenu) {
             case 1:
             case 2:
@@ -655,7 +655,7 @@ void Menu::Tick()
                 fireSound();
                 switch (selected) {
                     case 0:
-                        newscreenresolution = resolutions.find(make_pair(newscreenwidth, newscreenheight));
+                        newscreenresolution = resolutions.find(std::make_pair(newscreenwidth, newscreenheight));
                         /* Next one (end() + 1 is also end() so the ++ is safe even if it was not found) */
                         newscreenresolution++;
                         if (newscreenresolution == resolutions.end()) {
@@ -811,8 +811,8 @@ void Menu::Tick()
                         mainmenu = 7;
                         break;
                     case 6:
-                        vector<string> campaigns = ListCampaigns();
-                        vector<string>::iterator c;
+                        std::vector<string> campaigns = ListCampaigns();
+                        std::vector<string>::iterator c;
                         if ((c = find(campaigns.begin(), campaigns.end(), Account::active().getCurrentCampaign())) == campaigns.end()) {
                             if (!campaigns.empty()) {
                                 Account::active().setCurrentCampaign(campaigns.front());

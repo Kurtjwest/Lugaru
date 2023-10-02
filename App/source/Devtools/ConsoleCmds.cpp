@@ -213,13 +213,13 @@ void ch_save_json(const char* args)
 	Folders::makeDirectory(map_path);
 	map_path = map_path + "/" + args + ".json";
 
-	ofstream map_file(map_path);
+	std::ofstream map_file(map_path);
 	if (map_file.fail()) {
 		perror((std::string("Couldn't open file ") + map_path + " for saving").c_str());
 		return;
 	}
 	else {
-		cout << "saving in " << map_path << endl;
+		std::cout << "saving in " << map_path << std::endl;
 	}
 
 	Json::Value map_data;
@@ -255,7 +255,7 @@ void ch_save_json(const char* args)
 	}
 
 	if (Person::players.size() > maxplayers) {
-		cout << "Warning: this level contains more players than allowed" << endl;
+		std::cout << "Warning: this level contains more players than allowed" << std::endl;
 	}
 	for (unsigned j = 0; j < Person::players.size(); j++) {
 		map_data["map"]["players"][j] = *Person::players[j];
@@ -355,7 +355,7 @@ void ch_save(const char* args)
 
 	fpackf(tfile, "Bi", Person::players.size());
 	if (Person::players.size() > maxplayers) {
-		cout << "Warning: this level contains more players than allowed" << endl;
+		std::cout << "Warning: this level contains more players than allowed" << std::endl;
 	}
 	for (unsigned j = 1; j < Person::players.size(); j++) {
 		fpackf(tfile, "Bi Bi Bf Bf Bf Bi Bi Bf Bb Bf", Person::players[j]->whichskin, Person::players[j]->creature,

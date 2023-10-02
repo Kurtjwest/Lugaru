@@ -150,7 +150,7 @@ namespace Game
 	bool LoadLevel(const std::string& name, bool tutorial = false);
 	bool LoadJsonLevel(const std::string& name, bool tutorial = false);
 
-	void cmd_dispatch(const string cmd);
+	void cmd_dispatch(const std::string cmd);
 
 	void ProcessInput();
 	void ProcessDevInput();

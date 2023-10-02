@@ -65,10 +65,10 @@ void LoadCampaign()
 	std::ifstream ipstream(Folders::getResourcePath("Campaigns/" + Account::active().getCurrentCampaign() + ".txt"));
 	if (!ipstream.good()) {
 		if (Account::active().getCurrentCampaign() == "main") {
-			cerr << "Could not find main campaign!" << endl;
+			std::cerr << "Could not find main campaign!" << std::endl;
 			return;
 		}
-		cerr << "Could not find campaign \"" << Account::active().getCurrentCampaign() << "\", falling back to main." << endl;
+		std::cerr << "Could not find campaign \"" << Account::active().getCurrentCampaign() << "\", falling back to main." << std::endl;
 		Account::active().setCurrentCampaign("main");
 		return LoadCampaign();
 	}
@@ -82,7 +82,7 @@ void LoadCampaign()
 		campaignlevels.push_back(cl);
 	}
 	campaignEndText[0] = "Congratulations!";
-	campaignEndText[1] = string("You have completed ") + Account::active().getCurrentCampaign() + " campaign";
+	campaignEndText[1] = std::string("You have completed ") + Account::active().getCurrentCampaign() + " campaign";
 	campaignEndText[2] = "and restored peace to the island of Lugaru.";
 	if (ipstream.good()) {
 		ipstream.ignore(256, ':');
@@ -147,7 +147,7 @@ int CampaignLevel::getWidth()
 	return width;
 }
 
-istream& CampaignLevel::operator<<(istream& is)
+std::istream& CampaignLevel::operator<<(std::istream& is)
 {
 	is.ignore(256, ':');
 	is.ignore(256, ':');
@@ -155,7 +155,7 @@ istream& CampaignLevel::operator<<(istream& is)
 	is >> mapname;
 	is.ignore(256, ':');
 	is >> description;
-	for (size_t pos = description.find('_'); pos != string::npos; pos = description.find('_', pos)) {
+	for (size_t pos = description.find('_'); pos != std::string::npos; pos = description.find('_', pos)) {
 		description.replace(pos, 1, 1, ' ');
 	}
 	is.ignore(256, ':');

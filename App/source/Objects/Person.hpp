@@ -45,7 +45,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #define getweapontype 7
 #define pathfindtype 8
 
-struct InvalidPersonException : public exception
+struct InvalidPersonException : public std::exception
 {
     const char* what() const throw()
     {
@@ -53,7 +53,7 @@ struct InvalidPersonException : public exception
     }
 };
 
-class Person : public enable_shared_from_this<Person>
+class Person : public std::enable_shared_from_this<Person>
 {
 private:
     float proportions[4];

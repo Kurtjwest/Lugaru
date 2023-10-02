@@ -134,7 +134,7 @@ void Game::fireSound(int sound)
     emit_sound_at(sound);
 }
 
-void Game::inputText(string& str, unsigned* charselected)
+void Game::inputText(std::string& str, unsigned* charselected)
 {
     SDL_Event evenement;
 

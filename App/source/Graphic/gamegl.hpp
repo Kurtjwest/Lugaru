@@ -48,6 +48,4 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <GL/glu.h>
 #endif
 
-using namespace std;
-
 #endif

@@ -32,40 +32,40 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 class TextureRes
 {
 private:
-    GLuint id = 0;
-    string filename;
-    bool hasMipmap = false;
-    bool isSkin = false;
-    int skinsize = 0;
-    GLubyte* data = nullptr;
-    int datalen = 0;
+	GLuint id = 0;
+	std::string filename;
+	bool hasMipmap = false;
+	bool isSkin = false;
+	int skinsize = 0;
+	GLubyte* data = nullptr;
+	int datalen = 0;
 
-    void load(bool trilinear, ProgressCallback callback);
+	void load(bool trilinear, ProgressCallback callback);
 
 public:
-    TextureRes(const string& filename, bool hasMipmap, bool trilinear, ProgressCallback callback);
-    TextureRes(const string& filename, bool hasMipmap, GLubyte* array, int* skinsize, bool trilinear, ProgressCallback callback);
-    ~TextureRes();
-    void bind();
+	TextureRes(const std::string& filename, bool hasMipmap, bool trilinear, ProgressCallback callback);
+	TextureRes(const std::string& filename, bool hasMipmap, GLubyte* array, int* skinsize, bool trilinear, ProgressCallback callback);
+	~TextureRes();
+	void bind();
 
-    /* Make sure TextureRes never gets copied */
-    TextureRes(TextureRes const& other) = delete;
-    TextureRes& operator=(TextureRes const& other) = delete;
+	/* Make sure TextureRes never gets copied */
+	TextureRes(TextureRes const& other) = delete;
+	TextureRes& operator=(TextureRes const& other) = delete;
 };
 
 class Texture
 {
 private:
-    std::shared_ptr<TextureRes> tex;
+	std::shared_ptr<TextureRes> tex;
 
 public:
-    inline Texture()
-        : tex(nullptr)
-    {
-    }
-    void load(const string& filename, bool hasMipmap, bool trilinear, ProgressCallback callback);
-    void load(const string& filename, bool hasMipmap, GLubyte* array, int* skinsizep, bool trilinear, ProgressCallback callback);
-    void bind();
+	inline Texture()
+		: tex(nullptr)
+	{
+	}
+	void load(const std::string& filename, bool hasMipmap, bool trilinear, ProgressCallback callback);
+	void load(const std::string& filename, bool hasMipmap, GLubyte* array, int* skinsizep, bool trilinear, ProgressCallback callback);
+	void bind();
 };
 
 #endif

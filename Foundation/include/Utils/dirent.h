@@ -724,7 +724,7 @@ static DIR *opendir(const char *dirname)
 	if (!dirp)
 		return NULL;
 
-	/* Convert directory name to wide-character string */
+	/* Convert directory name to wide-character std::string */
 	wchar_t wname[PATH_MAX + 1];
 	size_t n;
 	int error = mbstowcs_s(&n, wname, PATH_MAX + 1, dirname, PATH_MAX+1);
@@ -778,7 +778,7 @@ readdir_r(
 		return /*OK*/0;
 	}
 
-	/* Attempt to convert file name to multi-byte string */
+	/* Attempt to convert file name to multi-byte std::string */
 	size_t n;
 	int error = wcstombs_s(
 		&n, entry->d_name, PATH_MAX + 1,
@@ -832,7 +832,7 @@ readdir_r(
 		entry->d_reclen = sizeof(struct dirent);
 	} else {
 		/*
-		 * Cannot convert file name to multi-byte string so construct
+		 * Cannot convert file name to multi-byte std::string so construct
 		 * an erroneous directory entry and return that.  Note that
 		 * we cannot return NULL as that would stop the processing
 		 * of directory entries completely.
@@ -881,7 +881,7 @@ rewinddir(DIR *dirp)
 	if (!dirp)
 		return;
 
-	/* Rewind wide-character string directory stream */
+	/* Rewind wide-character std::string directory stream */
 	_wrewinddir(dirp->wdirp);
 }
 
@@ -1145,7 +1145,7 @@ strverscmp(const char *a, const char *b)
 		size_t k1 = j;
 		size_t k2 = j;
 
-		/* Compute number of digits in each string */
+		/* Compute number of digits in each std::string */
 		while (isdigit(a[k1])) {
 			k1++;
 		}
@@ -1164,7 +1164,7 @@ strverscmp(const char *a, const char *b)
 	return (int) ((unsigned char) a[i]) - ((unsigned char) b[i]);
 }
 
-/* Convert multi-byte string to wide character string */
+/* Convert multi-byte std::string to wide character std::string */
 #if !defined(_MSC_VER) || _MSC_VER < 1400
 static int
 dirent_mbstowcs_s(
@@ -1183,7 +1183,7 @@ dirent_mbstowcs_s(
 		wcstr[n] = 0;
 	}
 
-	/* Length of multi-byte string with zero terminator */
+	/* Length of multi-byte std::string with zero terminator */
 	if (pReturnValue) {
 		*pReturnValue = n + 1;
 	}
@@ -1193,7 +1193,7 @@ dirent_mbstowcs_s(
 }
 #endif
 
-/* Convert wide-character string to multi-byte string */
+/* Convert wide-character std::string to multi-byte std::string */
 #if !defined(_MSC_VER) || _MSC_VER < 1400
 static int
 dirent_wcstombs_s(
@@ -1213,7 +1213,7 @@ dirent_wcstombs_s(
 		mbstr[n] = '\0';
 	}
 
-	/* Length of resulting multi-bytes string WITH zero-terminator */
+	/* Length of resulting multi-bytes std::string WITH zero-terminator */
 	if (pReturnValue) {
 		*pReturnValue = n + 1;
 	}

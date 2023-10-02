@@ -72,7 +72,7 @@ private:
 
     static float checkdelay;
 
-    static vector<std::unique_ptr<Sprite> > sprites;
+    static std::vector<std::unique_ptr<Sprite> > sprites;
 
 public:
     static void DeleteSprite(int which);

@@ -110,7 +110,7 @@ bool load_png(const char* file_name, ImageRec& tex)
 
 png_done:
 	if (!retval) {
-		cerr << "There was a problem loading " << file_name << endl;
+		std::cerr << "There was a problem loading " << file_name << std::endl;
 	}
 	png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 	if (fp) {

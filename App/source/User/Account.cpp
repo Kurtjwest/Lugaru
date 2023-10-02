@@ -34,7 +34,7 @@ extern bool devtools;
 vector<Account> Account::accounts;
 int Account::i_active = -1;
 
-Account::Account(const string& name)
+Account::Account(const std::string& name)
     : name(name)
     , campaignProgress()
 {
@@ -57,7 +57,7 @@ Account::Account(FILE* tfile)
     funpackf(tfile, "Bi", &nbCampaigns);
 
     for (int k = 0; k < nbCampaigns; ++k) {
-        string campaignName = "";
+       std::string campaignName = "";
         int t;
         char c;
         funpackf(tfile, "Bi", &t);
@@ -155,12 +155,12 @@ void Account::save(FILE* tfile)
     }
 }
 
-void Account::setCurrentCampaign(const string& name)
+void Account::setCurrentCampaign(const std::string& name)
 {
     currentCampaign = name;
 }
 
-void Account::add(const string& name)
+void Account::add(const std::string& name)
 {
     accounts.emplace_back(name);
     i_active = accounts.size() - 1;
@@ -191,7 +191,7 @@ void Account::setActive(int i)
     if ((i >= 0) && (i < int(accounts.size()))) {
         i_active = i;
     } else {
-        cerr << "Tried to set active account to " << i << " but there is not such account" << endl;
+        std::cerr << "Tried to set active account to " << i << " but there is not such account" << std::endl;
         i_active = -1;
     }
 }
@@ -202,7 +202,7 @@ void Account::destroyActive()
         accounts.erase(accounts.begin() + i_active);
         i_active = -1;
     } else {
-        cerr << "Tried to destroy active account " << i_active << " but there is not such account" << endl;
+        std::cerr << "Tried to destroy active account " << i_active << " but there is not such account" << std::endl;
         i_active = -1;
     }
 }

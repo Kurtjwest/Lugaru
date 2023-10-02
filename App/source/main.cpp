@@ -219,7 +219,7 @@ bool SetUp()
 
 	if (resolutions.empty()) {
 		const std::string error = "No suitable video resolutions found.";
-		cerr << error << endl;
+		std::cerr << error << std::endl;
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Lugaru init failed!", error.c_str(), NULL);
 		SDL_Quit();
 		return false;
@@ -742,7 +742,7 @@ int main(int argc, char** argv)
 	catch (const std::exception& error) {
 		CleanUp();
 
-		std::string e = "Caught exception: ";
+		std::string e = "Caught std::exception: ";
 		e += error.what();
 
 		LOG(e);
