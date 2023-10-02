@@ -820,7 +820,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 
 	if (!stealthloading) {
 		Object::AddObjectsToTerrain();
-		terrain.DoShadows(Tutorial::active, texscale, light, []() {Game::LoadingScreen(); });
+		terrain.DoShadows(Tutorial::active, texscale, light, skyboxtexture, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
 		Object::DoShadows();
 		Game::LoadingScreen();
@@ -1122,7 +1122,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 
 	if (!stealthloading) {
 		Object::AddObjectsToTerrain();
-		terrain.DoShadows(Tutorial::active, texscale, light, []() {Game::LoadingScreen(); });
+		terrain.DoShadows(Tutorial::active, texscale, light, skyboxtexture, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
 		Object::DoShadows();
 		Game::LoadingScreen();

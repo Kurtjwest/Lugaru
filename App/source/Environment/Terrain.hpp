@@ -102,7 +102,7 @@ public:
     bool load(const std::string& fileName, int environment, ProgressCallback callback);
     void CalculateNormals();
     void drawdecals(const Vector3& viewer, float viewdistance, float fadestart, float multiplier);
-    void draw(int layer, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Frustum& frustum);
+    void draw(int layer, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Frustum& frustum, float blurness);
     void DoShadows(bool tutorialActive, float texscale, const Light& light, bool skyboxtexture, ProgressCallback callback);
     void deleteDeadDecals();
 

@@ -264,7 +264,7 @@ int Game::DrawGLScene(StereoSide side)
 			glRotatef((float)(abs(rand() % 100)) / 1000, 0, 1, 0);
 		}
 
-		skybox->draw(environment == desertenvironment, viewdistance, blurness, skyboxtexture, Vector3{skyboxr, skyboxg, skyboxb});
+		skybox->draw(environment == desertenvironment, viewdistance, blurness, skyboxtexture, Vector3{ skyboxr, skyboxg, skyboxb });
 		glTexEnvf(GL_TEXTURE_FILTER_CONTROL, GL_TEXTURE_LOD_BIAS, 0);
 		glPopMatrix();
 		glTranslatef(-viewer.x, -viewer.y, -viewer.z);
@@ -373,9 +373,9 @@ int Game::DrawGLScene(StereoSide side)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		terraintexture.bind();
-		terrain.draw(0, viewer, viewdistance, fadestart, environment, frustum);
+		terrain.draw(0, viewer, viewdistance, fadestart, environment, frustum, blurness);
 		terraintexture2.bind();
-		terrain.draw(1, viewer, viewdistance, fadestart, environment, frustum);
+		terrain.draw(1, viewer, viewdistance, fadestart, environment, frustum, blurness);
 
 		if (decalstoggle)
 		{

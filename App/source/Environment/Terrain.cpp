@@ -23,12 +23,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Objects/Object.hpp"
 #include "Utils/Folders.hpp"
 
-extern float blurness;
-extern float targetblurness;
-//extern bool skyboxtexture;
-
-//Functions
-
 int Terrain::lineTerrain(Vector3 p1, Vector3 p2, Vector3* p)
 {
 	static int i, j, k;
@@ -950,18 +944,18 @@ Vector3 Terrain::getLighting(float pointx, float pointz) const
 	return height1 * (1 - (pointz - tiley)) + height2 * (pointz - tiley);
 }
 
-void Terrain::draw(int layer, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Frustum& frustum)
+void Terrain::draw(int layer, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Frustum& frustum, float blurness)
 {
-	static int i, j;
-	static float opacity;
-	static Vector3 terrainpoint;
-	static float distance[subdivision][subdivision];
+	int i = 0, j = 0;
+	float opacity = 0.f;
+	Vector3 terrainpoint;
+	float distance[subdivision][subdivision];
 
-	static int beginx, endx;
-	static int beginz, endz;
+	int beginx = 0, endx = 0;
+	int beginz = 0, endz = 0;
 
-	static float patch_size = size / subdivision * scale;
-	static float viewdistsquared;
+	float patch_size = size / subdivision * scale;
+	float viewdistsquared = 0.f;
 
 	viewdistsquared = viewdistance * viewdistance;
 
