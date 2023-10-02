@@ -15,6 +15,8 @@ Development is done with
 
 ## Building
 
+![Banner](./Docs/banner3.jpg)
+
 Conan install for debug and release builds
 ```
 conan install . --build=missing --settings=build_type=Debug
@@ -45,16 +47,22 @@ cmake --build build/Release
 
 ![Banner](./Docs/banner2.jpg)
 
-The game follows a layered design where a layer can access any layer below but not on the same level.
+The game follows a layered design. A layer can access any layer below or on the same level but not above.
 ```
-      App
----------------
-     Audio
----------------
-   Foundation
+-----------------------------------------------
+|                   App                       |
+-----------------------------------------------
+|                   Game                      |
+-----------------------------------------------
+| Graphic | Animation | Objects | Environment | Graphics Layer
+-----------------------------------------------
+|                   Audio                     |
+-----------------------------------------------
+|  Math  |  Platform  |  Thirdparty  |  Utils | Foundation Layer
+-----------------------------------------------
 ```
 
-Dependencies
+Graphics layer interdependencies
 ```
 Animation -> Graphic
           -> Objects
@@ -75,4 +83,13 @@ Objects -> Environment
         -> Audio
         -> Foundation
 ```
-       
+
+## License
+
+The source code is distributed under the GNU General Public License version 2
+or (at your option) any later version (GPLv2+).
+
+The assets (campaigns, graphical and audio assets, etc.) in the `Data` folder
+are distributed under the Creative Commons Attribution - Share Alike license,
+some in version 3.0 Unported (CC-BY-SA 3.0) and others in version 4.0
+International (CC-BY-SA 4.0) as described in the `CONTENT-LICENSE.txt` file.
