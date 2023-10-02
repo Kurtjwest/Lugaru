@@ -20,9 +20,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Objects/Object.hpp"
 
-//extern Vector3 viewer;
-extern float viewdistance;
-extern float fadestart;
+//extern float fadestart;
 extern int environment;
 extern float texscale;
 extern Light light;
@@ -327,7 +325,7 @@ void Object::handleRot(int divide)
     }
 }
 
-void Object::draw(bool decalstoggle, float multiplier, const Vector3& viewer)
+void Object::draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart)
 {
     float distance = 0.0;
     Vector3 moved, terrainlight;
@@ -626,10 +624,10 @@ void Object::SphereCheckPossible(Vector3* p1, float radius)
     }
 }
 
-void Object::Draw(bool decalstoggle, float multiplier, const Vector3& viewer)
+void Object::Draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart)
 {
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->draw(decalstoggle, multiplier, viewer);
+        objects[i]->draw(decalstoggle, multiplier, viewer, viewdistance, fadestart);
     }
 
     glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT, 0);

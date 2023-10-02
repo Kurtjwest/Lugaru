@@ -72,24 +72,24 @@ public:
 	static Texture rocktextureptr;
 
 	Vector3 position;
-	object_type type;
-	float yaw;
-	float pitch;
-	float rotx;
-	float rotxvel;
-	float roty;
-	float rotyvel;
-	bool possible;
+	object_type type = object_type::boxtype;
+	float yaw = 0.f;
+	float pitch = 0.f;
+	float rotx = 0.f;
+	float rotxvel = 0.f;
+	float roty = 0.f;
+	float rotyvel = 0.f;
+	bool possible = false;
 	Model model;
 	Model displaymodel;
-	float friction;
-	float scale;
-	float messedwith;
-	float checked;
-	float shadowed;
-	float occluded;
-	bool onfire;
-	float flamedelay;
+	float friction = 0.f;
+	float scale = 0.f;
+	float messedwith = 0.f;
+	float checked = 0.f;
+	float shadowed = 0.f;
+	float occluded = 0.f;
+	bool onfire = false;
+	float flamedelay = 0.f;
 
 	Object();
 	Object(object_type _type, Vector3 _position, float _yaw, float _pitch, float _scale, ProgressCallback callback);
@@ -103,7 +103,7 @@ public:
 	static void SphereCheckPossible(Vector3* p1, float radius);
 	static void DeleteObject(int which);
 	static void MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, ProgressCallback callback);
-	static void Draw(bool decalstoggle, float multiplier, const Vector3& viewer);
+	static void Draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart);
 	static void DoShadows(bool skyboxtexture);
 	static void DoStuff(bool bloodtoggle);
 	static int checkcollide(Vector3 startpoint, Vector3 endpoint);
@@ -115,7 +115,7 @@ private:
 	void handleFire(bool bloodtoggle);
 	void handleRot(int divide);
 	void doShadows(Vector3 lightloc);
-	void draw(bool decalstoggle, float multiplier, const Vector3& viewer);
+	void draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart);
 	void drawSecondPass(const Vector3& viewer);
 	void addToTerrain(unsigned id);
 	static int checkcollide(Vector3 startpoint, Vector3 endpoint, int what, float minx, float miny, float minz, float maxx, float maxy, float maxz);
