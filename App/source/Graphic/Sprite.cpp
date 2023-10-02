@@ -378,7 +378,7 @@ void Sprite::Draw(const Vector3& viewer, float viewdistance)
 							spritehit = 1;
 							Person::players[j]->DoBloodBigWhere(0, 160, sprites[i]->oldposition);
 							DeleteSprite(i);
-							break;
+							continue;
 						}
 					}
 				}
@@ -398,7 +398,7 @@ void Sprite::Draw(const Vector3& viewer, float viewdistance)
 									}
 									DeleteSprite(i);
 									spritehit = 1;
-									break;
+									continue;
 								}
 							}
 						}
@@ -408,14 +408,14 @@ void Sprite::Draw(const Vector3& viewer, float viewdistance)
 					if (sprites[i]->position.y < terrain.getHeight(sprites[i]->position.x, sprites[i]->position.z)) {
 						terrain.MakeDecal(blooddecalfast, sprites[i]->position, sprites[i]->size * 1.6, .6, rand() % 360, environment);
 						DeleteSprite(i);
-						break;
+						continue;
 					}
 				}
 			}
 		}
 
 		// TODO Due to deleting sprites while iterating (which is fucking stupid) the index can be out of range of the vector
-		if (i >= sprites.size()) break;
+		if (i >= sprites.size()) continue;
 
 		if (sprites[i]->type == splintersprite) {
 			sprites[i]->rotation += sprites[i]->rotatespeed * multiplier;
@@ -461,7 +461,7 @@ void Sprite::Draw(const Vector3& viewer, float viewdistance)
 		}
 		if (sprites[i]->opacity <= 0 || sprites[i]->size <= 0) {
 			DeleteSprite(i);
-			break;
+			continue;
 		}
 	}
 

@@ -312,28 +312,30 @@ void Object::handleRot(int divide)
     if (rotx) {
         glRotatef(-rotx / divide, 0, 0, 1);
     }
+
+    // Clamp to -10, 10
     if (rotx > 10) {
         rotx = 10;
     }
-    if (rotx < -10) {
+    else if (rotx < -10) {
         rotx = -10;
     }
+
     if (roty > 10) {
         roty = 10;
     }
-    if (roty < -10) {
+    else if (roty < -10) {
         roty = -10;
     }
 }
 
-void Object::draw()
+void Object::draw(bool decalstoggle)
 {
-    static float distance;
-    static Vector3 moved, terrainlight;
-    bool hidden;
-    if (type == firetype) {
-        return;
-    }
+    float distance = 0.0;
+    Vector3 moved, terrainlight;
+    bool hidden = false;
+    if (type == firetype) return;
+    
     moved = DoRotation(model.boundingspherecenter, 0, yaw, 0);
     if (type == tunneltype || frustum.SphereInFrustum(position.x + moved.x, position.y + moved.y, position.z + moved.z, model.boundingsphereradius)) {
         distance = distsq(&viewer, &position);
@@ -412,14 +414,14 @@ void Object::draw()
                         glEnable(GL_CULL_FACE);
                         glAlphaFunc(GL_GREATER, 0.0001);
                         model.drawdifftex(boxtextureptr);
-                        model.drawdecals(terrain.shadowtexture, terrain.bloodtexture, terrain.bloodtexture2, terrain.breaktexture);
+                        model.drawdecals(terrain.shadowtexture, terrain.bloodtexture, terrain.bloodtexture2, terrain.breaktexture, decalstoggle);
                     }
                     if (type == rocktype) {
                         glEnable(GL_CULL_FACE);
                         glAlphaFunc(GL_GREATER, 0.0001);
                         glColor4f((1 - shadowed) / 2 + light.ambient[0], (1 - shadowed) / 2 + light.ambient[1], (1 - shadowed) / 2 + light.ambient[2], distance);
                         model.drawdifftex(rocktextureptr);
-                        model.drawdecals(terrain.shadowtexture, terrain.bloodtexture, terrain.bloodtexture2, terrain.breaktexture);
+                        model.drawdecals(terrain.shadowtexture, terrain.bloodtexture, terrain.bloodtexture2, terrain.breaktexture, decalstoggle);
                     }
                     if (type == treeleavestype) {
                         glDisable(GL_CULL_FACE);
@@ -626,10 +628,10 @@ void Object::SphereCheckPossible(Vector3* p1, float radius)
     }
 }
 
-void Object::Draw()
+void Object::Draw(bool decalstoggle)
 {
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->draw();
+        objects[i]->draw(decalstoggle);
     }
 
     glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT, 0);

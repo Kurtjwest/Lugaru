@@ -26,6 +26,7 @@ extern float viewdistance;
 extern Vector3 viewer;
 extern float fadestart;
 extern float texdetail;
+//extern bool decalstoggle;
 
 int Model::LineCheck(Vector3* p1, Vector3* p2, Vector3* p, Vector3* move, float* rotate)
 {
