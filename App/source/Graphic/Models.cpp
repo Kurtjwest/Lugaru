@@ -21,11 +21,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Graphic/Models.hpp"
 #include "Utils/Folders.hpp"
 
-extern float viewdistance;
-extern Vector3 viewer;
-extern float fadestart;
-extern float texdetail;
-
 int Model::LineCheck(Vector3* p1, Vector3* p2, Vector3* p, Vector3* move, float* rotate)
 {
 	float distance = 0.f;
