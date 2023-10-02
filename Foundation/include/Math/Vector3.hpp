@@ -60,28 +60,33 @@ inline void CrossProduct(Vector3* P, Vector3* Q, Vector3* V);
 inline void CrossProduct(Vector3 P, Vector3 Q, Vector3* V);
 inline void Normalise(Vector3* vectory);
 inline float normaldotproduct(Vector3 point1, Vector3 point2);
-inline float fast_sqrt(float arg);
 bool PointInTriangle(Vector3* p, Vector3 normal, Vector3* p1, Vector3* p2, Vector3* p3);
+
 bool LineFacet(Vector3 p1, Vector3 p2, Vector3 pa, Vector3 pb, Vector3 pc, Vector3* p);
 float LineFacetd(Vector3 p1, Vector3 p2, Vector3 pa, Vector3 pb, Vector3 pc, Vector3* p);
 float LineFacetd(Vector3 p1, Vector3 p2, Vector3 pa, Vector3 pb, Vector3 pc, Vector3 n, Vector3* p);
 float LineFacetd(Vector3* p1, Vector3* p2, Vector3* pa, Vector3* pb, Vector3* pc, Vector3* n, Vector3* p);
 float LineFacetd(Vector3* p1, Vector3* p2, Vector3* pa, Vector3* pb, Vector3* pc, Vector3* p);
+
 inline void ReflectVector(Vector3* vel, const Vector3* n);
 inline void ReflectVector(Vector3* vel, const Vector3& n);
 inline Vector3 DoRotation(Vector3 thePoint, float xang, float yang, float zang);
 inline Vector3 DoRotationRadian(Vector3 thePoint, float xang, float yang, float zang);
-inline float findDistance(Vector3* point1, Vector3* point2);
-inline float findLength(Vector3* point1);
-inline float findLengthfast(Vector3* point1);
+
+inline float findDistance(const Vector3* point1, const Vector3* point2);
+inline float findLength(const Vector3* point1);
+inline float findLengthfast(const Vector3* point1);
+
 inline float distsq(const Vector3* point1, const Vector3* point2);
 inline float distsq(const Vector3& point1, const Vector3& point2);
-inline float distsqflat(Vector3* point1, Vector3* point2);
+inline float distsqflat(const Vector3* point1, const Vector3* point2);
 inline float dotproduct(const Vector3* point1, const Vector3* point2);
+
 bool sphere_line_intersection(
 	float x1, float y1, float z1,
 	float x2, float y2, float z2,
 	float x3, float y3, float z3, float r);
+
 bool sphere_line_intersection(
 	Vector3* p1, Vector3* p2, Vector3* p3, float* r);
 inline bool DistancePointLine(Vector3* Point, Vector3* LineStart, Vector3* LineEnd, float* Distance, Vector3* Intersection);
@@ -89,7 +94,7 @@ inline bool DistancePointLine(Vector3* Point, Vector3* LineStart, Vector3* LineE
 inline void Normalise(Vector3* vectory)
 {
 	static float d;
-	d = fast_sqrt(vectory->x * vectory->x + vectory->y * vectory->y + vectory->z * vectory->z);
+	d = sqrt(vectory->x * vectory->x + vectory->y * vectory->y + vectory->z * vectory->z);
 	if (d == 0) {
 		return;
 	}
@@ -208,11 +213,6 @@ inline void CrossProduct(Vector3 P, Vector3 Q, Vector3* V)
 	V->z = P.x * Q.y - P.y * Q.x;
 }
 
-inline float fast_sqrt(float arg)
-{
-	return sqrtf(arg);
-}
-
 inline float normaldotproduct(Vector3 point1, Vector3 point2)
 {
 	static float returnvalue;
@@ -254,17 +254,17 @@ inline float dotproduct(const Vector3* point1, const Vector3* point2)
 	return returnvalue;
 }
 
-inline float findDistance(Vector3* point1, Vector3* point2)
+inline float findDistance(const Vector3* point1, const Vector3* point2)
 {
-	return (fast_sqrt((point1->x - point2->x) * (point1->x - point2->x) + (point1->y - point2->y) * (point1->y - point2->y) + (point1->z - point2->z) * (point1->z - point2->z)));
+	return (sqrt((point1->x - point2->x) * (point1->x - point2->x) + (point1->y - point2->y) * (point1->y - point2->y) + (point1->z - point2->z) * (point1->z - point2->z)));
 }
 
-inline float findLength(Vector3* point1)
+inline float findLength(const Vector3* point1)
 {
-	return (fast_sqrt((point1->x) * (point1->x) + (point1->y) * (point1->y) + (point1->z) * (point1->z)));
+	return (sqrt((point1->x) * (point1->x) + (point1->y) * (point1->y) + (point1->z) * (point1->z)));
 }
 
-inline float findLengthfast(Vector3* point1)
+inline float findLengthfast(const Vector3* point1)
 {
 	return ((point1->x) * (point1->x) + (point1->y) * (point1->y) + (point1->z) * (point1->z));
 }
@@ -279,7 +279,7 @@ inline float distsq(const Vector3& point1, const Vector3& point2)
 	return ((point1.x - point2.x) * (point1.x - point2.x) + (point1.y - point2.y) * (point1.y - point2.y) + (point1.z - point2.z) * (point1.z - point2.z));
 }
 
-inline float distsqflat(Vector3* point1, Vector3* point2)
+inline float distsqflat(const Vector3* point1, const Vector3* point2)
 {
 	return ((point1->x - point2->x) * (point1->x - point2->x) + (point1->z - point2->z) * (point1->z - point2->z));
 }

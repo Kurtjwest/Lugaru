@@ -466,7 +466,7 @@ bool Model::loadnotex(const std::string& filename)
 			}
 		}
 	}
-	boundingsphereradius = fast_sqrt(boundingsphereradius);
+	boundingsphereradius = sqrt(boundingsphereradius);
 
 	return true;
 }
@@ -535,7 +535,7 @@ bool Model::load(const std::string& filename, ProgressCallback callback)
 			}
 		}
 	}
-	boundingsphereradius = fast_sqrt(boundingsphereradius);
+	boundingsphereradius = sqrt(boundingsphereradius);
 
 	return true;
 }
@@ -601,7 +601,7 @@ bool Model::loaddecal(const std::string& filename)
 			}
 		}
 	}
-	boundingsphereradius = fast_sqrt(boundingsphereradius);
+	boundingsphereradius = sqrt(boundingsphereradius);
 
 	return true;
 }
@@ -712,7 +712,7 @@ void Model::Scale(float xscale, float yscale, float zscale)
 			}
 		}
 	}
-	boundingsphereradius = fast_sqrt(boundingsphereradius);
+	boundingsphereradius = sqrt(boundingsphereradius);
 }
 
 void Model::ScaleNormals(float xscale, float yscale, float zscale)
@@ -754,7 +754,7 @@ void Model::Translate(float xtrans, float ytrans, float ztrans)
 			}
 		}
 	}
-	boundingsphereradius = fast_sqrt(boundingsphereradius);
+	boundingsphereradius = sqrt(boundingsphereradius);
 }
 
 void Model::Rotate(float xang, float yang, float zang)
@@ -775,7 +775,7 @@ void Model::Rotate(float xang, float yang, float zang)
 			}
 		}
 	}
-	boundingsphereradius = fast_sqrt(boundingsphereradius);
+	boundingsphereradius = sqrt(boundingsphereradius);
 }
 
 void Model::CalculateNormals(bool facenormalise, ProgressCallback callback)

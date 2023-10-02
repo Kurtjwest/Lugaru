@@ -772,7 +772,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 		Object::AddObjectsToTerrain();
 		terrain.DoShadows(Tutorial::active, texscale, light, skyboxtexture, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
-		Object::DoShadows();
+		Object::DoShadows(skyboxtexture);
 		Game::LoadingScreen();
 	}
 
@@ -1068,7 +1068,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 		Object::AddObjectsToTerrain();
 		terrain.DoShadows(Tutorial::active, texscale, light, skyboxtexture, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
-		Object::DoShadows();
+		Object::DoShadows(skyboxtexture);
 		Game::LoadingScreen();
 	}
 
@@ -3106,8 +3106,8 @@ void doPlayerCollisions()
 																				rotatetarget = Person::players[k]->coords - Person::players[i]->coords;
 																				Normalise(&rotatetarget);
 																				Person::players[k]->coords = (Person::players[k]->coords + Person::players[i]->coords) / 2;
-																				Person::players[i]->coords = Person::players[k]->coords - rotatetarget * fast_sqrt(.6) / 2 * sq((Person::players[i]->scale + Person::players[k]->scale) * 2.5);
-																				Person::players[k]->coords += rotatetarget * fast_sqrt(.6) / 2 * sq((Person::players[i]->scale + Person::players[k]->scale) * 2.5);
+																				Person::players[i]->coords = Person::players[k]->coords - rotatetarget * sqrt(.6) / 2 * sq((Person::players[i]->scale + Person::players[k]->scale) * 2.5);
+																				Person::players[k]->coords += rotatetarget * sqrt(.6) / 2 * sq((Person::players[i]->scale + Person::players[k]->scale) * 2.5);
 																				if (Person::players[k]->howactive == typeactive || hostile) {
 																					if (Person::players[k]->isIdle()) {
 																						if (Person::players[k]->howactive < typesleeping) {

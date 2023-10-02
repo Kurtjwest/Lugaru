@@ -103,8 +103,8 @@ public:
 	static void SphereCheckPossible(Vector3* p1, float radius);
 	static void DeleteObject(int which);
 	static void MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, ProgressCallback callback);
-	static void Draw(bool decalstoggle, float multiplier);
-	static void DoShadows();
+	static void Draw(bool decalstoggle, float multiplier, const Vector3& viewer);
+	static void DoShadows(bool skyboxtexture);
 	static void DoStuff(bool bloodtoggle);
 	static int checkcollide(Vector3 startpoint, Vector3 endpoint);
 	static int checkcollide(Vector3 startpoint, Vector3 endpoint, int what);
@@ -115,8 +115,8 @@ private:
 	void handleFire(bool bloodtoggle);
 	void handleRot(int divide);
 	void doShadows(Vector3 lightloc);
-	void draw(bool decalstoggle, float multiplier);
-	void drawSecondPass();
+	void draw(bool decalstoggle, float multiplier, const Vector3& viewer);
+	void drawSecondPass(const Vector3& viewer);
 	void addToTerrain(unsigned id);
 	static int checkcollide(Vector3 startpoint, Vector3 endpoint, int what, float minx, float miny, float minz, float maxx, float maxy, float maxz);
 };

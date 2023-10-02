@@ -2059,7 +2059,7 @@ void Person::DoAnimations(Terrain& terrain)
 				OPENAL_3D_SetAttributes(channels[whooshsound], gLoc);
 				OPENAL_SetVolume(channels[whooshsound], 64 * findLength(&velocity) / 5);
 			}
-			if (((velocity.y < -15) || (crouchkeydown && velocity.y < -8)) && abs(velocity.y) * 4 > fast_sqrt(velocity.x * velocity.x * velocity.z * velocity.z)) {
+			if (((velocity.y < -15) || (crouchkeydown && velocity.y < -8)) && abs(velocity.y) * 4 > sqrt(velocity.x * velocity.x * velocity.z * velocity.z)) {
 				landhard = 1;
 			}
 			if (!crouchkeydown && velocity.y >= -15) {
@@ -6033,8 +6033,8 @@ void Person::DoStuff(Terrain& terrain)
 			flatvelocity = velocity;
 			flatvelocity.y = 0;
 			flatvelspeed = findLength(&flatvelocity);
-			targettilt = flatvelspeed * fast_sqrt(abs(velocity.y) * .7) * normaldotproduct(DoRotation(flatfacing, 0, -90, 0), flatvelocity);
-			targettilt2 = flatvelspeed * fast_sqrt(abs(velocity.y) * .7) * normaldotproduct(flatfacing, flatvelocity);
+			targettilt = flatvelspeed * sqrt(abs(velocity.y) * .7) * normaldotproduct(DoRotation(flatfacing, 0, -90, 0), flatvelocity);
+			targettilt2 = flatvelspeed * sqrt(abs(velocity.y) * .7) * normaldotproduct(flatfacing, flatvelocity);
 			if (velocity.y < 0) {
 				targettilt2 *= -1;
 			}

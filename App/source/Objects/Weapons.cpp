@@ -1027,7 +1027,7 @@ void Weapon::doStuff(int i)
 			if (rand() % 50 == 0 && distsq(&position, &viewer) > 80) {
 				Vector3 shinepoint;
 				shinepoint = position + (tippoint - position) * (((float)abs(rand() % 100)) / 100);
-				Sprite::MakeSprite(weaponshinesprite, shinepoint, normalrot, 1, 1, 1, (.1 + (float)abs(rand() % 100) / 200 - .25) * 1 / 3 * fast_sqrt(findDistance(&shinepoint, &viewer)), 1, bloodtoggle);
+				Sprite::MakeSprite(weaponshinesprite, shinepoint, normalrot, 1, 1, 1, (.1 + (float)abs(rand() % 100) / 200 - .25) * 1 / 3 * sqrt(findDistance(&shinepoint, &viewer)), 1, bloodtoggle);
 				Sprite::setLastSpriteSpeed(4);
 				Sprite::setLastSpriteAlivetime(.3);
 			}

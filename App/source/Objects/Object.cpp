@@ -20,14 +20,13 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Objects/Object.hpp"
 
-extern Vector3 viewer;
+//extern Vector3 viewer;
 extern float viewdistance;
 extern float fadestart;
 extern int environment;
 extern float texscale;
 extern Light light;
 extern float multiplier;
-extern float gravity;
 extern Frustum frustum;
 extern Terrain terrain;
 extern bool foliage;
@@ -35,7 +34,6 @@ extern int detail;
 extern float blurness;
 extern float windvar;
 extern float playerdist;
-extern bool skyboxtexture;
 
 std::vector<std::unique_ptr<Object>> Object::objects;
 Vector3 Object::center;
@@ -329,7 +327,7 @@ void Object::handleRot(int divide)
     }
 }
 
-void Object::draw(bool decalstoggle, float multiplier)
+void Object::draw(bool decalstoggle, float multiplier, const Vector3& viewer)
 {
     float distance = 0.0;
     Vector3 moved, terrainlight;
@@ -456,7 +454,7 @@ void Object::draw(bool decalstoggle, float multiplier)
     }
 }
 
-void Object::drawSecondPass()
+void Object::drawSecondPass(const Vector3& viewer)
 {
     static float distance;
     static Vector3 moved, terrainlight;
@@ -550,7 +548,7 @@ void Object::ComputeRadius()
             maxdistance = tempdist;
         }
     }
-    radius = fast_sqrt(maxdistance);
+    radius = sqrt(maxdistance);
 }
 
 void Object::LoadObjectsFromFile(FILE* tfile, bool skip, ProgressCallback callback)
@@ -628,15 +626,15 @@ void Object::SphereCheckPossible(Vector3* p1, float radius)
     }
 }
 
-void Object::Draw(bool decalstoggle, float multiplier)
+void Object::Draw(bool decalstoggle, float multiplier, const Vector3& viewer)
 {
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->draw(decalstoggle, multiplier);
+        objects[i]->draw(decalstoggle, multiplier, viewer);
     }
 
     glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT, 0);
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->drawSecondPass();
+        objects[i]->drawSecondPass(viewer);
     }
     if (environment == desertenvironment) {
         glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT, 0);
@@ -667,7 +665,7 @@ void Object::DoStuff(bool bloodtoggle)
     }
 }
 
-void Object::DoShadows()
+void Object::DoShadows(bool skyboxtexture)
 {
     Vector3 lightloc;
     lightloc = light.location;
