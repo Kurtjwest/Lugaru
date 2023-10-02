@@ -660,8 +660,6 @@ void Skeleton::Load(const std::string& filename, const std::string& lowfilename,
 	size_t lSize = 0;
 	int j, num_joints, num_muscles;
 
-	LOGFUNC;
-
 	num_models = 7;
 
 	// load various models

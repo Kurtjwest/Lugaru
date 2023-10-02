@@ -179,8 +179,6 @@ static Point gMidPoint;
 
 bool SetUp()
 {
-	LOGFUNC;
-
 	cellophane = 0;
 	texdetail = 4;
 	slomospeed = 0.25;
@@ -481,8 +479,6 @@ void DoUpdate()
 
 void CleanUp(void)
 {
-	LOGFUNC;
-
 	delete[] commandLineOptionsBuffer;
 
 	SDL_Quit();
@@ -670,8 +666,6 @@ int main(int argc, char** argv)
 #ifndef WIN32
 	chdirToAppPath(argv[0]);
 #endif
-
-	LOGFUNC;
 
 #ifdef NDEBUG
 	try {

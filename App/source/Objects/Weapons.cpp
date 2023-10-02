@@ -98,8 +98,6 @@ void Weapon::setType(int t)
 /* Load weapons models and textures */
 void Weapon::Load(bool trilinear, ProgressCallback callback)
 {
-	LOG("Loading weapon data...");
-
 	knifetextureptr.load("Textures/Knife.png", 0, trilinear, callback);
 	bloodknifetextureptr.load("Textures/BloodKnife.png", 0, trilinear, callback);
 	lightbloodknifetextureptr.load("Textures/BloodKnifeLight.png", 0, trilinear, callback);

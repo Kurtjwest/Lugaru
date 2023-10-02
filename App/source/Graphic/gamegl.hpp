@@ -50,8 +50,4 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace std;
 
-/* !!! FIXME: until we replace logger better. --ryan. */
-#define LOGFUNC
-void LOG(const std::string& fmt, ...);
-
 #endif

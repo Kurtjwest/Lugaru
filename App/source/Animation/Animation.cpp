@@ -88,12 +88,8 @@ Animation::Animation(const std::string& filename, anim_height_type aheight, anim
     int numframes;
     unsigned i;
 
-    LOGFUNC;
-
     // Changing the filename into something the OS can understand
     std::string filepath = Folders::getResourcePath("Animations/" + filename);
-
-    LOG(std::string("Loading animation...") + filepath);
 
     height = aheight;
     attack = aattack;

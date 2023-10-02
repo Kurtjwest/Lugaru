@@ -485,10 +485,6 @@ bool Model::load(const std::string& filename, ProgressCallback callback)
     long i;
     short triangleNum;
 
-    LOGFUNC;
-
-    LOG(std::string("Loading model...") + filename);
-
     //Game::LoadingScreen();
     callback();
 
@@ -558,10 +554,6 @@ bool Model::loaddecal(const std::string& filename)
     long i, j;
     short triangleNum;
 
-    LOGFUNC;
-
-    LOG(std::string("Loading decal...") + Folders::getResourcePath(filename));
-
     type = decalstype;
     color = 0;
 
@@ -627,10 +619,6 @@ bool Model::loadraw(const std::string& filename)
     FILE* tfile;
     long i;
     short triangleNum;
-
-    LOGFUNC;
-
-    LOG(std::string("Loading raw...") + filename);
 
     type = rawtype;
     color = 0;

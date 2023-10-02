@@ -36,15 +36,8 @@ extern float accountcampaigntime[10];
 extern int accountcampaignchoicesmade[10];
 extern int accountcampaignchoices[10][5000];
 
-void LOG(const std::string&, ...)
-{
-	// !!! FIXME: write me.
-	// bru
-}
-
 void Dispose()
 {
-	LOGFUNC;
 
 	if (Game::endgame == 2) {
 		Account::active().endGame();
@@ -54,8 +47,6 @@ void Dispose()
 	Account::saveFile(Folders::getUserSavePath());
 
 	//textures.clear();
-
-	LOG("Shutting down sound system...");
 
 	OPENAL_StopSound(OPENAL_ALL);
 
@@ -87,9 +78,6 @@ void Game::deleteGame()
 
 void LoadSave(const std::string& fileName, GLubyte* array)
 {
-	LOGFUNC;
-
-	LOG(std::string("Loading (S)...") + fileName);
 
 	//Load Image
 	float temptexdetail = texdetail;
@@ -413,8 +401,6 @@ void FadeLoadingScreen(float howmuch)
 
 void Game::InitGame()
 {
-	LOGFUNC;
-
 	numchallengelevels = 14;
 
 	Account::loadFile(Folders::getUserSavePath());
@@ -521,8 +507,6 @@ void Game::InitGame()
 		texdetail = 4;
 	}
 
-	LOG("Initializing sound system...");
-
 	// 
 	OPENAL_Init(44100, 32, 0, commandLineOptions[OPENALINFO]);
 
@@ -598,8 +582,6 @@ void Game::LoadStuff()
 	float temptexdetail;
 	float viewdistdetail;
 	float megascale = 1;
-
-	LOGFUNC;
 
 	loadtime = 0;
 

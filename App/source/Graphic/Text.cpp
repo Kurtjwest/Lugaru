@@ -22,10 +22,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 void Text::LoadFontTexture(const std::string& fileName, bool trilinear, ProgressCallback callback)
 {
-    LOGFUNC;
-
-    LOG(std::string("Loading font texture...") + fileName);
-
     FontTexture.load(fileName, false, trilinear, callback);
     if (base) {
         glDeleteLists(base, 512);
@@ -38,8 +34,6 @@ void Text::BuildFont() // Build Our Font Display List
     float cx; // Holds Our X Character Coord
     float cy; // Holds Our Y Character Coord
     int loop;
-
-    LOGFUNC;
 
     if (base) {
         glDeleteLists(base, 512);

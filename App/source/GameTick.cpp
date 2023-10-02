@@ -320,10 +320,6 @@ void Game::SetUpLighting()
 
 void Setenvironment(int which)
 {
-	LOGFUNC;
-
-	LOG(" Setting environment...");
-
 	float temptexdetail;
 	environment = which;
 
@@ -540,10 +536,6 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 	int indemo; // FIXME this should be removed
 	int templength;
 	float lamefloat;
-
-	LOGFUNC;
-
-	LOG(std::string("Loading level...") + name);
 
 	if (!gameon) {
 		visibleloading = true;
@@ -900,8 +892,6 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 
 	Game::LoadingScreen();
 
-	LOG("Starting background music...");
-
 	OPENAL_StopSound(OPENAL_ALL);
 	if (ambientsound) {
 		if (environment == snowyenvironment) {
@@ -933,10 +923,6 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 		perror(std::string("LoadLevel: Could not open file '" + level_path).c_str());
 		return false;
 	}
-
-	LOGFUNC;
-
-	LOG(std::string("Loading level...") + name + ".json");
 
 	if (!gameon) {
 		visibleloading = true;
@@ -1134,8 +1120,6 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 	hawkcoords.y += 30;
 
 	Game::LoadingScreen();
-
-	LOG("Starting background music...");
 
 	OPENAL_StopSound(OPENAL_ALL);
 	if (ambientsound) {
