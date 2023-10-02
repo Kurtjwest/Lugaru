@@ -1037,7 +1037,7 @@ void Terrain::draw(int layer, const Vector3& viewer, float viewdistance, float f
 void Terrain::drawdecals(const Vector3& viewer, float viewdistance, float fadestart, float multiplier)
 {
 	float distancemult = 0.f;
-	int lasttype = 1;
+	int lasttype = -1;
 
 	float viewdistsquared = viewdistance * viewdistance;
 	bool blend = 1;
