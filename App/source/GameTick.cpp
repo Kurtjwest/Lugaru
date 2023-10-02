@@ -150,8 +150,7 @@ float musicvolume[4] = {};
 float oldmusicvolume[4] = {};
 int musicselected = 0;
 
-#define STATIC_ASSERT(x) extern int s_a_dummy[2 * (!!(x)) - 1];
-STATIC_ASSERT(rabbittype == 0 && wolftype == 1)
+static_assert(rabbittype == 0 && wolftype == 1);
 
 // utility functions
 

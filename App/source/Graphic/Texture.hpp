@@ -21,8 +21,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _TEXTURE_HPP_
 #define _TEXTURE_HPP_
 
-#include "Utils/Callbacks.h"
 #include "Graphic/gamegl.hpp"
+#include "Utils/Callbacks.h"
 
 #include <map>
 #include <memory>

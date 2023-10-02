@@ -23,10 +23,12 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Animation/Skeleton.hpp"
 #include "Environment/Terrain.hpp"
+
 #include "Graphic/Models.hpp"
 #include "Graphic/Sprite.hpp"
 #include "Graphic/Texture.hpp"
 #include "Graphic/gamegl.hpp"
+
 #include "Math/Vector3.hpp"
 #include "Objects/Person.hpp"
 

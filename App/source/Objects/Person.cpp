@@ -23,11 +23,15 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Objects/Person.hpp"
 
 #include "Animation/Animation.hpp"
+
 #include "Audio/Sounds.hpp"
 #include "Audio/openal_wrapper.hpp"
+
 #include "Game.hpp"
+
 #include "Level/Awards.hpp"
 #include "Level/Dialog.hpp"
+
 #include "Tutorial.hpp"
 #include "Utils/Folders.hpp"
 

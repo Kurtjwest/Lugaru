@@ -25,19 +25,15 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 int Terrain::lineTerrain(Vector3 p1, Vector3 p2, Vector3* p)
 {
-	static int i, j, k;
-	static float distance;
-	static float olddistance;
-	static int intersecting;
-	static int firstintersecting;
-	static Vector3 point;
-	static int startx, starty;
-	static int endx, endy;
-	static float highest, lowest;
-
-	firstintersecting = -1;
-	olddistance = 10000;
-	distance = 1;
+	int i = 0, j = 0, k = 0;
+	float distance = 1.f;
+	float olddistance = 10000.f;
+	int intersecting = 0;
+	int firstintersecting = -1;
+	Vector3 point;
+	int startx = 0, starty = 0;
+	int endx = 0.f, endy = 0.f;
+	float highest = 0.f, lowest = 0.f;
 
 	Vector3 triangles[3];
 

@@ -23,9 +23,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Objects/Weapons.hpp"
 
 #include "Animation/Animation.hpp"
-#include "Audio/Sounds.hpp"
-#include "Audio/openal_wrapper.hpp"
 #include "Level/Awards.hpp"
+
 #include "Tutorial.hpp"
 
 extern float multiplier;

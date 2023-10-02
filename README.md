@@ -62,10 +62,17 @@ Animation -> Graphic
           -> Foundation
 
 Environment -> Graphic
+            -> Objects
             -> Foundation
 
 Graphic -> Environment
-        -> Foundation
         -> Objects
+        -> Foundation
+
+Objects -> Environment
+        -> Graphic
+        -> Animation
+        -> Audio
+        -> Foundation
 ```
        

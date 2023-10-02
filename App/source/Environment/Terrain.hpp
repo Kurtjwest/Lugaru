@@ -21,8 +21,9 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _TERRAIN_HPP_
 #define _TERRAIN_HPP_
 
-// Graphics
 #include "Environment/Lights.hpp"
+
+// Graphics
 #include "Graphic/Decal.hpp"
 #include "Graphic/Texture.hpp"
 #include "Graphic/gamegl.hpp"
