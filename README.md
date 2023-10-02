@@ -47,22 +47,24 @@ cmake --build build/Release
 
 ![Banner](./Docs/banner2.jpg)
 
-The game follows a layered design. A layer can access any layer below or on the same level but not above.
+The game follows a layered design.
+Each layer consists of one or more modules. 
+A module can access any module in a layer below or on the same layer but not above.
 ```
 -----------------------------------------------
-|                   App                       |
+|                   App                       | Application Layer
 -----------------------------------------------
-|                   Game                      |
+|                   Game                      | Game Logic Layer
 -----------------------------------------------
 | Graphic | Animation | Objects | Environment | Graphics Layer
 -----------------------------------------------
-|                   Audio                     |
+|                   Audio                     | Audio Layer
 -----------------------------------------------
 |  Math  |  Platform  |  Thirdparty  |  Utils | Foundation Layer
 -----------------------------------------------
 ```
 
-Graphics layer interdependencies
+Graphics layer module dependencies
 ```
 Animation -> Graphic
           -> Objects

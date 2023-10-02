@@ -22,8 +22,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Utils/binio.h"
 
-extern float multiplier;
-extern bool freeze;
+//extern bool freeze;
 
 Muscle::Muscle()
     : length(0)
@@ -115,7 +114,7 @@ void Muscle::loadVerticesClothes(FILE* tfile, int vertexNum)
  * USES:
  * Skeleton::DoConstraints
  */
-void Muscle::DoConstraint(bool spinny)
+void Muscle::DoConstraint(bool spinny, float multiplier, bool freeze)
 {
     // FIXME: relaxlength shouldn't be static, but may not always be set
     // so I don't want to change the existing behavior even though it's probably a bug

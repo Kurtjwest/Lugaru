@@ -243,7 +243,7 @@ float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive
 
 			for (i = 0; i < muscles.size(); i++) {
 				//Length constraints
-				muscles[i].DoConstraint(spinny);
+				muscles[i].DoConstraint(spinny, multiplier, freeze);
 			}
 
 			float friction;
@@ -452,7 +452,7 @@ float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive
 						joints[jointlabels[whichjointendarray[i]]].position = (end - *coords) / (*scale);
 						for (unsigned j = 0; j < muscles.size(); j++) {
 							if ((muscles[j].parent1->label == whichjointstartarray[i] && muscles[j].parent2->label == whichjointendarray[i]) || (muscles[j].parent2->label == whichjointstartarray[i] && muscles[j].parent1->label == whichjointendarray[i])) {
-								muscles[j].DoConstraint(spinny);
+								muscles[j].DoConstraint(spinny, multiplier, freeze);
 							}
 						}
 					}
@@ -493,7 +493,7 @@ float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive
 	if (!free) {
 		for (i = 0; i < muscles.size(); i++) {
 			if (muscles[i].type == boneconnect) {
-				muscles[i].DoConstraint(0);
+				muscles[i].DoConstraint(0, multiplier, freeze);
 			}
 		}
 	}

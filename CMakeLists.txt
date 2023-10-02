@@ -25,6 +25,6 @@ find_package(glu REQUIRED)
 # 
 add_subdirectory(Foundation)
 add_subdirectory(Audio)
-# add_subdirectory(Graphics)
+add_subdirectory(Graphics)
 # add_subdirectory(Game)
 add_subdirectory(App)

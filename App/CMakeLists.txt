@@ -24,7 +24,7 @@ target_link_libraries (${PROJECT_NAME}
     PRIVATE glext::glext
     PRIVATE glu::glu
 
-	PRIVATE AudioLib
+	PRIVATE GraphicsLib
 )
 
 target_compile_definitions(${PROJECT_NAME} 

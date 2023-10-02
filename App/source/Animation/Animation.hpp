@@ -72,9 +72,9 @@ static const int animation_bits[animation_count] = {
 struct AnimationFrameJointInfo
 {
     Vector3 position;
-    float twist;
-    float twist2;
-    bool onground;
+    float twist = 0.f;
+    float twist2 = 0.f;
+    bool onground = false;
 };
 
 struct AnimationFrame
