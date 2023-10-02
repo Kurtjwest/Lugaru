@@ -1,9 +1,9 @@
 # Lugaru
 
-Fork of Lugaru with modern conan and cmake based build system and many bugfixes.
 ![Banner](./Docs/banner1.jpg)
+
+Fork of Lugaru with modern conan and cmake based build system and many bugfixes.
 Current goal is a total refactroing of the game into separate modules and removal of all globals.
-![Banner](./Docs/banner2.jpg)
 
 ## Requirements
 
@@ -42,6 +42,8 @@ cmake --build build/Release
 ```
 
 ## Design
+
+![Banner](./Docs/banner2.jpg)
 
 The game follows a layered design where a layer can access any layer below but not on the same level.
 ```
