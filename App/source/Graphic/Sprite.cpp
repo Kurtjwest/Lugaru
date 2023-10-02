@@ -23,8 +23,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Objects/Person.hpp"
 
 // TODO Get rid of globals
-//extern float fadestart;
-extern int environment;
 extern float texscale;
 extern Light light;
 extern float multiplier;
@@ -53,7 +51,7 @@ float Sprite::checkdelay = 0;
 std::vector<std::unique_ptr<Sprite>> Sprite::sprites = std::vector<std::unique_ptr<Sprite>>();
 
 //Functions
-void Sprite::Draw(const Vector3& viewer, float viewdistance, float fadestart)
+void Sprite::Draw(const Vector3& viewer, float viewdistance, float fadestart, int environment)
 {
 	int k = 0;
 	float M[16];
