@@ -21,8 +21,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Animation/Skeleton.hpp"
 
 #include "Objects/Object.hpp"
-#include "Audio/Sounds.hpp"
 #include "Animation/Animation.hpp"
+#include "Audio/Sounds.hpp"
 
 #include "Utils/Folders.hpp"
 

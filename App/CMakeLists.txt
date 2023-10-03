@@ -19,11 +19,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 target_link_libraries (${PROJECT_NAME}
-    PRIVATE OpenGL::GL
     PRIVATE SDL2::SDL2
-    PRIVATE glext::glext
-    PRIVATE glu::glu
-
 	PRIVATE GraphicsLib
 )
 
