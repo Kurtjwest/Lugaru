@@ -52,13 +52,13 @@ void Text::BuildFont() // Build Our Font Display List
         }
         glNewList(base + loop, GL_COMPILE);                  // Start Building A List
         glBegin(GL_QUADS);                                   // Use A Quad For Each Character
-        glTexCoord2f(cx, 1 - cy - 0.0625f + .001);           // Texture Coord (Bottom Left)
+        glTexCoord2f(cx, 1 - cy - 0.0625f + .001f);           // Texture Coord (Bottom Left)
         glVertex2i(0, 0);                                    // Vertex Coord (Bottom Left)
-        glTexCoord2f(cx + 0.0625f, 1 - cy - 0.0625f + .001); // Texture Coord (Bottom Right)
+        glTexCoord2f(cx + 0.0625f, 1 - cy - 0.0625f + .001f); // Texture Coord (Bottom Right)
         glVertex2i(16, 0);                                   // Vertex Coord (Bottom Right)
-        glTexCoord2f(cx + 0.0625f, 1 - cy - .001);           // Texture Coord (Top Right)
+        glTexCoord2f(cx + 0.0625f, 1 - cy - .001f);           // Texture Coord (Top Right)
         glVertex2i(16, 16);                                  // Vertex Coord (Top Right)
-        glTexCoord2f(cx, 1 - cy - +.001);                    // Texture Coord (Top Left)
+        glTexCoord2f(cx, 1 - cy - +.001f);                    // Texture Coord (Top Left)
         glVertex2i(0, 16);                                   // Vertex Coord (Top Left)
         glEnd();                                             // Done Building Our Quad (Character)
         if (loop < 256) {
@@ -103,7 +103,7 @@ void Text::_glPrint(float x, float y, const std::string& string, int set, float 
 void Text::glPrint(float x, float y, const std::string& string, int set, float size, float width, float height, int start, int end)
 {
     if (end < 0) {
-        end = string.size();
+        end = (int)string.size();
     }
     _glPrint(x, y, string, set, size, width, height, start, end, 0);
 }
@@ -111,7 +111,7 @@ void Text::glPrint(float x, float y, const std::string& string, int set, float s
 void Text::glPrintOutline(float x, float y, const std::string& string, int set, float size, float width, float height, int start, int end)
 {
     if (end < 0) {
-        end = string.size();
+        end = (int)string.size();
     }
     _glPrint(x, y, string, set, size, width, height, start, end, 256);
 }
@@ -124,7 +124,7 @@ void Text::glPrintOutlined(float x, float y, const std::string& string, int set,
 void Text::glPrintOutlined(float r, float g, float b, float a, float x, float y, const std::string& string, int set, float size, float width, float height, int start, int end)
 {
     glColor4f(0, 0, 0, a);
-    glPrintOutline(x - 2 * size, y - 2 * size, string, set, size * 2.5 / 2, width, height, start, end);
+    glPrintOutline(x - 2 * size, y - 2 * size, string, set, size * 2.5f / 2, width, height, start, end);
     glColor4f(r, g, b, a);
     glPrint(x, y, string, set, size, width, height, start, end);
 }

@@ -94,11 +94,13 @@ public:
     void AddObject(Vector3 where, float radius, int id);
     void DeleteObject(unsigned int id);
     void MakeDecal(decal_type type, Vector3 where, float size, float opacity, float rotation, int environment);
-    int lineTerrain(Vector3 p1, Vector3 p2, Vector3* p);
+
+    int lineTerrain(Vector3 p1, Vector3 p2, Vector3* p) const;
     float getHeight(float pointx, float pointz) const;
     float getOpacity(float pointx, float pointz) const;
     Vector3 getLighting(float pointx, float pointz) const;
     Vector3 getNormal(float pointx, float pointz) const;
+    
     void UpdateVertexArray(int whichx, int whichy, float texscale);
     bool load(const std::string& fileName, int environment, ProgressCallback callback);
     void CalculateNormals();

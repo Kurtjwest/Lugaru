@@ -20,9 +20,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Objects/Object.hpp"
 
-//extern float multiplier;
-extern Frustum frustum;
-extern Terrain terrain;
+//extern Terrain terrain;
 extern bool foliage;
 extern int detail;
 extern float blurness;
@@ -62,7 +60,7 @@ Object::Object()
 {
 }
 
-Object::Object(object_type _type, Vector3 _position, float _yaw, float _pitch, float _scale, ProgressCallback callback)
+Object::Object(object_type _type, Vector3 _position, float _yaw, float _pitch, float _scale, const Terrain& terrain, ProgressCallback callback)
     : Object()
 {
     scale = _scale;
@@ -188,7 +186,7 @@ void Object::handleFire(bool bloodtoggle, float multiplier)
     }
 }
 
-void Object::doShadows(Vector3 lightloc)
+void Object::doShadows(Vector3 lightloc, const Terrain& terrain)
 {
     Vector3 testpoint, testpoint2, terrainpoint, col;
     int patchx, patchz;
@@ -321,7 +319,7 @@ void Object::handleRot(int divide, float multiplier)
     }
 }
 
-void Object::draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light)
+void Object::draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light, const Frustum& frustum, const Terrain& terrain)
 {
     float distance = 0.0;
     Vector3 moved, terrainlight;
@@ -448,7 +446,7 @@ void Object::draw(bool decalstoggle, float multiplier, const Vector3& viewer, fl
     }
 }
 
-void Object::drawSecondPass(const Vector3& viewer, int environment, float multiplier)
+void Object::drawSecondPass(const Vector3& viewer, int environment, float multiplier, const Frustum& frustum, const Terrain& terrain)
 {
     static float distance;
     static Vector3 moved, terrainlight;
@@ -545,7 +543,7 @@ void Object::ComputeRadius()
     radius = sqrt(maxdistance);
 }
 
-void Object::LoadObjectsFromFile(FILE* tfile, bool skip, ProgressCallback callback)
+void Object::LoadObjectsFromFile(FILE* tfile, bool skip, const Terrain& terrain, ProgressCallback callback)
 {
     int numobjects;
     int type;
@@ -562,23 +560,23 @@ void Object::LoadObjectsFromFile(FILE* tfile, bool skip, ProgressCallback callba
             if (type == treeleavestype) {
                 scale = lastscale;
             }
-            objects.emplace_back(new Object(object_type(type), position, yaw, pitch, scale, callback));
+            objects.emplace_back(new Object(object_type(type), position, yaw, pitch, scale, terrain, callback));
             lastscale = scale;
         }
     }
 }
 
-void Object::LoadObjectsFromJson(Json::Value values, ProgressCallback callback)
+void Object::LoadObjectsFromJson(Json::Value values, const Terrain& terrain, ProgressCallback callback)
 {
     objects.clear();
     float lastscale = 1.0f;
     for (unsigned i = 0; i < values.size(); i++) {
-        objects.emplace_back(new Object(values[i], lastscale, callback));
+        objects.emplace_back(new Object(values[i], lastscale, terrain, callback));
         lastscale = objects.back()->scale;
     }
 }
 
-void Object::addToTerrain(unsigned id, int environment)
+void Object::addToTerrain(unsigned id, int environment, Terrain& terrain)
 {
     if ((type != treeleavestype) && (type != bushtype) && (type != firetype)) {
         terrain.AddObject(position + DoRotation(model.boundingspherecenter, 0, yaw, 0), model.boundingsphereradius, id);
@@ -595,14 +593,14 @@ void Object::addToTerrain(unsigned id, int environment)
     }
 }
 
-void Object::AddObjectsToTerrain(int environment)
+void Object::AddObjectsToTerrain(int environment, Terrain& terrain)
 {
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->addToTerrain(i, environment);
+        objects[i]->addToTerrain(i, environment, terrain);
     }
 }
 
-void Object::SphereCheckPossible(Vector3* p1, float radius)
+void Object::SphereCheckPossible(Vector3* p1, float radius, const Terrain& terrain)
 {
     int whichpatchx = p1->x / (terrain.size / subdivision * terrain.scale);
     int whichpatchz = p1->z / (terrain.size / subdivision * terrain.scale);
@@ -620,15 +618,15 @@ void Object::SphereCheckPossible(Vector3* p1, float radius)
     }
 }
 
-void Object::Draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light)
+void Object::Draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light, const Frustum& frustum, const Terrain& terrain)
 {
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->draw(decalstoggle, multiplier, viewer, viewdistance, fadestart, environment, light);
+        objects[i]->draw(decalstoggle, multiplier, viewer, viewdistance, fadestart, environment, light, frustum, terrain);
     }
 
     glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT, 0);
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->drawSecondPass(viewer, environment, multiplier);
+        objects[i]->drawSecondPass(viewer, environment, multiplier, frustum, terrain);
     }
     if (environment == desertenvironment) {
         glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT, 0);
@@ -637,18 +635,18 @@ void Object::Draw(bool decalstoggle, float multiplier, const Vector3& viewer, fl
     SetUpLight(&light, 0);
 }
 
-void Object::DeleteObject(int which)
+void Object::DeleteObject(int which, Terrain& terrain)
 {
     objects.erase(objects.begin() + which);
     terrain.DeleteObject(which);
 }
 
-void Object::MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, int environment, ProgressCallback callback)
+void Object::MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, int environment, Terrain& terrain, ProgressCallback callback)
 {
     if ((atype != treeleavestype && atype != bushtype) || foliage == 1) {
         unsigned nextid = objects.size();
-        objects.emplace_back(new Object(object_type(atype), where, ayaw, apitch, ascale, callback));
-        objects.back()->addToTerrain(nextid, environment);
+        objects.emplace_back(new Object(object_type(atype), where, ayaw, apitch, ascale, terrain, callback));
+        objects.back()->addToTerrain(nextid, environment, terrain);
     }
 }
 
@@ -659,7 +657,7 @@ void Object::DoStuff(bool bloodtoggle, float multiplier)
     }
 }
 
-void Object::DoShadows(bool skyboxtexture, const Light& light)
+void Object::DoShadows(bool skyboxtexture, const Light& light, const Terrain& terrain)
 {
     Vector3 lightloc;
     lightloc = light.location;
@@ -670,11 +668,11 @@ void Object::DoShadows(bool skyboxtexture, const Light& light)
     Normalise(&lightloc);
 
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->doShadows(lightloc);
+        objects[i]->doShadows(lightloc, terrain);
     }
 }
 
-int Object::checkcollide(Vector3 startpoint, Vector3 endpoint)
+int Object::checkcollide(Vector3 startpoint, Vector3 endpoint, const Terrain& terrain)
 {
     float minx, minz, maxx, maxz, miny, maxy;
 
@@ -686,7 +684,7 @@ int Object::checkcollide(Vector3 startpoint, Vector3 endpoint)
     maxz = max(startpoint.z, endpoint.z) + 1;
 
     for (unsigned int i = 0; i < objects.size(); i++) {
-        if (checkcollide(startpoint, endpoint, i, minx, miny, minz, maxx, maxy, maxz) != -1) {
+        if (checkcollide(startpoint, endpoint, i, minx, miny, minz, maxx, maxy, maxz, terrain) != -1) {
             return (int)i;
         }
     }
@@ -694,7 +692,7 @@ int Object::checkcollide(Vector3 startpoint, Vector3 endpoint)
     return -1;
 }
 
-int Object::checkcollide(Vector3 startpoint, Vector3 endpoint, int what)
+int Object::checkcollide(Vector3 startpoint, Vector3 endpoint, int what, const Terrain& terrain)
 {
     float minx, minz, maxx, maxz, miny, maxy;
 
@@ -705,10 +703,10 @@ int Object::checkcollide(Vector3 startpoint, Vector3 endpoint, int what)
     maxy = max(startpoint.y, endpoint.y) + 1;
     maxz = max(startpoint.z, endpoint.z) + 1;
 
-    return checkcollide(startpoint, endpoint, what, minx, miny, minz, maxx, maxy, maxz);
+    return checkcollide(startpoint, endpoint, what, minx, miny, minz, maxx, maxy, maxz, terrain);
 }
 
-int Object::checkcollide(Vector3 startpoint, Vector3 endpoint, int what, float minx, float miny, float minz, float maxx, float maxy, float maxz)
+int Object::checkcollide(Vector3 startpoint, Vector3 endpoint, int what, float minx, float miny, float minz, float maxx, float maxy, float maxz, const Terrain& terrain)
 {
     Vector3 colpoint, colviewer, coltarget;
 
@@ -738,8 +736,8 @@ int Object::checkcollide(Vector3 startpoint, Vector3 endpoint, int what, float m
     return -1;
 }
 
-Object::Object(Json::Value value, float lastscale, ProgressCallback callback)
-    : Object(object_type(value[0].asInt()), value[4], value[1].asFloat(), value[2].asFloat(), ((value[0].asInt() == treeleavestype) ? lastscale : value[3].asFloat()), callback)
+Object::Object(Json::Value value, float lastscale, const Terrain& terrain, ProgressCallback callback)
+    : Object(object_type(value[0].asInt()), value[4], value[1].asFloat(), value[2].asFloat(), ((value[0].asInt() == treeleavestype) ? lastscale : value[3].asFloat()), terrain, callback)
 {
 }
 

@@ -42,8 +42,8 @@ void SkyBox::draw(bool desertEnvironment, float viewDistance, int blurness, bool
 	M[14] = 0;
 	glLoadMatrixf(M);
 	if (desertEnvironment) {
-		glScalef(1 + blurness / 1000, 1, 1 + blurness / 1000);
-		glColor3f(1 * skyboxrgb.x, .95f * skyboxrgb.y, .95f * skyboxrgb.z);
+		glScalef(1.f + blurness / 1000.f, 1, 1.f + blurness / 1000.f);
+		glColor3f(skyboxrgb.x, .95f * skyboxrgb.y, .95f * skyboxrgb.z);
 	}
 	else {
 		glColor3f(.85f * skyboxrgb.x, .85f * skyboxrgb.y, .95f * skyboxrgb.z);

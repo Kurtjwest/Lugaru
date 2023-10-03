@@ -88,15 +88,15 @@ void InitStereo(StereoMode mode, int contextWidth, int contextHeight)
             if (mode == stereoHorizontalInterlaced) {
                 for (int y = 0; y < contextHeight; y += 2) {
                     glBegin(GL_LINES);
-                    glVertex3f(0.5, y + 0.5, 0);
-                    glVertex3f(contextWidth + 0.5, y + 0.5, 0);
+                    glVertex3f(0.5f, y + 0.5f, 0.f);
+                    glVertex3f(contextWidth + 0.5f, y + 0.5f, 0.f);
                     glEnd();
                 }
             } else {
                 for (int x = 0; x < contextWidth; x += 2) {
                     glBegin(GL_LINES);
-                    glVertex3f(x + 0.5, 0.5, 0);
-                    glVertex3f(x + 0.5, contextHeight + 0.5, 0);
+                    glVertex3f(x + 0.5f, 0.5f, 0.f);
+                    glVertex3f(x + 0.5f, contextHeight + 0.5f, 0.f);
                     glEnd();
                 }
             }

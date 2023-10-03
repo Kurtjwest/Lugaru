@@ -696,7 +696,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 	}
 	oldenvironment = environment;
 
-	Object::LoadObjectsFromFile(tfile, stealthloading, []() {Game::LoadingScreen(); });
+	Object::LoadObjectsFromFile(tfile, stealthloading, terrain, []() {Game::LoadingScreen(); });
 
 	if (mapvers >= 7) {
 		int numhotspots;
@@ -769,10 +769,10 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 	SetUpLighting();
 
 	if (!stealthloading) {
-		Object::AddObjectsToTerrain(environment);
+		Object::AddObjectsToTerrain(environment, terrain);
 		terrain.DoShadows(Tutorial::active, texscale, light, skyboxtexture, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
-		Object::DoShadows(skyboxtexture, light);
+		Object::DoShadows(skyboxtexture, light, terrain);
 		Game::LoadingScreen();
 	}
 
@@ -996,7 +996,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 	oldenvironment = environment;
 
 	if (!stealthloading) {
-		Object::LoadObjectsFromJson(map_data["map"]["objects"], []() {Game::LoadingScreen(); });
+		Object::LoadObjectsFromJson(map_data["map"]["objects"], terrain, []() {Game::LoadingScreen(); });
 	}
 
 	Hotspot::hotspots.resize(map_data["map"]["hotspots"].size());
@@ -1065,10 +1065,10 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 	SetUpLighting();
 
 	if (!stealthloading) {
-		Object::AddObjectsToTerrain(environment);
+		Object::AddObjectsToTerrain(environment, terrain);
 		terrain.DoShadows(Tutorial::active, texscale, light, skyboxtexture, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
-		Object::DoShadows(skyboxtexture, light);
+		Object::DoShadows(skyboxtexture, light, terrain);
 		Game::LoadingScreen();
 	}
 
@@ -1620,7 +1620,7 @@ void Game::ProcessDevInput()
 		if (Input::isKeyPressed(SDL_SCANCODE_DELETE) && !Input::isKeyDown(SDL_SCANCODE_LSHIFT)) {
 			int closest = findClosestObject();
 			if (closest >= 0) {
-				Object::DeleteObject(closest);
+				Object::DeleteObject(closest, terrain);
 			}
 		}
 
@@ -1646,9 +1646,9 @@ void Game::ProcessDevInput()
 					tmppitch = rand() % 360;
 				}
 
-				Object::MakeObject(editortype, scenecoords, (int)tmpyaw - ((int)tmpyaw) % 30, (int)tmppitch, editorsize, environment, []() {Game::LoadingScreen(); });
+				Object::MakeObject(editortype, scenecoords, (int)tmpyaw - ((int)tmpyaw) % 30, (int)tmppitch, editorsize, environment, terrain, []() {Game::LoadingScreen(); });
 				if (editortype == treetrunktype) {
-					Object::MakeObject(treeleavestype, scenecoords, rand() % 360 * (tmppitch < 2) + (int)editoryaw - ((int)editoryaw) % 30, editorpitch, editorsize, environment, []() {Game::LoadingScreen(); });
+					Object::MakeObject(treeleavestype, scenecoords, rand() % 360 * (tmppitch < 2) + (int)editoryaw - ((int)editoryaw) % 30, editorpitch, editorsize, environment, terrain, []() {Game::LoadingScreen(); });
 				}
 			}
 		}
@@ -2266,8 +2266,8 @@ void doAerialAcrobatics()
 											if (Person::players[k]->animTarget != jumpupanim && Person::players[k]->animTarget != jumpdownanim) {
 												Person::players[k]->collided = 1;
 											}
-											if (Object::checkcollide(lowpoint7, lowpointtarget7) == -1) {
-												if (Object::checkcollide(lowpoint6, lowpointtarget6) == -1) {
+											if (Object::checkcollide(lowpoint7, lowpointtarget7, terrain) == -1) {
+												if (Object::checkcollide(lowpoint6, lowpointtarget6, terrain) == -1) {
 													if (Object::objects[i]->model.LineCheckPossible(&lowpoint2, &lowpointtarget2,
 														&colpoint, &Object::objects[i]->position, &Object::objects[i]->yaw) != -1 &&
 														Object::objects[i]->model.LineCheckPossible(&lowpoint3, &lowpointtarget3,
@@ -4076,7 +4076,9 @@ void Game::Tick()
 															distsq(&Person::players[i]->coords, &Person::players[j]->coords) < 100 &&
 															distsq(&Person::players[i]->coords, &Person::players[j]->coords) > 1.5 &&
 															!Person::players[j]->skeleton.free &&
-															-1 == Object::checkcollide(DoRotation(Person::players[j]->jointPos(head), 0, Person::players[j]->yaw, 0) * Person::players[j]->scale + Person::players[j]->coords, DoRotation(Person::players[i]->jointPos(head), 0, Person::players[i]->yaw, 0) * Person::players[i]->scale + Person::players[i]->coords)) {
+															-1 == Object::checkcollide(
+																DoRotation(Person::players[j]->jointPos(head), 0, Person::players[j]->yaw, 0) * Person::players[j]->scale + Person::players[j]->coords, 
+																DoRotation(Person::players[i]->jointPos(head), 0, Person::players[i]->yaw, 0) * Person::players[i]->scale + Person::players[i]->coords, terrain)) {
 															if (!Person::players[i]->isFlip()) {
 																Person::players[i]->throwtogglekeydown = 1;
 																Person::players[i]->victim = Person::players[j];
@@ -5136,7 +5138,7 @@ void Game::TickOnceAfter()
 			viewer = cameraloc - facing * cameradist;
 			colviewer = viewer;
 			coltarget = cameraloc;
-			Object::SphereCheckPossible(&colviewer, findDistance(&colviewer, &coltarget));
+			Object::SphereCheckPossible(&colviewer, findDistance(&colviewer, &coltarget), terrain);
 			for (unsigned int j = 0; j < terrain.patchobjects[Person::players[0]->whichpatchx][Person::players[0]->whichpatchz].size(); j++) {
 				unsigned int i = terrain.patchobjects[Person::players[0]->whichpatchx][Person::players[0]->whichpatchz][j];
 				colviewer = viewer;

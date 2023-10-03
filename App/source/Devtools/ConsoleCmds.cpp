@@ -816,7 +816,7 @@ void ch_skytint(const char* args)
 	SetUpLighting();
 
 	terrain.DoShadows(Tutorial::active, texscale, light, skyboxtexture, []() {Game::LoadingScreen(); });
-	Object::DoShadows(skyboxtexture, light);
+	Object::DoShadows(skyboxtexture, light, terrain);
 }
 
 void ch_skylight(const char* args)
@@ -826,7 +826,7 @@ void ch_skylight(const char* args)
 	SetUpLighting();
 
 	terrain.DoShadows(Tutorial::active, texscale, light, skyboxtexture, []() {Game::LoadingScreen(); });
-	Object::DoShadows(skyboxtexture, light);
+	Object::DoShadows(skyboxtexture, light, terrain);
 }
 
 void ch_skybox(const char*)
@@ -836,5 +836,5 @@ void ch_skybox(const char*)
 	SetUpLighting();
 
 	terrain.DoShadows(Tutorial::active, texscale, light, skyboxtexture, []() {Game::LoadingScreen(); });
-	Object::DoShadows(skyboxtexture, light);
+	Object::DoShadows(skyboxtexture, light, terrain);
 }

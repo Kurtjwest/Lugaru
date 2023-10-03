@@ -7645,7 +7645,7 @@ void Person::doAI(const Terrain& terrain)
 								if (distsq(&coords, &Person::players[j]->coords) < 400) {
 									if (normaldotproduct(facing, Person::players[j]->coords - coords) > 0) {
 										if (Person::players[j]->coords.y < coords.y + 5 || Person::players[j]->onterrain) {
-											if (!Person::players[j]->isWallJump() && -1 == Object::checkcollide(DoRotation(jointPos(head), 0, yaw, 0) * scale + coords, DoRotation(Person::players[j]->jointPos(head), 0, Person::players[j]->yaw, 0) * Person::players[j]->scale + Person::players[j]->coords) ||
+											if (!Person::players[j]->isWallJump() && -1 == Object::checkcollide(DoRotation(jointPos(head), 0, yaw, 0) * scale + coords, DoRotation(Person::players[j]->jointPos(head), 0, Person::players[j]->yaw, 0) * Person::players[j]->scale + Person::players[j]->coords, terrain) ||
 												(Person::players[j]->animTarget == hanganim &&
 													normaldotproduct(Person::players[j]->facing, coords - Person::players[j]->coords) < 0)) {
 												aitype = searchtype;
@@ -7816,7 +7816,7 @@ void Person::doAI(const Terrain& terrain)
 											coords,
 											DoRotation(Person::players[j]->jointPos(head), 0, Person::players[j]->yaw, 0) *
 											Person::players[j]->scale +
-											Person::players[j]->coords) &&
+											Person::players[j]->coords, terrain) &&
 											!Person::players[j]->isWallJump()) ||
 											(Person::players[j]->animTarget == hanganim &&
 												normaldotproduct(Person::players[j]->facing, coords - Person::players[j]->coords) < 0)) {
@@ -7871,9 +7871,9 @@ void Person::doAI(const Terrain& terrain)
 					test2.y += 5;
 					Vector3 test = coords + facing;
 					test.y -= 10;
-					j = Object::checkcollide(test2, test, laststanding);
+					j = Object::checkcollide(test2, test, laststanding, terrain);
 					if (j == -1) {
-						j = Object::checkcollide(test2, test);
+						j = Object::checkcollide(test2, test, terrain);
 					}
 					if (j == -1) {
 						velocity = 0;
@@ -7972,7 +7972,7 @@ void Person::doAI(const Terrain& terrain)
 								coords,
 								DoRotation(Person::players[0]->jointPos(head), 0, Person::players[0]->yaw, 0) *
 								Person::players[0]->scale +
-								Person::players[0]->coords) == -1) ||
+								Person::players[0]->coords, terrain) == -1) ||
 								(Person::players[0]->animTarget == hanganim && normaldotproduct(Person::players[0]->facing, coords - Person::players[0]->coords) < 0)) {
 								/* //TODO: changed j to 0 on a whim, make sure this is correct
 								(Person::players[j]->animTarget==hanganim&&normaldotproduct(
@@ -8045,7 +8045,7 @@ void Person::doAI(const Terrain& terrain)
 				Vector3 flatfacing = Person::players[ally]->coords;
 				facing.y += jointPos(head).y * scale;
 				flatfacing.y += Person::players[ally]->jointPos(head).y * Person::players[ally]->scale;
-				if (-1 != Object::checkcollide(facing, flatfacing)) {
+				if (-1 != Object::checkcollide(facing, flatfacing, terrain)) {
 					lastseentime -= .1;
 				}
 
@@ -8289,9 +8289,9 @@ void Person::doAI(const Terrain& terrain)
 					test2.y += 5;
 					Vector3 test = coords + facing;
 					test.y -= 10;
-					j = Object::checkcollide(test2, test, laststanding);
+					j = Object::checkcollide(test2, test, laststanding, terrain);
 					if (j == -1) {
-						j = Object::checkcollide(test2, test);
+						j = Object::checkcollide(test2, test, terrain);
 					}
 					if (j == -1) {
 						velocity = 0;
@@ -8485,7 +8485,7 @@ void Person::doAI(const Terrain& terrain)
 				facing.y += jointPos(head).y * scale;
 				flatfacing.y += Person::players[0]->jointPos(head).y * Person::players[0]->scale;
 				if (occluded >= 2) {
-					if (-1 != Object::checkcollide(facing, flatfacing)) {
+					if (-1 != Object::checkcollide(facing, flatfacing, terrain)) {
 						if (!pause) {
 							lastseentime -= .2;
 						}
@@ -8510,7 +8510,7 @@ void Person::doAI(const Terrain& terrain)
 			if (Person::players[0]->coords.y > terrain.getHeight(Person::players[0]->coords.x, Person::players[0]->coords.z) + 10) {
 				Vector3 test = Person::players[0]->coords;
 				test.y -= 40;
-				if (-1 == Object::checkcollide(Person::players[0]->coords, test)) {
+				if (-1 == Object::checkcollide(Person::players[0]->coords, test, terrain)) {
 					stunned = 1;
 				}
 			}

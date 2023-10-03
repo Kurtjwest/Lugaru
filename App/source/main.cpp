@@ -49,10 +49,16 @@ extern float realmultiplier;
 extern int slomo;
 extern bool cellophane;
 extern float texdetail;
-
+extern bool fullscreen;
+extern float screenwidth;
+extern float screenheight;
+extern int detail;
+extern float usermousesensitivity;
+extern float gamespeed;
 extern bool freeze;
 extern bool stillloading;
 extern int mainmenu;
+extern bool devtools;
 
 extern float slomospeed;
 extern float slomofreq;

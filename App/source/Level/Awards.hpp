@@ -37,7 +37,7 @@ extern float bonustime;
 extern int startbonustotal;
 extern float bonusnum[100];
 
-extern void award_bonus(int playerid, int bonusid, int alt_value = 0);
+void award_bonus(int playerid, int bonusid, int alt_value = 0);
 
 enum award_types
 {
@@ -49,7 +49,7 @@ enum award_types
 
 extern const char* award_names[award_count];
 
-extern int award_awards(int*);
+int award_awards(int*);
 
 extern float damagetaken;
 extern int numfalls;

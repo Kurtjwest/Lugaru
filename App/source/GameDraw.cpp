@@ -412,10 +412,10 @@ int Game::DrawGLScene(StereoSide side)
 						checkpoint.y += 1;
 						int i = -1;
 						if (Person::players[k]->occluded != 0) {
-							i = Object::checkcollide(viewer, checkpoint, Person::players[k]->lastoccluded);
+							i = Object::checkcollide(viewer, checkpoint, Person::players[k]->lastoccluded, terrain);
 						}
 						if (i == -1) {
-							i = Object::checkcollide(viewer, checkpoint);
+							i = Object::checkcollide(viewer, checkpoint, terrain);
 						}
 						if (i != -1) {
 							Person::players[k]->occluded += 1;
@@ -441,7 +441,7 @@ int Game::DrawGLScene(StereoSide side)
 		glPushMatrix();
 		glCullFace(GL_BACK);
 		glEnable(GL_TEXTURE_2D);
-		Object::Draw(decalstoggle, multiplier, viewer, viewdistance, fadestart, environment, light);
+		Object::Draw(decalstoggle, multiplier, viewer, viewdistance, fadestart, environment, light, frustum, terrain);
 		glPopMatrix();
 
 		//draw hawk
@@ -486,10 +486,10 @@ int Game::DrawGLScene(StereoSide side)
 					checkpoint.y += 1;
 					int i = -1;
 					if (Person::players[k]->occluded != 0) {
-						i = Object::checkcollide(viewer, checkpoint, Person::players[k]->lastoccluded);
+						i = Object::checkcollide(viewer, checkpoint, Person::players[k]->lastoccluded, terrain);
 					}
 					if (i == -1) {
-						i = Object::checkcollide(viewer, checkpoint);
+						i = Object::checkcollide(viewer, checkpoint, terrain);
 					}
 					if (i != -1) {
 						Person::players[k]->occluded += 1;

@@ -21,6 +21,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Menu/Menu.hpp"
 
 #include "Game.hpp"
+#include "Globals.h"
 
 #include "Audio/openal_wrapper.hpp"
 #include "Graphic/gamegl.hpp"
@@ -48,6 +49,9 @@ extern bool stillloading;
 extern bool visibleloading;
 extern int whichchoice;
 extern int leveltheme;
+extern int kContextWidth;
+extern int kContextHeight;
+extern bool fullscreen;
 
 extern void toggleFullscreen();
 

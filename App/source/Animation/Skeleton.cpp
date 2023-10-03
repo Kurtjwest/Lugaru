@@ -131,7 +131,7 @@ float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive
 		whichpatchz = (int)(coords->z / (terrain.size / subdivision * terrain.scale));
 
 		terrainlight = *coords;
-		Object::SphereCheckPossible(&terrainlight, 1);
+		Object::SphereCheckPossible(&terrainlight, 1, terrain);
 
 		//Add velocity
 		for (i = 0; i < joints.size(); i++) {

@@ -23,7 +23,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Objects/Object.hpp"
 #include "Utils/Folders.hpp"
 
-int Terrain::lineTerrain(Vector3 p1, Vector3 p2, Vector3* p)
+int Terrain::lineTerrain(Vector3 p1, Vector3 p2, Vector3* p) const
 {
 	int i = 0, j = 0, k = 0;
 	float distance = 1.f;
