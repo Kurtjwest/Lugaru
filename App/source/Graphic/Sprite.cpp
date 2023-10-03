@@ -376,6 +376,11 @@ void Sprite::Draw(const Vector3& viewer, float viewdistance, float fadestart, in
 					if (!spritehit) {
 						for (unsigned int j = 0; j < terrain.patchobjects[whichpatchx][whichpatchz].size(); j++) {
 							k = terrain.patchobjects[whichpatchx][whichpatchz][j];
+
+							// TODO BUG when deleting, i can suddenly point to an invalid index
+							// This is not a fix, just a hacky workaround since its probably not accessing the sprite its meant to
+							if (i >= sprites.size()) continue;
+
 							start = sprites[i]->oldposition;
 							end = sprites[i]->position;
 							if (!spritehit) {
