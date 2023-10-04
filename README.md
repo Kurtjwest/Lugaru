@@ -47,7 +47,7 @@ cmake --build build/Release
 
 ## Design
 
-![Banner](./Docs/banner2.jpg)
+![Banner](./Docs/banner5.jpg)
 
 The game follows a layered design.
 Each layer consists of one or more modules. 
@@ -89,6 +89,8 @@ Objects -> Environment
 ```
 
 ## License
+
+![Banner](./Docs/banner2.jpg)
 
 The source code is distributed under the GNU General Public License version 2
 or (at your option) any later version (GPLv2+).
