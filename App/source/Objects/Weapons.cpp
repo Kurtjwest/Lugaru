@@ -25,8 +25,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Animation/Animation.hpp"
 #include "Level/Awards.hpp"
 
-#include "Tutorial.hpp"
-
 extern float multiplier;
 extern Terrain terrain;
 extern float gravity;
@@ -130,24 +128,24 @@ void Weapon::Load(bool trilinear, ProgressCallback callback)
 	staffmodel.CalculateNormals(1, callback);
 }
 
-void Weapon::doStuff(int i)
+void Weapon::doStuff(int i, bool tutorialActive)
 {
-	static int whichpatchx, whichpatchz, whichhit;
-	static Vector3 start, end, colpoint, normalrot, footvel, footpoint;
-	static Vector3 terrainnormal;
-	static Vector3 vel;
-	static Vector3 midp;
-	static Vector3 newpoint1, newpoint2;
-	static float friction = 3.5;
-	static float elasticity = .4;
-	static Vector3 bounceness;
-	static float frictionness;
-	static float closestdistance;
-	static float distance;
-	static Vector3 point[3];
-	static Vector3 closestpoint;
-	static Vector3 closestswordpoint;
-	static float tempmult;
+	int whichpatchx, whichpatchz, whichhit;
+	Vector3 start, end, colpoint, normalrot, footvel, footpoint;
+	Vector3 terrainnormal;
+	Vector3 vel;
+	Vector3 midp;
+	Vector3 newpoint1, newpoint2;
+	float friction = 3.5;
+	float elasticity = .4;
+	Vector3 bounceness;
+	float frictionness = 0.f;
+	float closestdistance = 0.f;
+	float distance = 0.f;
+	Vector3 point[3];
+	Vector3 closestpoint;
+	Vector3 closestswordpoint;
+	float tempmult = 0;
 
 	if (multiplier <= 0) {
 		return;
@@ -288,19 +286,19 @@ void Weapon::doStuff(int i)
 							Person::players[j]->jointVel(neck) += velocity * 2;
 							Person::players[j]->jointVel(rightshoulder) += velocity * 2;
 							Person::players[j]->jointVel(leftshoulder) += velocity * 2;
-							if (bloodtoggle && !Tutorial::active) {
+							if (bloodtoggle && !tutorialActive) {
 								Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 0, 0, .8, .3, bloodtoggle);
 							}
-							if (Tutorial::active) {
+							if (tutorialActive) {
 								Sprite::MakeSprite(cloudimpactsprite, footpoint, footvel, 1, 1, 1, .8, .3, bloodtoggle);
 							}
 							footvel = tippoint - position;
 							Normalise(&footvel);
-							if (bloodtoggle && !Tutorial::active) {
+							if (bloodtoggle && !tutorialActive) {
 								Sprite::MakeSprite(bloodflamesprite, footpoint, footvel * -1, 1, 0, 0, .6, 1, bloodtoggle);
 							}
 
-							if (!Tutorial::active) {
+							if (!tutorialActive) {
 								if (Person::players[j]->weaponstuckwhere == 0) {
 									Person::players[j]->DoBloodBig(2, 205);
 								}
@@ -1035,12 +1033,13 @@ void Weapon::doStuff(int i)
 	}
 }
 
-void Weapons::DoStuff()
+void Weapons::DoStuff(bool tutorialActive)
 {
 	//Move
+	// TODO What the actual fuck is this?
 	int i = 0;
 	for (std::vector<Weapon>::iterator weapon = begin(); weapon != end(); ++weapon) {
-		weapon->doStuff(i++);
+		weapon->doStuff(i++, tutorialActive);
 	}
 }
 

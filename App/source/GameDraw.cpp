@@ -441,7 +441,7 @@ int Game::DrawGLScene(StereoSide side)
 		glPushMatrix();
 		glCullFace(GL_BACK);
 		glEnable(GL_TEXTURE_2D);
-		Object::Draw(decalstoggle, multiplier, viewer, viewdistance, fadestart, environment, light, frustum, terrain);
+		Object::Draw(decalstoggle, multiplier, viewer, viewdistance, fadestart, environment, light, frustum, terrain, detail, blurness, windvar, playerdist);
 		glPopMatrix();
 
 		//draw hawk
@@ -1610,7 +1610,7 @@ int Game::DrawGLScene(StereoSide side)
 	glDrawBuffer(GL_BACK);
 	glReadBuffer(GL_BACK);
 
-	weapons.DoStuff();
+	weapons.DoStuff(Tutorial::active);
 
 	if (drawtoggle == 2) {
 		drawtoggle = 0;

@@ -46,7 +46,7 @@ public:
     static void Load(bool trilinear, ProgressCallback callback);
 
     void draw();
-    void doStuff(int);
+    void doStuff(int, bool tutorialActive);
 
     int getType()
     {
@@ -127,7 +127,7 @@ public:
     Weapons();
 
     int Draw();
-    void DoStuff();
+    void DoStuff(bool tutorialActive);
 };
 
 extern Weapons weapons;

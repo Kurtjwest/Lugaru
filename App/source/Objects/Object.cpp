@@ -20,13 +20,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Objects/Object.hpp"
 
-//extern Terrain terrain;
-extern bool foliage;
-extern int detail;
-extern float blurness;
-extern float windvar;
-extern float playerdist;
-
 std::vector<std::unique_ptr<Object>> Object::objects;
 Vector3 Object::center;
 float Object::radius = 0;
@@ -319,7 +312,7 @@ void Object::handleRot(int divide, float multiplier)
     }
 }
 
-void Object::draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light, const Frustum& frustum, const Terrain& terrain)
+void Object::draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light, const Frustum& frustum, const Terrain& terrain, int detail, float blurness, float windvar, float playerdist)
 {
     float distance = 0.0;
     Vector3 moved, terrainlight;
@@ -446,7 +439,7 @@ void Object::draw(bool decalstoggle, float multiplier, const Vector3& viewer, fl
     }
 }
 
-void Object::drawSecondPass(const Vector3& viewer, int environment, float multiplier, const Frustum& frustum, const Terrain& terrain)
+void Object::drawSecondPass(const Vector3& viewer, int environment, float multiplier, const Frustum& frustum, const Terrain& terrain, float windvar, float playerdist)
 {
     static float distance;
     static Vector3 moved, terrainlight;
@@ -576,7 +569,7 @@ void Object::LoadObjectsFromJson(Json::Value values, const Terrain& terrain, Pro
     }
 }
 
-void Object::addToTerrain(unsigned id, int environment, Terrain& terrain)
+void Object::addToTerrain(unsigned id, int environment, Terrain& terrain, int detail)
 {
     if ((type != treeleavestype) && (type != bushtype) && (type != firetype)) {
         terrain.AddObject(position + DoRotation(model.boundingspherecenter, 0, yaw, 0), model.boundingsphereradius, id);
@@ -593,10 +586,10 @@ void Object::addToTerrain(unsigned id, int environment, Terrain& terrain)
     }
 }
 
-void Object::AddObjectsToTerrain(int environment, Terrain& terrain)
+void Object::AddObjectsToTerrain(int environment, Terrain& terrain, int detail)
 {
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->addToTerrain(i, environment, terrain);
+        objects[i]->addToTerrain(i, environment, terrain, detail);
     }
 }
 
@@ -618,15 +611,16 @@ void Object::SphereCheckPossible(Vector3* p1, float radius, const Terrain& terra
     }
 }
 
-void Object::Draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light, const Frustum& frustum, const Terrain& terrain)
+void Object::Draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, 
+    const Light& light, const Frustum& frustum, const Terrain& terrain, int detail, float blurness, float windvar, float playerdist)
 {
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->draw(decalstoggle, multiplier, viewer, viewdistance, fadestart, environment, light, frustum, terrain);
+        objects[i]->draw(decalstoggle, multiplier, viewer, viewdistance, fadestart, environment, light, frustum, terrain, detail, blurness, windvar, playerdist);
     }
 
     glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT, 0);
     for (unsigned i = 0; i < objects.size(); i++) {
-        objects[i]->drawSecondPass(viewer, environment, multiplier, frustum, terrain);
+        objects[i]->drawSecondPass(viewer, environment, multiplier, frustum, terrain, windvar, playerdist);
     }
     if (environment == desertenvironment) {
         glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT, 0);
@@ -641,12 +635,12 @@ void Object::DeleteObject(int which, Terrain& terrain)
     terrain.DeleteObject(which);
 }
 
-void Object::MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, int environment, Terrain& terrain, ProgressCallback callback)
+void Object::MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, int environment, Terrain& terrain, bool foliage, int detail, ProgressCallback callback)
 {
     if ((atype != treeleavestype && atype != bushtype) || foliage == 1) {
         unsigned nextid = objects.size();
         objects.emplace_back(new Object(object_type(atype), where, ayaw, apitch, ascale, terrain, callback));
-        objects.back()->addToTerrain(nextid, environment, terrain);
+        objects.back()->addToTerrain(nextid, environment, terrain, detail);
     }
 }
 

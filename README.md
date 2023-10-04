@@ -1,11 +1,13 @@
 # Lugaru
 
-![Banner](./Docs/banner1.jpg)
+![Banner](./Docs/banner3.jpg)
 
 Fork of Lugaru with modern conan and cmake based build system and many bugfixes.
 Current goal is a total refactroing of the game into separate modules and removal of all globals.
 
 ## Requirements
+
+![Banner](./Docs/banner4.jpg)
 
 Development is done with
 * Conan 2.x
@@ -15,7 +17,7 @@ Development is done with
 
 ## Building
 
-![Banner](./Docs/banner3.jpg)
+![Banner](./Docs/banner1.jpg)
 
 Conan install for debug and release builds
 ```

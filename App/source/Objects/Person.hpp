@@ -21,15 +21,17 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _PERSON_HPP_
 #define _PERSON_HPP_
 
+#include "Objects/PersonType.hpp"
+#include "Objects/Weapons.hpp"
+
 #include "Animation/Animation.hpp"
 #include "Animation/Skeleton.hpp"
 #include "Environment/Terrain.hpp"
 #include "Graphic/Models.hpp"
 #include "Graphic/Sprite.hpp"
 #include "Graphic/gamegl.hpp"
+
 #include "Math/Vector3.hpp"
-#include "Objects/PersonType.hpp"
-#include "Objects/Weapons.hpp"
 
 #include <cmath>
 #include <memory>

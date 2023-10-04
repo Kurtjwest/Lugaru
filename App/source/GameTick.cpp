@@ -769,7 +769,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 	SetUpLighting();
 
 	if (!stealthloading) {
-		Object::AddObjectsToTerrain(environment, terrain);
+		Object::AddObjectsToTerrain(environment, terrain, detail);
 		terrain.DoShadows(Tutorial::active, texscale, light, skyboxtexture, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
 		Object::DoShadows(skyboxtexture, light, terrain);
@@ -1065,7 +1065,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 	SetUpLighting();
 
 	if (!stealthloading) {
-		Object::AddObjectsToTerrain(environment, terrain);
+		Object::AddObjectsToTerrain(environment, terrain, detail);
 		terrain.DoShadows(Tutorial::active, texscale, light, skyboxtexture, []() {Game::LoadingScreen(); });
 		Game::LoadingScreen();
 		Object::DoShadows(skyboxtexture, light, terrain);
@@ -1646,9 +1646,9 @@ void Game::ProcessDevInput()
 					tmppitch = rand() % 360;
 				}
 
-				Object::MakeObject(editortype, scenecoords, (int)tmpyaw - ((int)tmpyaw) % 30, (int)tmppitch, editorsize, environment, terrain, []() {Game::LoadingScreen(); });
+				Object::MakeObject(editortype, scenecoords, (int)tmpyaw - ((int)tmpyaw) % 30, (int)tmppitch, editorsize, environment, terrain, foliage, detail, []() {Game::LoadingScreen(); });
 				if (editortype == treetrunktype) {
-					Object::MakeObject(treeleavestype, scenecoords, rand() % 360 * (tmppitch < 2) + (int)editoryaw - ((int)editoryaw) % 30, editorpitch, editorsize, environment, terrain, []() {Game::LoadingScreen(); });
+					Object::MakeObject(treeleavestype, scenecoords, rand() % 360 * (tmppitch < 2) + (int)editoryaw - ((int)editoryaw) % 30, editorpitch, editorsize, environment, terrain, foliage, detail, []() {Game::LoadingScreen(); });
 				}
 			}
 		}

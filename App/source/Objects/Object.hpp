@@ -97,13 +97,14 @@ public:
 
 	static void ComputeCenter();
 	static void ComputeRadius();
-	static void AddObjectsToTerrain(int environment, Terrain& terrain);
+	static void AddObjectsToTerrain(int environment, Terrain& terrain, int detail);
 	static void LoadObjectsFromFile(FILE* tfile, bool skip, const Terrain& terrain, ProgressCallback callback);
 	static void LoadObjectsFromJson(Json::Value, const Terrain& terrain, ProgressCallback callback);
 	static void SphereCheckPossible(Vector3* p1, float radius, const Terrain& terrain);
 	static void DeleteObject(int which, Terrain& terrain);
-	static void MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, int environment, Terrain& terrain, ProgressCallback callback);
-	static void Draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light, const Frustum& frustum, const Terrain& terrain);
+	static void MakeObject(int atype, Vector3 where, float ayaw, float apitch, float ascale, int environment, Terrain& terrain, bool foliage, int detail, ProgressCallback callback);
+	static void Draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, 
+		const Light& light, const Frustum& frustum, const Terrain& terrain, int detail, float blurness, float windvar, float playerdist);
 	static void DoShadows(bool skyboxtexture, const Light& light, const Terrain& terrain);
 	static void DoStuff(bool bloodtoggle, float multiplier);
 	static int checkcollide(Vector3 startpoint, Vector3 endpoint, const Terrain& terrain);
@@ -115,9 +116,9 @@ private:
 	void handleFire(bool bloodtoggle, float multiplier);
 	void handleRot(int divide, float multiplier);
 	void doShadows(Vector3 lightloc, const Terrain& terrain);
-	void draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light, const Frustum& frustum, const Terrain& terrain);
-	void drawSecondPass(const Vector3& viewer, int environment, float multiplier, const Frustum& frustum, const Terrain& terrain);
-	void addToTerrain(unsigned id, int environment, Terrain& terrain);
+	void draw(bool decalstoggle, float multiplier, const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light, const Frustum& frustum, const Terrain& terrain, int detail, float blurness, float windvar, float playerdist);
+	void drawSecondPass(const Vector3& viewer, int environment, float multiplier, const Frustum& frustum, const Terrain& terrain, float windvar, float playerdist);
+	void addToTerrain(unsigned id, int environment, Terrain& terrain, int detail);
 	static int checkcollide(Vector3 startpoint, Vector3 endpoint, int what, float minx, float miny, float minz, float maxx, float maxy, float maxz, const Terrain& terrain);
 };
 
