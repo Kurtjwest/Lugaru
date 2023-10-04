@@ -41,7 +41,7 @@ std::vector<std::unique_ptr<Sprite>> Sprite::sprites = std::vector<std::unique_p
 
 //Functions
 void Sprite::Draw(const Vector3& viewer, float viewdistance, float fadestart, int environment, const Light& light, float multiplier, float gravity, 
-	Terrain& terrain, int detail, const Vector3& viewerfacing, bool bloodtoggle, const Vector3& windvector)
+	Terrain& terrain, int detail, const Vector3& viewerfacing, bool bloodtoggle, const Vector3& windvector, bool tutorialActive)
 {
 	int k = 0;
 	float M[16];
@@ -363,7 +363,7 @@ void Sprite::Draw(const Vector3& viewer, float viewdistance, float fadestart, in
 						whichtri = Person::players[j]->skeleton.drawmodel.LineCheck(&startpoint, &endpoint, &footpoint, &movepoint, &rotationpoint);
 						if (whichtri != -1) {
 							spritehit = 1;
-							Person::players[j]->DoBloodBigWhere(0, 160, sprites[i]->oldposition);
+							Person::players[j]->DoBloodBigWhere(0, 160, sprites[i]->oldposition, tutorialActive);
 							DeleteSprite(i);
 							continue;
 						}

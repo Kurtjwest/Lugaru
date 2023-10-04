@@ -18,8 +18,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Animation/Animation.hpp"
-#include "Animation/Skeleton.hpp"
 
+#include "Utils/binio.h"
 #include "Utils/Folders.hpp"
 
 std::vector<Animation> Animation::animations;
@@ -27,9 +27,9 @@ std::vector<Animation> Animation::animations;
 void Animation::loadAll(ProgressCallback callback)
 {
 #define DECLARE_ANIM(id, file, height, attack, ...) \
-    if (id < loadable_anim_end)                     \
+    if constexpr (id < loadable_anim_end)                     \
         animations.emplace_back(file, height, attack, callback);
-#include "Animation.def"
+#include "Animation/Animation.def"
 #undef DECLARE_ANIM
 }
 

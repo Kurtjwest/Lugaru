@@ -42,10 +42,10 @@ void PersonType::Load()
     types.resize(2);
 
     /* Wolf */
-    types[wolftype].proportions[0] = 1.1;
-    types[wolftype].proportions[1] = 1.1;
-    types[wolftype].proportions[2] = 1.1;
-    types[wolftype].proportions[3] = 1.1;
+    types[wolftype].proportions[0] = 1.1f;
+    types[wolftype].proportions[1] = 1.1f;
+    types[wolftype].proportions[2] = 1.1f;
+    types[wolftype].proportions[3] = 1.1f;
 
     types[wolftype].animRun = wolfrunanim;
     types[wolftype].animRunning = wolfrunninganim;
@@ -81,20 +81,20 @@ void PersonType::Load()
     types[wolftype].skins[1] = "Textures/FurWolfDark.jpg";
     types[wolftype].skins[2] = "Textures/FurWolfSnow.jpg";
 
-    types[wolftype].power = 2.5;
+    types[wolftype].power = 2.5f;
     types[wolftype].defaultDamageTolerance = 300;
-    types[wolftype].defaultScale = .23;
+    types[wolftype].defaultScale = .23f;
     types[wolftype].hasClaws = true;
     types[wolftype].clothes = false;
     types[wolftype].maxRunSpeed = 75;
     types[wolftype].knifeCatchingType = 1;
 
     /* Rabbit */
-    types[rabbittype].proportions[0] = 1.2;
-    types[rabbittype].proportions[1] = 1.05;
+    types[rabbittype].proportions[0] = 1.2f;
+    types[rabbittype].proportions[1] = 1.05f;
     types[rabbittype].proportions[2] = 1;
-    types[rabbittype].proportions[3] = 1.1;
-    types[rabbittype].proportions[3].y = 1.05;
+    types[rabbittype].proportions[3] = 1.1f;
+    types[rabbittype].proportions[3].y = 1.05f;
 
     types[rabbittype].animRun = runanim;
     types[rabbittype].animRunning = rabbitrunninganim;
@@ -141,7 +141,7 @@ void PersonType::Load()
 
     types[rabbittype].power = 1;
     types[rabbittype].defaultDamageTolerance = 200;
-    types[rabbittype].defaultScale = .2;
+    types[rabbittype].defaultScale = .2f;
     types[rabbittype].hasClaws = false;
     types[rabbittype].clothes = true;
     types[rabbittype].maxRunSpeed = 55;

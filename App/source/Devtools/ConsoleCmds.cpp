@@ -561,14 +561,14 @@ void ch_cellophane(const char*)
 
 void ch_funnybunny(const char*)
 {
-	Person::players[0]->changeCreatureType(rabbittype);
+	Person::players[0]->changeCreatureType(rabbittype, Tutorial::active);
 	Person::players[0]->headless = 0;
 	set_proportion(0, "1 1 1 1");
 }
 
 void ch_wolfie(const char*)
 {
-	Person::players[0]->changeCreatureType(wolftype);
+	Person::players[0]->changeCreatureType(wolftype, Tutorial::active);
 	set_proportion(0, "1 1 1 1");
 }
 

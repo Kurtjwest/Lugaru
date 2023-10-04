@@ -21,6 +21,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Objects/Weapons.hpp"
+#include "Objects/Person.hpp"
 
 #include "Animation/Animation.hpp"
 #include "Level/Awards.hpp"
@@ -281,7 +282,7 @@ void Weapon::doStuff(int i, bool tutorialActive)
 
 							Person::players[j]->weaponids[Person::players[j]->num_weapons - 1] = i;
 
-							Person::players[j]->RagDoll(0, terrain);
+							Person::players[j]->RagDoll(0, terrain, tutorialActive);
 							Person::players[j]->jointVel(abdomen) += velocity * 2;
 							Person::players[j]->jointVel(neck) += velocity * 2;
 							Person::players[j]->jointVel(rightshoulder) += velocity * 2;
@@ -300,10 +301,10 @@ void Weapon::doStuff(int i, bool tutorialActive)
 
 							if (!tutorialActive) {
 								if (Person::players[j]->weaponstuckwhere == 0) {
-									Person::players[j]->DoBloodBig(2, 205);
+									Person::players[j]->DoBloodBig(2, 205, tutorialActive);
 								}
 								if (Person::players[j]->weaponstuckwhere == 1) {
-									Person::players[j]->DoBloodBig(2, 200);
+									Person::players[j]->DoBloodBig(2, 200, tutorialActive);
 								}
 								Person::players[j]->damage += 200 / Person::players[j]->armorhigh;
 								Person::players[j]->deathbleeding = 1;

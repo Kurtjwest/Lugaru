@@ -86,6 +86,10 @@ Objects -> Environment
         -> Animation
         -> Audio
         -> Foundation
+
+Animation/Skeleton
+ - Graphic/Models
+ - Object/Object
 ```
 
 ## License

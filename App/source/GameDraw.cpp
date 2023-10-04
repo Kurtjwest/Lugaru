@@ -425,7 +425,7 @@ int Game::DrawGLScene(StereoSide side)
 							Person::players[k]->occluded = 0;
 						}
 						if (Person::players[k]->occluded < 25) {
-							Person::players[k]->DrawSkeleton(terrain);
+							Person::players[k]->DrawSkeleton(terrain, Tutorial::active);
 						}
 					}
 				}
@@ -499,7 +499,7 @@ int Game::DrawGLScene(StereoSide side)
 						Person::players[k]->occluded = 0;
 					}
 					if (Person::players[k]->occluded < 25) {
-						Person::players[k]->DrawSkeleton(terrain);
+						Person::players[k]->DrawSkeleton(terrain, Tutorial::active);
 					}
 				}
 			}
@@ -518,7 +518,7 @@ int Game::DrawGLScene(StereoSide side)
 
 		glDepthMask(0);
 
-		Sprite::Draw(viewer, viewdistance, fadestart, environment, light, multiplier, gravity, terrain, detail, viewerfacing, bloodtoggle, windvector);
+		Sprite::Draw(viewer, viewdistance, fadestart, environment, light, multiplier, gravity, terrain, detail, viewerfacing, bloodtoggle, windvector, Tutorial::active);
 
 		//waypoints, pathpoints in editor
 		if (editorenabled) {

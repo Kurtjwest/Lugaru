@@ -20,7 +20,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _PERSONTYPE_HPP_
 #define _PERSONTYPE_HPP_
 
-#include "Animation/Animation.hpp"
+#include "Animation/AnimationDefinitions.h"
 #include "Audio/Sounds.hpp"
 #include "Math/Vector3.hpp"
 

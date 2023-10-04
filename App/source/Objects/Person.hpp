@@ -321,7 +321,7 @@ public:
     Person(FILE*, int, unsigned);
     Person(Json::Value, int, unsigned);
 
-    void skeletonLoad();
+    void skeletonLoad(bool tutorialActive);
 
     // convenience functions
     inline Joint& joint(int bodypart) { return skeleton.joints[skeleton.jointlabels[bodypart]]; }
@@ -334,13 +334,13 @@ public:
     float getProportion(int part) const;
     Vector3 getProportionXYZ(int part) const;
 
-    void changeCreatureType(person_type type);
+    void changeCreatureType(person_type type, bool tutorialActive);
 
-    void CheckKick(const Terrain& terrain);
+    void CheckKick(const Terrain& terrain, bool tutorialActive);
     void CatchFire();
-    void DoBlood(float howmuch, int which);
-    void DoBloodBig(float howmuch, int which);
-    bool DoBloodBigWhere(float howmuch, int which, Vector3 where);
+    void DoBlood(float howmuch, int which, bool tutorialActive);
+    void DoBloodBig(float howmuch, int which, bool tutorialActive);
+    bool DoBloodBigWhere(float howmuch, int which, Vector3 where, bool tutorialActive);
 
     bool wasIdle() { return animation_bits[animCurrent] & ab_idle; }
     bool isIdle() { return animation_bits[animTarget] & ab_idle; }
@@ -374,8 +374,8 @@ public:
     bool isFlip() { return animation_bits[animTarget] & ab_flip; }
 
     bool isWallJump() { return animation_bits[animTarget] & ab_walljump; }
-    void Reverse();
-    void DoDamage(float howmuch, const Terrain& terrain);
+    void Reverse(bool tutorialActive);
+    void DoDamage(float howmuch, const Terrain& terrain, bool tutorialActive);
     void DoHead();
     void DoMipmaps()
     {
@@ -384,21 +384,21 @@ public:
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, skeleton.skinsize, skeleton.skinsize, 0, GL_RGB, GL_UNSIGNED_BYTE, &skeleton.skinText[0]);
     }
 
-    int SphereCheck(Vector3* p1, float radius, Vector3* p, Vector3* move, float* rotate, Model* model, const Terrain& terrain);
-    int DrawSkeleton(const Terrain& terrain);
+    int SphereCheck(Vector3* p1, float radius, Vector3* p, Vector3* move, float* rotate, Model* model, const Terrain& terrain, bool tutorialActive);
+    int DrawSkeleton(const Terrain& terrain, bool tutorialActive);
     void Puff(int whichlabel);
     void FootLand(bodypart whichfoot, float opacity, Terrain& terrain);
-    void DoStuff(Terrain& terrain);
+    void DoStuff(Terrain& terrain, bool tutorialActive);
     void setTargetAnimation(int);
-    void DoAnimations(Terrain& terrain);
-    void RagDoll(bool checkcollision, const Terrain& terrain);
+    void DoAnimations(Terrain& terrain, bool tutorialActive);
+    void RagDoll(bool checkcollision, const Terrain& terrain, bool tutorialActive);
 
     void takeWeapon(int weaponId);
 
     bool addClothes(const int& clothesId);
     void addClothes();
 
-    void doAI(const Terrain& terrain);
+    void doAI(const Terrain& terrain, bool tutorialActive);
 
     bool catchKnife();
 

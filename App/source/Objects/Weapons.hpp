@@ -30,7 +30,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Graphic/gamegl.hpp"
 
 #include "Math/Vector3.hpp"
-#include "Objects/Person.hpp"
 
 #include <cmath>
 
