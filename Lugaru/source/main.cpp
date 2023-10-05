@@ -439,40 +439,6 @@ void DoUpdate()
 	multiplier = oldmult;
 
 	TickOnceAfter();
-	/* - Debug code to test how many channels were active on average per frame
-		static long frames = 0;
-
-		static AbsoluteTime start = {0,0};
-		AbsoluteTime currTime = UpTime ();
-		static int num_channels = 0;
-
-		num_channels += OPENAL_GetChannelsPlaying();
-		double deltaTime = (float) AbsoluteDeltaToDuration (currTime, start);
-
-		if (0 > deltaTime)  // if negative microseconds
-			deltaTime /= -1000000.0;
-		else                // else milliseconds
-			deltaTime /= 1000.0;
-
-		++frames;
-
-		if (deltaTime >= 1)
-		{
-			start = currTime;
-			float avg_channels = (float)num_channels / (float)frames;
-
-			ofstream opstream("log.txt",ios::app);
-			opstream << "Average frame count: ";
-			opstream << frames;
-			opstream << " frames - ";
-			opstream << avg_channels;
-			opstream << " per frame.\n";
-			opstream.close();
-
-			frames = 0;
-			num_channels = 0;
-		}
-	*/
 	if (stereomode == stereoNone) {
 		DrawGLScene(stereoCenter);
 	}
@@ -754,7 +720,7 @@ int main(int argc, char** argv)
 
 		LOG(e);
 
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Exception catched", error.what(), NULL);
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Exception caught", error.what(), NULL);
 
 		return -1;
 	}

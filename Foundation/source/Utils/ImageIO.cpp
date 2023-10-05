@@ -27,9 +27,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstdio>
 #include <iostream>
 
-using std::cerr;
-using std::endl;
-
 ImageRec::ImageRec()
 {
 	data = (uint8_t*)malloc(1024 * 1024 * 4);

@@ -12,10 +12,6 @@
 #include "Utils/Folders.hpp"
 #include "Platform/Platform.hpp"
 
-using std::cerr;
-using std::endl;
-
-
 /* These two are needed for screenshot */
 extern int kContextWidth;
 extern int kContextHeight;

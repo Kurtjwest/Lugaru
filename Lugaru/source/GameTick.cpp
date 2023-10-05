@@ -55,7 +55,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <set>
 #include <json/reader.h>
 
-using namespace std;
 using namespace Game;
 
 // Added more evilness needed for MSVC
@@ -273,7 +272,7 @@ void Game::cmd_dispatch(const std::string cmd)
 	int i, n_cmds = sizeof(cmd_names) / sizeof(cmd_names[0]);
 
 	for (i = 0; i < n_cmds; i++) {
-		if (cmd.substr(0, cmd.find(' ')) == string(cmd_names[i])) {
+		if (cmd.substr(0, cmd.find(' ')) == std::string(cmd_names[i])) {
 			std::cout << "|" << cmd.substr(cmd.find(' ') + 1) << "|" << std::endl;
 			cmd_handlers[i](cmd.substr(cmd.find(' ') + 1).c_str());
 			break;
@@ -744,7 +743,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
 	unsigned j = 1;
 	for (int i = 1; i < numplayers; i++) {
 		try {
-			Person::players.push_back(shared_ptr<Person>(new Person(tfile, mapvers, j)));
+			Person::players.push_back(std::shared_ptr<Person>(new Person(tfile, mapvers, j)));
 			j++;
 		}
 		catch (InvalidPersonException& e) {
@@ -942,7 +941,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 	pause_sound(stream_firesound);
 
 	errno = 0;
-	ifstream map_file(level_path);
+	std::ifstream map_file(level_path);
 	Json::Value map_data;
 	map_file >> map_data;
 	unsigned mapvers = map_data["version"].asInt();
@@ -1034,7 +1033,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
 	unsigned j = 0;
 	for (unsigned i = 0; i < map_data["map"]["players"].size(); i++) {
 		try {
-			Person::players.push_back(shared_ptr<Person>(new Person(map_data["map"]["players"][i], mapvers, j)));
+			Person::players.push_back(std::shared_ptr<Person>(new Person(map_data["map"]["players"][i], mapvers, j)));
 			j++;
 		}
 		catch (InvalidPersonException& e) {
@@ -1656,7 +1655,7 @@ void Game::ProcessDevInput()
 
 		/* Add player */
 		if (Input::isKeyPressed(SDL_SCANCODE_P) && !Input::isKeyDown(SDL_SCANCODE_LSHIFT) && !Input::isKeyDown(SDL_SCANCODE_LCTRL)) {
-			Person::players.push_back(shared_ptr<Person>(new Person()));
+			Person::players.push_back(std::shared_ptr<Person>(new Person()));
 
 			Person::players.back()->id = Person::players.size() - 1;
 
@@ -4735,6 +4734,7 @@ void Game::TickOnce()
 
 void Game::TickOnceAfter()
 {
+	// TODO Holds state?
 	static Vector3 colviewer;
 	static Vector3 coltarget;
 	static Vector3 target;
@@ -4746,7 +4746,7 @@ void Game::TickOnceAfter()
 	static float cameraspeed;
 
 	if (!mainmenu) {
-		static int oldmusictype = musictype;
+		int oldmusictype = musictype;
 
 		if (environment == snowyenvironment) {
 			leveltheme = stream_snowtheme;

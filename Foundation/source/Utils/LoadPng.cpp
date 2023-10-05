@@ -4,10 +4,6 @@
 #include <string>
 #include <iostream>
 
-using std::cerr;
-using std::endl;
-
-
 extern int kContextWidth;
 extern int kContextHeight;
 

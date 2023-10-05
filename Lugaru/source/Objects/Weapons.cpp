@@ -25,7 +25,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Objects/Object.hpp"
 
 #include "Animation/Animation.hpp"
-#include "Level/Awards.hpp"
+//#include "Level/Awards.hpp"
 
 extern float multiplier;
 extern Terrain terrain;
@@ -130,7 +130,7 @@ void Weapon::Load(bool trilinear, ProgressCallback callback)
 	staffmodel.CalculateNormals(1, callback);
 }
 
-void Weapon::doStuff(int i, bool tutorialActive, bool inDialog)
+void Weapon::doStuff(int i, bool tutorialActive, bool inDialog, AwardCallback awardNinja, AwardCallback awardBullseye)
 {
 	int whichpatchx, whichpatchz, whichhit;
 	Vector3 start, end, colpoint, normalrot, footvel, footpoint;
@@ -318,10 +318,10 @@ void Weapon::doStuff(int i, bool tutorialActive, bool inDialog)
 							emit_sound_at(fleshstabsound, position, 128.);
 
 							if (Animation::animations[Person::players[0]->animTarget].height == highheight) {
-								award_bonus(0, ninja);
+								awardNinja();
 							}
 							else {
-								award_bonus(0, Bullseyebonus);
+								awardBullseye();
 							}
 						}
 					}
@@ -1035,13 +1035,13 @@ void Weapon::doStuff(int i, bool tutorialActive, bool inDialog)
 	}
 }
 
-void Weapons::DoStuff(bool tutorialActive, bool inDialog)
+void Weapons::DoStuff(bool tutorialActive, bool inDialog, AwardCallback awardNinja, AwardCallback awardBullseye)
 {
 	//Move
 	// TODO What the actual fuck is this?
 	int i = 0;
 	for (std::vector<Weapon>::iterator weapon = begin(); weapon != end(); ++weapon) {
-		weapon->doStuff(i++, tutorialActive, inDialog);
+		weapon->doStuff(i++, tutorialActive, inDialog, awardNinja, awardBullseye);
 	}
 }
 

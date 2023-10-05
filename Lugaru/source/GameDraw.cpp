@@ -1611,7 +1611,7 @@ int Game::DrawGLScene(StereoSide side)
 	glDrawBuffer(GL_BACK);
 	glReadBuffer(GL_BACK);
 
-	weapons.DoStuff(Tutorial::active, Dialog::inDialog());
+	weapons.DoStuff(Tutorial::active, Dialog::inDialog(), []() { award_bonus(0, ninja); }, []() { award_bonus(0, Bullseyebonus); });
 
 	if (drawtoggle == 2) {
 		drawtoggle = 0;

@@ -349,17 +349,17 @@ void Menu::updateStereoConfigMenu()
 
 void Menu::updateControlsMenu()
 {
-    setText(0, (string) "Forwards: " + (keyselect == 0 ? "_" : Input::keyToChar(forwardkey)));
-    setText(1, (string) "Back: " + (keyselect == 1 ? "_" : Input::keyToChar(backkey)));
-    setText(2, (string) "Left: " + (keyselect == 2 ? "_" : Input::keyToChar(leftkey)));
-    setText(3, (string) "Right: " + (keyselect == 3 ? "_" : Input::keyToChar(rightkey)));
-    setText(4, (string) "Crouch: " + (keyselect == 4 ? "_" : Input::keyToChar(crouchkey)));
-    setText(5, (string) "Jump: " + (keyselect == 5 ? "_" : Input::keyToChar(jumpkey)));
-    setText(6, (string) "Draw: " + (keyselect == 6 ? "_" : Input::keyToChar(drawkey)));
-    setText(7, (string) "Throw: " + (keyselect == 7 ? "_" : Input::keyToChar(throwkey)));
-    setText(8, (string) "Attack: " + (keyselect == 8 ? "_" : Input::keyToChar(attackkey)));
+    setText(0, (std::string) "Forwards: " + (keyselect == 0 ? "_" : Input::keyToChar(forwardkey)));
+    setText(1, (std::string) "Back: " + (keyselect == 1 ? "_" : Input::keyToChar(backkey)));
+    setText(2, (std::string) "Left: " + (keyselect == 2 ? "_" : Input::keyToChar(leftkey)));
+    setText(3, (std::string) "Right: " + (keyselect == 3 ? "_" : Input::keyToChar(rightkey)));
+    setText(4, (std::string) "Crouch: " + (keyselect == 4 ? "_" : Input::keyToChar(crouchkey)));
+    setText(5, (std::string) "Jump: " + (keyselect == 5 ? "_" : Input::keyToChar(jumpkey)));
+    setText(6, (std::string) "Draw: " + (keyselect == 6 ? "_" : Input::keyToChar(drawkey)));
+    setText(7, (std::string) "Throw: " + (keyselect == 7 ? "_" : Input::keyToChar(throwkey)));
+    setText(8, (std::string) "Attack: " + (keyselect == 8 ? "_" : Input::keyToChar(attackkey)));
     if (devtools) {
-        setText(9, (string) "Console: " + (keyselect == 9 ? "_" : Input::keyToChar(consolekey)));
+        setText(9, (std::string) "Console: " + (keyselect == 9 ? "_" : Input::keyToChar(consolekey)));
     }
 }
 
@@ -514,8 +514,8 @@ void Menu::Load()
             addLabel(1, campaignEndText[1], 80, 300);
             addLabel(2, campaignEndText[2], 80, 270);
             addButton(3, "Back", 10, 10);
-            addLabel(4, string("Your score:         ") + std::to_string((int)Account::active().getCampaignScore()), 190, 200);
-            addLabel(5, string("Highest score:      ") + std::to_string((int)Account::active().getCampaignHighScore()), 190, 180);
+            addLabel(4, std::string("Your score:         ") + std::to_string((int)Account::active().getCampaignScore()), 190, 200);
+            addLabel(5, std::string("Highest score:      ") + std::to_string((int)Account::active().getCampaignHighScore()), 190, 180);
         } break;
         case 18:
             addButton(0, "", 70, 400);
@@ -816,8 +816,8 @@ void Menu::Tick()
                         mainmenu = 7;
                         break;
                     case 6:
-                        std::vector<string> campaigns = ListCampaigns();
-                        std::vector<string>::iterator c;
+                        std::vector<std::string> campaigns = ListCampaigns();
+                        std::vector<std::string>::iterator c;
                         if ((c = find(campaigns.begin(), campaigns.end(), Account::active().getCurrentCampaign())) == campaigns.end()) {
                             if (!campaigns.empty()) {
                                 Account::active().setCurrentCampaign(campaigns.front());
@@ -924,7 +924,7 @@ void Menu::Tick()
         inputText(newusername, &newuserselected);
         if (!waiting) {                 // the input as finished
             if (!newusername.empty()) { // with enter
-                Account::add(string(newusername));
+                Account::add(std::string(newusername));
 
                 mainmenu = 8;
 

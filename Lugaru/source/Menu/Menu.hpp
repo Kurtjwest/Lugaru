@@ -24,8 +24,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <vector>
 
-using std::string;
-
 #include "Graphic/Texture.hpp"
 
 struct MenuItem
@@ -42,7 +40,7 @@ struct MenuItem
 		MAPLABEL
 	} type;
 	int id;
-	string text;
+	std::string text;
 	Texture texture;
 	int x, y, w, h;
 	float r, g, b;
