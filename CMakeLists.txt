@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25.0)
 project(Lugaru)
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT LugaruApp)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Lugaru)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CXX_STANDARD_REQUIRED ON)
 
@@ -27,4 +27,5 @@ add_subdirectory(Foundation)
 add_subdirectory(Audio)
 add_subdirectory(Graphics)
 # add_subdirectory(Game)
-add_subdirectory(App)
+# add_subdirectory(App)
+add_subdirectory(Lugaru)

@@ -54,6 +54,8 @@ Each layer consists of one or more modules.
 A module can access any module in a layer below or on the same layer but not above.
 ```
 -----------------------------------------------
+|                  Lugaru                     | Lugaru Game
+-----------------------------------------------
 |                   App                       | Application Layer
 -----------------------------------------------
 |                   Game                      | Game Logic Layer

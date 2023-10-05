@@ -224,7 +224,7 @@ void Dialog::play(PlaySoundCallback callback)
 		Person::players[playerId]->yaw = participantyaw[playerId];
 		Person::players[playerId]->targetyaw = participantyaw[playerId];
 		Person::players[playerId]->velocity = 0;
-		Person::players[playerId]->animTarget = Person::players[playerId]->getIdle();
+		Person::players[playerId]->animTarget = Person::players[playerId]->getIdle(inDialog());
 		Person::players[playerId]->frameTarget = 0;
 	}
 

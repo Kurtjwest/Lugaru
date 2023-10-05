@@ -129,7 +129,7 @@ void Weapon::Load(bool trilinear, ProgressCallback callback)
 	staffmodel.CalculateNormals(1, callback);
 }
 
-void Weapon::doStuff(int i, bool tutorialActive)
+void Weapon::doStuff(int i, bool tutorialActive, bool inDialog)
 {
 	int whichpatchx, whichpatchz, whichhit;
 	Vector3 start, end, colpoint, normalrot, footvel, footpoint;
@@ -282,7 +282,7 @@ void Weapon::doStuff(int i, bool tutorialActive)
 
 							Person::players[j]->weaponids[Person::players[j]->num_weapons - 1] = i;
 
-							Person::players[j]->RagDoll(0, terrain, tutorialActive);
+							Person::players[j]->RagDoll(0, terrain, tutorialActive, inDialog);
 							Person::players[j]->jointVel(abdomen) += velocity * 2;
 							Person::players[j]->jointVel(neck) += velocity * 2;
 							Person::players[j]->jointVel(rightshoulder) += velocity * 2;
@@ -1034,13 +1034,13 @@ void Weapon::doStuff(int i, bool tutorialActive)
 	}
 }
 
-void Weapons::DoStuff(bool tutorialActive)
+void Weapons::DoStuff(bool tutorialActive, bool inDialog)
 {
 	//Move
 	// TODO What the actual fuck is this?
 	int i = 0;
 	for (std::vector<Weapon>::iterator weapon = begin(); weapon != end(); ++weapon) {
-		weapon->doStuff(i++, tutorialActive);
+		weapon->doStuff(i++, tutorialActive, inDialog);
 	}
 }
 

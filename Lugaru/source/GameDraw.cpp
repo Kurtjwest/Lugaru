@@ -1610,7 +1610,7 @@ int Game::DrawGLScene(StereoSide side)
 	glDrawBuffer(GL_BACK);
 	glReadBuffer(GL_BACK);
 
-	weapons.DoStuff(Tutorial::active);
+	weapons.DoStuff(Tutorial::active, Dialog::inDialog());
 
 	if (drawtoggle == 2) {
 		drawtoggle = 0;
