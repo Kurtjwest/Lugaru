@@ -20,6 +20,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Game.hpp"
 #include "GameGlobals.h"
+#include "Globals.h"
 
 #include "Audio/openal_wrapper.hpp"
 #include "Graphic/gamegl.hpp"
@@ -45,29 +46,6 @@ using namespace Game;
 #include <unistd.h>
 #endif
 
-extern float multiplier;
-extern float realmultiplier;
-extern int slomo;
-extern bool cellophane;
-extern float texdetail;
-extern bool fullscreen;
-extern float screenwidth;
-extern float screenheight;
-extern int detail;
-extern float usermousesensitivity;
-extern float gamespeed;
-extern bool freeze;
-extern bool stillloading;
-extern int mainmenu;
-extern bool devtools;
-
-extern float slomospeed;
-extern float slomofreq;
-
-extern int difficulty;
-
-extern SDL_Window* sdlwindow;
-
 using namespace std;
 
 set<pair<int, int>> resolutions;
@@ -76,8 +54,8 @@ set<pair<int, int>> resolutions;
 
 // Menu defs
 
-int kContextWidth;
-int kContextHeight;
+int kContextWidth = 0;
+int kContextHeight = 0;
 
 //-----------------------------------------------------------------------------------------------------------------------
 
