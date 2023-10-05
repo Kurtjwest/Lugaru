@@ -22,6 +22,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Objects/Weapons.hpp"
 #include "Objects/Person.hpp"
+#include "Objects/Object.hpp"
 
 #include "Animation/Animation.hpp"
 #include "Level/Awards.hpp"

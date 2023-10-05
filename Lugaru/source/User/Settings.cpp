@@ -20,7 +20,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "User/Settings.hpp"
 
-#include "Game.hpp"
+#include "GameGlobals.h"
+#include "Graphic/Stereo.hpp"
 #include "Utils/Folders.hpp"
 #include "Utils/Input.hpp"
 
@@ -57,6 +58,7 @@ extern float screenwidth, screenheight;
 extern bool fullscreen;
 extern float minscreenwidth, minscreenheight;
 extern float maxscreenwidth, maxscreenheight;
+extern StereoMode stereomode;
 
 void DefaultSettings()
 {

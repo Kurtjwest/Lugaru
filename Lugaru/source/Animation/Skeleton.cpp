@@ -21,6 +21,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Animation/Skeleton.hpp"
 
 #include "Objects/Object.hpp"
+#include "Graphic/Sprite.hpp"
 #include "Animation/Animation.hpp"
 #include "Audio/Sounds.hpp"
 

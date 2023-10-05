@@ -22,6 +22,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Audio/Sounds.hpp"
 #include "Audio/openal_wrapper.hpp"
 #include "Game.hpp"
+#include "GameGlobals.h"
 #include "Level/Awards.hpp"
 #include "Objects/Person.hpp"
 #include "Utils/Input.hpp"

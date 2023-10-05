@@ -20,13 +20,12 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Level/Campaign.hpp"
 
+#include "GameGlobals.h"
 #include "Globals.h"
 #include "Game.hpp"
 #include "Utils/Folders.hpp"
 
 #include "Utils/dirent.h"
-
-using namespace Game;
 
 // Global canpaign values
 std::vector<CampaignLevel> campaignlevels;
@@ -94,10 +93,10 @@ void LoadCampaign()
 
 	std::ifstream test(Folders::getResourcePath("Textures/" + Account::active().getCurrentCampaign() + "/World.png"));
 	if (test.good()) {
-		Mainmenuitems[7].load("Textures/" + Account::active().getCurrentCampaign() + "/World.png", 0, trilinear, []() {Game::LoadingScreen(); });
+		Game::Mainmenuitems[7].load("Textures/" + Account::active().getCurrentCampaign() + "/World.png", 0, trilinear, []() {Game::LoadingScreen(); });
 	}
 	else {
-		Mainmenuitems[7].load("Textures/World.png", 0, trilinear, []() {Game::LoadingScreen(); });
+		Game::Mainmenuitems[7].load("Textures/World.png", 0, trilinear, []() {Game::LoadingScreen(); });
 	}
 
 	if (Account::active().getCampaignChoicesMade() == 0) {

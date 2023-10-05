@@ -21,6 +21,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Level/Dialog.hpp"
 
 #include "Game.hpp"
+#include "GameGlobals.h"
 #include "Objects/Person.hpp"
 
 #include "Utils/Folders.hpp"

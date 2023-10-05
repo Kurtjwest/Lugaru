@@ -19,6 +19,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Devtools/ConsoleCmds.hpp"
+#include "GameGlobals.h"
 
 #include "Game.hpp"
 #include "Level/Dialog.hpp"

@@ -20,6 +20,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Graphic/Sprite.hpp"
 
+#include "Objects/Object.hpp"
 #include "Objects/Person.hpp"
 
 // init statics

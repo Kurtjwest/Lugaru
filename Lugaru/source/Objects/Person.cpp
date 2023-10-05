@@ -23,6 +23,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstdlib>
 
 #include "Game.hpp"
+#include "GameGlobals.h"
 
 #include "Level/Awards.hpp"
 //#include "Level/Dialog.hpp"

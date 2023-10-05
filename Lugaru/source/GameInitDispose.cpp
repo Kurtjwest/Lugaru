@@ -19,6 +19,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Game.hpp"
+#include "GameGlobals.h"
 
 #include "Animation/Animation.hpp"
 #include "Audio/openal_wrapper.hpp"

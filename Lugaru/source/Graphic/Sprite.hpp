@@ -27,8 +27,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Graphic/Texture.hpp"
 #include "Graphic/gamegl.hpp"
 
-#include "Objects/Object.hpp"
-
 #include "Math/Frustum.hpp"
 #include "Math/Vector3.hpp"
 #include "Utils/ImageIO.hpp"
