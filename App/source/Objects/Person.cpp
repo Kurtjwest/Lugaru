@@ -31,6 +31,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Animation/Animation.hpp"
 #include "Audio/Sounds.hpp"
 #include "Audio/openal_wrapper.hpp"
+
 #include "Utils/Folders.hpp"
 #include "Math/Math.h"
 

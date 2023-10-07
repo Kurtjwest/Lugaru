@@ -28,18 +28,11 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 struct CampaignProgress
 {
-	int highscore;
-	float fasttime;
-	int score;
-	float time;
+	int highscore = 0;
+	float fasttime = 0.f;
+	int score = 0;
+	float time = 0.f;
 	std::vector<int> choices;
-	CampaignProgress()
-	{
-		highscore = 0;
-		fasttime = 0;
-		score = 0;
-		time = 0;
-	}
 };
 
 class Account
