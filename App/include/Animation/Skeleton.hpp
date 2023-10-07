@@ -31,6 +31,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 const int max_joints = 50;
 
+class Terrain;
+
 class Skeleton
 {
 public:
@@ -76,8 +78,8 @@ public:
 	bool freefall;
 
 	void FindForwards();
-	float DoConstraints(Vector3* coords, float* scale, bool tutorialActive, bool bloodtoggle, float multiplier);
-	void DoGravity(float* scale, float multiplier);
+	float DoConstraints(Vector3* coords, float* scale, bool tutorialActive, bool bloodtoggle, float multiplier, Terrain& terrain);
+	void DoGravity(float* scale, float multiplier, float gravity);
 	void FindRotationMuscle(int which, int animation);
 	void Load(const std::string& fileName, const std::string& lowfileName, const std::string& clothesfileName, 
 		const std::string& modelfileName, const std::string& model2fileName, const std::string& model3fileName, 

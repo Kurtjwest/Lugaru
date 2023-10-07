@@ -510,7 +510,7 @@ Vector3 Person::getProportionXYZ(int part) const
  * USES:
  * GameTick/doPlayerCollisions
  */
-void Person::CheckKick(const Terrain& terrain, bool tutorialActive, bool inDialog)
+void Person::CheckKick(Terrain& terrain, bool tutorialActive, bool inDialog)
 {
 	if (!(hasvictim && (animTarget == rabbitkickanim && victim && victim != this->shared_from_this() && frameCurrent >= 2 && animCurrent == rabbitkickanim) && distsq(&coords, &victim->coords) < 1.2 && !victim->skeleton.free)) {
 		return;
@@ -1541,7 +1541,7 @@ void Person::Reverse(bool tutorialActive)
 /* EFFECT
  * get hurt
  */
-void Person::DoDamage(float howmuch, const Terrain& terrain, bool tutorialActive, bool inDialog)
+void Person::DoDamage(float howmuch, Terrain& terrain, bool tutorialActive, bool inDialog)
 {
 	// stats?
 	if (id == 0) {
@@ -1779,7 +1779,7 @@ void Person::DoHead()
 /* EFFECT
  * ragdolls character?
  */
-void Person::RagDoll(bool checkcollision, const Terrain& terrain, bool tutorialActive, bool inDialog)
+void Person::RagDoll(bool checkcollision, Terrain& terrain, bool tutorialActive, bool inDialog)
 {
 	static Vector3 change;
 	static int i;
@@ -1849,12 +1849,12 @@ void Person::RagDoll(bool checkcollision, const Terrain& terrain, bool tutorialA
 			skeleton.joints[i].velocity = 0;
 			skeleton.joints[i].velchange = 0;
 		}
-		skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier);
+		skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain);
 		if (Animation::animations[animCurrent].height == lowheight || Animation::animations[animTarget].height == lowheight) {
-			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier);
-			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier);
-			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier);
-			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier);
+			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain);
+			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain);
+			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain);
+			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain);
 		}
 
 		speed = targetFrame().speed * 2;
@@ -5326,9 +5326,9 @@ void Person::DoStuff(Terrain& terrain, bool tutorialActive, bool inDialog)
 			}
 		}
 
-		skeleton.DoGravity(&scale, multiplier);
+		skeleton.DoGravity(&scale, multiplier, gravity);
 		float damageamount;
-		damageamount = skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier) * 5;
+		damageamount = skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain) * 5;
 		if (damage > damagetolerance - damageamount && !dead && (bonus != spinecrusher || bonustime > 1) && (bonus != style || bonustime > 1) && (bonus != cannon || bonustime > 1)) {
 			award_bonus(id, deepimpact);
 		}
@@ -6373,7 +6373,7 @@ void Person::DoStuff(Terrain& terrain, bool tutorialActive, bool inDialog)
 /* EFFECT
  * inverse kinematics helper function
  */
-static void IKHelper(Person* p, float interp, const Terrain& terrain, bool tutorialActive)
+static void IKHelper(Person* p, float interp, Terrain& terrain, bool tutorialActive)
 {
 	Vector3 point, change, change2;
 	float heightleft, heightright;
@@ -6408,14 +6408,14 @@ static void IKHelper(Person* p, float interp, const Terrain& terrain, bool tutor
 	p->jointPos(rightknee) = (p->jointPos(rightfoot) + change2) / 2 + (p->jointPos(rightknee)) / 2;
 
 	// fix up skeleton now that we've moved body parts?
-	p->skeleton.DoConstraints(&p->coords, &p->scale, tutorialActive, bloodtoggle, multiplier);
+	p->skeleton.DoConstraints(&p->coords, &p->scale, tutorialActive, bloodtoggle, multiplier, terrain);
 }
 
 /* EFFECT
  * MONSTER
  * TODO: ???
  */
-int Person::DrawSkeleton(const Terrain& terrain, bool tutorialActive)
+int Person::DrawSkeleton(Terrain& terrain, bool tutorialActive)
 {
 	int oldplayerdetail;
 	if ((frustum.SphereInFrustum(coords.x, coords.y + scale * 3, coords.z, scale * 8) && distsq(&viewer, &coords) < viewdistance * viewdistance) || skeleton.free == 3) {
@@ -7165,7 +7165,7 @@ int Person::DrawSkeleton(const Terrain& terrain, bool tutorialActive)
 
 /* FUNCTION?
  */
-int Person::SphereCheck(Vector3* p1, float radius, Vector3* p, Vector3* move, float* rotate, Model* model, const Terrain& terrain, bool tutorialActive, bool inDialog)
+int Person::SphereCheck(Vector3* p1, float radius, Vector3* p, Vector3* move, float* rotate, Model* model, Terrain& terrain, bool tutorialActive, bool inDialog)
 {
 	static float distance;
 	static float olddistance;

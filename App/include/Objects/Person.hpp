@@ -336,7 +336,7 @@ public:
 
     void changeCreatureType(person_type type, bool tutorialActive);
 
-    void CheckKick(const Terrain& terrain, bool tutorialActive, bool inDialog);
+    void CheckKick(Terrain& terrain, bool tutorialActive, bool inDialog);
     void CatchFire();
     void DoBlood(float howmuch, int which, bool tutorialActive);
     void DoBloodBig(float howmuch, int which, bool tutorialActive);
@@ -375,7 +375,7 @@ public:
 
     bool isWallJump() { return animation_bits[animTarget] & ab_walljump; }
     void Reverse(bool tutorialActive);
-    void DoDamage(float howmuch, const Terrain& terrain, bool tutorialActive, bool inDialog);
+    void DoDamage(float howmuch, Terrain& terrain, bool tutorialActive, bool inDialog);
     void DoHead();
     void DoMipmaps()
     {
@@ -384,14 +384,14 @@ public:
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, skeleton.skinsize, skeleton.skinsize, 0, GL_RGB, GL_UNSIGNED_BYTE, &skeleton.skinText[0]);
     }
 
-    int SphereCheck(Vector3* p1, float radius, Vector3* p, Vector3* move, float* rotate, Model* model, const Terrain& terrain, bool tutorialActive, bool inDialog);
-    int DrawSkeleton(const Terrain& terrain, bool tutorialActive);
+    int SphereCheck(Vector3* p1, float radius, Vector3* p, Vector3* move, float* rotate, Model* model, Terrain& terrain, bool tutorialActive, bool inDialog);
+    int DrawSkeleton(Terrain& terrain, bool tutorialActive);
     void Puff(int whichlabel);
     void FootLand(bodypart whichfoot, float opacity, Terrain& terrain);
     void DoStuff(Terrain& terrain, bool tutorialActive, bool inDialog);
     void setTargetAnimation(int);
     void DoAnimations(Terrain& terrain, bool tutorialActive, bool inDialog);
-    void RagDoll(bool checkcollision, const Terrain& terrain, bool tutorialActive, bool inDialog);
+    void RagDoll(bool checkcollision, Terrain& terrain, bool tutorialActive, bool inDialog);
 
     void takeWeapon(int weaponId);
 

@@ -20,6 +20,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Animation/Skeleton.hpp"
 
+#include "Environment/Terrain.hpp"
 #include "Objects/Object.hpp"
 #include "Graphic/Sprite.hpp"
 #include "Animation/Animation.hpp"
@@ -27,9 +28,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Utils/Folders.hpp"
 
-//extern float multiplier;
-extern float gravity;
-extern Terrain terrain;
+//extern Terrain terrain;
 extern int environment;
 extern float camerashake;
 extern bool freeze;
@@ -108,7 +107,7 @@ void Skeleton::FindForwards()
  * 
  * Tutorial::active
  */
-float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive, bool bloodtoggle, float multiplier)
+float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive, bool bloodtoggle, float multiplier, Terrain& terrain)
 {
 	const float elasticity = .3f;
 	Vector3 bounceness;
@@ -508,7 +507,7 @@ float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive
  * USES:
  * Person/Person::DoStuff
  */
-void Skeleton::DoGravity(float* scale, float multiplier)
+void Skeleton::DoGravity(float* scale, float multiplier, float gravity)
 {
 	for (unsigned i = 0; i < joints.size(); i++) {
 		if (
