@@ -27,7 +27,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Utils/Folders.hpp"
 
-extern float multiplier;
+//extern float multiplier;
 extern float gravity;
 extern Terrain terrain;
 extern int environment;
@@ -108,7 +108,7 @@ void Skeleton::FindForwards()
  * 
  * Tutorial::active
  */
-float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive, bool bloodtoggle)
+float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive, bool bloodtoggle, float multiplier)
 {
 	const float elasticity = .3f;
 	Vector3 bounceness;
@@ -508,7 +508,7 @@ float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive
  * USES:
  * Person/Person::DoStuff
  */
-void Skeleton::DoGravity(float* scale)
+void Skeleton::DoGravity(float* scale, float multiplier)
 {
 	for (unsigned i = 0; i < joints.size(); i++) {
 		if (

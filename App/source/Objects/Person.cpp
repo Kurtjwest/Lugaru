@@ -1849,12 +1849,12 @@ void Person::RagDoll(bool checkcollision, const Terrain& terrain, bool tutorialA
 			skeleton.joints[i].velocity = 0;
 			skeleton.joints[i].velchange = 0;
 		}
-		skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle);
+		skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier);
 		if (Animation::animations[animCurrent].height == lowheight || Animation::animations[animTarget].height == lowheight) {
-			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle);
-			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle);
-			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle);
-			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle);
+			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier);
+			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier);
+			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier);
+			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier);
 		}
 
 		speed = targetFrame().speed * 2;
@@ -5326,9 +5326,9 @@ void Person::DoStuff(Terrain& terrain, bool tutorialActive, bool inDialog)
 			}
 		}
 
-		skeleton.DoGravity(&scale);
+		skeleton.DoGravity(&scale, multiplier);
 		float damageamount;
-		damageamount = skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle) * 5;
+		damageamount = skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier) * 5;
 		if (damage > damagetolerance - damageamount && !dead && (bonus != spinecrusher || bonustime > 1) && (bonus != style || bonustime > 1) && (bonus != cannon || bonustime > 1)) {
 			award_bonus(id, deepimpact);
 		}
@@ -6408,7 +6408,7 @@ static void IKHelper(Person* p, float interp, const Terrain& terrain, bool tutor
 	p->jointPos(rightknee) = (p->jointPos(rightfoot) + change2) / 2 + (p->jointPos(rightknee)) / 2;
 
 	// fix up skeleton now that we've moved body parts?
-	p->skeleton.DoConstraints(&p->coords, &p->scale, tutorialActive, bloodtoggle);
+	p->skeleton.DoConstraints(&p->coords, &p->scale, tutorialActive, bloodtoggle, multiplier);
 }
 
 /* EFFECT

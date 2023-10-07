@@ -21,13 +21,11 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKELETON_HPP_
 #define _SKELETON_HPP_
 
-#include "Animation/Animation.hpp"
 #include "Animation/Joint.hpp"
 #include "Animation/Muscle.hpp"
 
 #include "Graphic/Models.hpp"
 
-#include "Utils/binio.h"
 #include "Utils/Callbacks.h"
 #include "Math/Vector3.hpp"
 
@@ -37,7 +35,6 @@ class Skeleton
 {
 public:
 	std::vector<Joint> joints;
-
 	std::vector<Muscle> muscles;
 
 	int selected;
@@ -79,8 +76,8 @@ public:
 	bool freefall;
 
 	void FindForwards();
-	float DoConstraints(Vector3* coords, float* scale, bool tutorialActive, bool bloodtoggle);
-	void DoGravity(float* scale);
+	float DoConstraints(Vector3* coords, float* scale, bool tutorialActive, bool bloodtoggle, float multiplier);
+	void DoGravity(float* scale, float multiplier);
 	void FindRotationMuscle(int which, int animation);
 	void Load(const std::string& fileName, const std::string& lowfileName, const std::string& clothesfileName, 
 		const std::string& modelfileName, const std::string& model2fileName, const std::string& model3fileName, 
