@@ -26,7 +26,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "GameGlobals.h"
 
 #include "Level/Awards.hpp"
-//#include "Level/Dialog.hpp"
 
 #include "Animation/Animation.hpp"
 #include "Audio/Sounds.hpp"
@@ -1849,12 +1848,12 @@ void Person::RagDoll(bool checkcollision, Terrain& terrain, bool tutorialActive,
 			skeleton.joints[i].velocity = 0;
 			skeleton.joints[i].velchange = 0;
 		}
-		skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain);
+		skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain, environment, camerashake);
 		if (Animation::animations[animCurrent].height == lowheight || Animation::animations[animTarget].height == lowheight) {
-			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain);
-			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain);
-			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain);
-			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain);
+			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain, environment, camerashake);
+			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain, environment, camerashake);
+			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain, environment, camerashake);
+			skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain, environment, camerashake);
 		}
 
 		speed = targetFrame().speed * 2;
@@ -5328,7 +5327,7 @@ void Person::DoStuff(Terrain& terrain, bool tutorialActive, bool inDialog)
 
 		skeleton.DoGravity(&scale, multiplier, gravity);
 		float damageamount;
-		damageamount = skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain) * 5;
+		damageamount = skeleton.DoConstraints(&coords, &scale, tutorialActive, bloodtoggle, multiplier, terrain, environment, camerashake) * 5;
 		if (damage > damagetolerance - damageamount && !dead && (bonus != spinecrusher || bonustime > 1) && (bonus != style || bonustime > 1) && (bonus != cannon || bonustime > 1)) {
 			award_bonus(id, deepimpact);
 		}
@@ -6408,7 +6407,7 @@ static void IKHelper(Person* p, float interp, Terrain& terrain, bool tutorialAct
 	p->jointPos(rightknee) = (p->jointPos(rightfoot) + change2) / 2 + (p->jointPos(rightknee)) / 2;
 
 	// fix up skeleton now that we've moved body parts?
-	p->skeleton.DoConstraints(&p->coords, &p->scale, tutorialActive, bloodtoggle, multiplier, terrain);
+	p->skeleton.DoConstraints(&p->coords, &p->scale, tutorialActive, bloodtoggle, multiplier, terrain, environment, camerashake);
 }
 
 /* EFFECT

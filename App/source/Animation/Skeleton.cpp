@@ -28,9 +28,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Utils/Folders.hpp"
 
-//extern Terrain terrain;
-extern int environment;
-extern float camerashake;
+//extern float camerashake;
 extern bool freeze;
 extern int detail;
 
@@ -107,7 +105,7 @@ void Skeleton::FindForwards()
  * 
  * Tutorial::active
  */
-float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive, bool bloodtoggle, float multiplier, Terrain& terrain)
+float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive, bool bloodtoggle, float multiplier, Terrain& terrain, int environment, float camerashake)
 {
 	const float elasticity = .3f;
 	Vector3 bounceness;
