@@ -1,4 +1,4 @@
-project(AppLib)
+project(GameLib)
 
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS 
 	${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp
@@ -24,8 +24,7 @@ target_compile_definitions(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
-	PUBLIC SDL2::SDL2
-	PUBLIC GameLib
+	PUBLIC GraphicsLib
 )
 
 target_include_directories(${PROJECT_NAME} 

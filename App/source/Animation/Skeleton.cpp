@@ -28,11 +28,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Utils/Folders.hpp"
 
-//extern float camerashake;
-extern bool freeze;
-extern int detail;
-
-extern int whichjointstartarray[26];
 extern int whichjointendarray[26];
 
 Skeleton::Skeleton()
@@ -105,7 +100,7 @@ void Skeleton::FindForwards()
  * 
  * Tutorial::active
  */
-float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive, bool bloodtoggle, float multiplier, Terrain& terrain, int environment, float camerashake)
+float Skeleton::DoConstraints(Vector3* coords, float* scale, bool tutorialActive, bool bloodtoggle, float multiplier, Terrain& terrain, int environment, float camerashake, bool freeze, int detail, int whichjointstartarray[26])
 {
 	const float elasticity = .3f;
 	Vector3 bounceness;

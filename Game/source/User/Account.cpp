@@ -27,8 +27,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 #include <string.h>
 
-extern bool devtools;
-
 std::vector<Account> Account::accounts;
 int Account::i_active = -1;
 
@@ -224,7 +222,7 @@ void Account::winCampaignLevel(int choice, int score, float time)
     campaignProgress[currentCampaign].time = time;
 }
 
-void Account::winLevel(int level, int score, float time)
+void Account::winLevel(int level, int score, float time, bool devtools)
 {
     if (!devtools) {
         if (score > highscore[level]) {

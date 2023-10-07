@@ -45,7 +45,7 @@ public:
     static void Load(bool trilinear, ProgressCallback callback);
 
     void draw();
-    void doStuff(int, bool tutorialActive, bool inDialog, AwardCallback awardNinja, AwardCallback awardBullseye);
+    void doStuff(int, bool tutorialActive, bool inDialog, AwardCallback awardNinja, AwardCallback awardBullseye, int whichjointstartarray[26]);
 
     int getType()
     {
@@ -126,7 +126,7 @@ public:
     Weapons();
 
     int Draw();
-    void DoStuff(bool tutorialActive, bool inDialog, AwardCallback awardNinja, AwardCallback awardBullseye);
+    void DoStuff(bool tutorialActive, bool inDialog, int whichjointstartarray[26], AwardCallback awardNinja, AwardCallback awardBullseye);
 };
 
 extern Weapons weapons;

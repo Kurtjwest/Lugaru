@@ -54,7 +54,7 @@ public:
 
 	void endGame();
 	void winCampaignLevel(int choice, int score, float time);
-	void winLevel(int level, int score, float time);
+	void winLevel(int level, int score, float time, bool devtools);
 
 	// getter and setters
 	int getDifficulty();

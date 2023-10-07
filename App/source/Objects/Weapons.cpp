@@ -130,7 +130,7 @@ void Weapon::Load(bool trilinear, ProgressCallback callback)
 	staffmodel.CalculateNormals(1, callback);
 }
 
-void Weapon::doStuff(int i, bool tutorialActive, bool inDialog, AwardCallback awardNinja, AwardCallback awardBullseye)
+void Weapon::doStuff(int i, bool tutorialActive, bool inDialog, AwardCallback awardNinja, AwardCallback awardBullseye, int whichjointstartarray[26])
 {
 	int whichpatchx, whichpatchz, whichhit;
 	Vector3 start, end, colpoint, normalrot, footvel, footpoint;
@@ -283,7 +283,7 @@ void Weapon::doStuff(int i, bool tutorialActive, bool inDialog, AwardCallback aw
 
 							Person::players[j]->weaponids[Person::players[j]->num_weapons - 1] = i;
 
-							Person::players[j]->RagDoll(0, terrain, tutorialActive, inDialog);
+							Person::players[j]->RagDoll(0, terrain, tutorialActive, inDialog, multiplier, whichjointstartarray);
 							Person::players[j]->jointVel(abdomen) += velocity * 2;
 							Person::players[j]->jointVel(neck) += velocity * 2;
 							Person::players[j]->jointVel(rightshoulder) += velocity * 2;
@@ -1035,13 +1035,13 @@ void Weapon::doStuff(int i, bool tutorialActive, bool inDialog, AwardCallback aw
 	}
 }
 
-void Weapons::DoStuff(bool tutorialActive, bool inDialog, AwardCallback awardNinja, AwardCallback awardBullseye)
+void Weapons::DoStuff(bool tutorialActive, bool inDialog, int whichjointstartarray[26], AwardCallback awardNinja, AwardCallback awardBullseye)
 {
 	//Move
 	// TODO What the actual fuck is this?
 	int i = 0;
 	for (std::vector<Weapon>::iterator weapon = begin(); weapon != end(); ++weapon) {
-		weapon->doStuff(i++, tutorialActive, inDialog, awardNinja, awardBullseye);
+		weapon->doStuff(i++, tutorialActive, inDialog, awardNinja, awardBullseye, whichjointstartarray);
 	}
 }
 
