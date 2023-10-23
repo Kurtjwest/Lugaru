@@ -147,7 +147,7 @@ static void set_clothes(int pnum, const char* args)
 	snprintf(buf, 63, "Textures/%s.png", args);
 
 	const std::string file_path = Folders::getResourcePath(buf);
-	FILE* tfile;
+	FILE* tfile = nullptr;
 	tfile = fopen(file_path.c_str(), "rb");
 	if (tfile == NULL) {
 		perror((std::string("Couldn't find file ") + file_path + " to assign as clothes").c_str());
@@ -161,6 +161,7 @@ static void set_clothes(int pnum, const char* args)
 
 		return;
 	}
+	fclose(tfile);
 
 	int id = (int)Person::players[pnum]->clothes.size();
 	Person::players[pnum]->clothes.push_back(std::string(buf));
