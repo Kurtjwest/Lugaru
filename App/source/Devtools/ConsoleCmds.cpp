@@ -312,7 +312,7 @@ void ch_save(const char* args)
 		Person::players[0]->yaw, Person::players[0]->targetyaw, Person::players[0]->num_weapons);
 	if (Person::players[0]->num_weapons > 0 && Person::players[0]->num_weapons < 5) {
 		for (int j = 0; j < Person::players[0]->num_weapons; j++) {
-			fpackf(tfile, "Bi", weapons[Person::players[0]->weaponids[j]].getType());
+			fpackf(tfile, "Bi", weapons.weapons[Person::players[0]->weaponids[j]].getType());
 		}
 	}
 
@@ -365,7 +365,7 @@ void ch_save(const char* args)
 			Person::players[j]->num_weapons, Person::players[j]->howactive, Person::players[j]->scale, Person::players[j]->immobile, Person::players[j]->yaw);
 		if (Person::players[j]->num_weapons < 5) {
 			for (int k = 0; k < Person::players[j]->num_weapons; k++) {
-				fpackf(tfile, "Bi", weapons[Person::players[j]->weaponids[k]].getType());
+				fpackf(tfile, "Bi", weapons.weapons[Person::players[j]->weaponids[k]].getType());
 			}
 		}
 		if (Person::players[j]->numwaypoints < 30) {

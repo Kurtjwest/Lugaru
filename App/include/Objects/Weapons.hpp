@@ -120,10 +120,10 @@ private:
     int lastdrawnanim;
 };
 
-class Weapons : public std::vector<Weapon>
+class Weapons 
 {
 public:
-    Weapons();
+    std::vector<Weapon> weapons;
 
     int Draw();
     void DoStuff(bool tutorialActive, bool inDialog, int whichjointstartarray[26], AwardCallback awardNinja, AwardCallback awardBullseye);

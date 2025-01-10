@@ -1040,7 +1040,7 @@ void Weapons::DoStuff(bool tutorialActive, bool inDialog, int whichjointstartarr
 	//Move
 	// TODO What the actual fuck is this?
 	int i = 0;
-	for (std::vector<Weapon>::iterator weapon = begin(); weapon != end(); ++weapon) {
+	for (std::vector<Weapon>::iterator weapon =  weapons.begin(); weapon !=  weapons.end(); ++weapon) {
 		weapon->doStuff(i++, tutorialActive, inDialog, awardNinja, awardBullseye, whichjointstartarray);
 	}
 }
@@ -1237,12 +1237,8 @@ int Weapons::Draw()
 	glCullFace(GL_FRONT);
 	glDepthMask(1);
 
-	for (std::vector<Weapon>::iterator weapon = begin(); weapon != end(); ++weapon) {
+	for (std::vector<Weapon>::iterator weapon =  weapons.begin(); weapon !=  weapons.end(); ++weapon) {
 		weapon->draw();
 	}
 	return 0;
-}
-
-Weapons::Weapons()
-{
 }

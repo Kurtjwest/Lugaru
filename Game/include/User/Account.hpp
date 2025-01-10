@@ -21,10 +21,10 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _ACCOUNT_HPP_
 #define _ACCOUNT_HPP_
 
-#include <fstream>
 #include <map>
 #include <string>
 #include <vector>
+#include <cstdio>
 
 struct CampaignProgress
 {

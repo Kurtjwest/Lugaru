@@ -64,6 +64,7 @@ void SkyBox::draw(bool desertEnvironment, float viewDistance, int blurness, bool
 	}
 
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
 	front.bind();
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -78,6 +79,7 @@ void SkyBox::draw(bool desertEnvironment, float viewDistance, int blurness, bool
 	glTexCoord2f(0, 1);
 	glVertex3f(-size, size, size);
 	glEnd();
+
 	back.bind();
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -92,6 +94,7 @@ void SkyBox::draw(bool desertEnvironment, float viewDistance, int blurness, bool
 	glTexCoord2f(0, 0);
 	glVertex3f(size, -size, -size);
 	glEnd();
+
 	up.bind();
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -106,12 +109,12 @@ void SkyBox::draw(bool desertEnvironment, float viewDistance, int blurness, bool
 	glTexCoord2f(1, 1);
 	glVertex3f(size, size, -size);
 	glEnd();
+
 	down.bind();
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glBegin(GL_QUADS);
 	glNormal3f(0.0f, 1.0f, 0);
-
 	glTexCoord2f(0, 0);
 	glVertex3f(-size, -size, -size);
 	glTexCoord2f(1, 0);
@@ -121,6 +124,7 @@ void SkyBox::draw(bool desertEnvironment, float viewDistance, int blurness, bool
 	glTexCoord2f(0, 1);
 	glVertex3f(-size, -size, size);
 	glEnd();
+
 	right.bind();
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -135,6 +139,7 @@ void SkyBox::draw(bool desertEnvironment, float viewDistance, int blurness, bool
 	glTexCoord2f(0, 0);
 	glVertex3f(size, -size, size);
 	glEnd();
+
 	left.bind();
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -149,6 +154,7 @@ void SkyBox::draw(bool desertEnvironment, float viewDistance, int blurness, bool
 	glTexCoord2f(0, 1);
 	glVertex3f(-size, size, -size);
 	glEnd();
+
 	glEnable(GL_CULL_FACE);
 	glDepthMask(1);
 	glPopMatrix();

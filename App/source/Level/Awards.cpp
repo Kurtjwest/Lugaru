@@ -119,7 +119,7 @@ int award_awards(int* awards)
         awards[numawards] = awardknifefighter;
         numawards++;
     }
-    if (numattacks == numunarmedattack && numthrowkill == 0 && weapons.size() > 0) {
+    if (numattacks == numunarmedattack && numthrowkill == 0 &&  weapons.weapons.size() > 0) {
         awards[numawards] = awardkungfu;
         numawards++;
     }

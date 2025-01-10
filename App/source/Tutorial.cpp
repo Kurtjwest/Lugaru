@@ -210,7 +210,7 @@ void Tutorial::Do(float multiplier, bool bloodtoggle)
 			w.firstfree = 1;
 			w.physics = 1;
 
-			weapons.push_back(w);
+			weapons.weapons.push_back(w);
 		} break;
 		case 40:
 		case 41:
@@ -218,7 +218,7 @@ void Tutorial::Do(float multiplier, bool bloodtoggle)
 			maxtime = 300;
 			break;
 		case 44:
-			weapons[0].owner = 1;
+			weapons.weapons[0].owner = 1;
 			Person::players[0]->weaponactive = -1;
 			Person::players[0]->num_weapons = 0;
 			Person::players[1]->weaponactive = 0;
@@ -232,7 +232,7 @@ void Tutorial::Do(float multiplier, bool bloodtoggle)
 			maxtime = 300;
 			break;
 		case 45:
-			weapons[0].owner = 1;
+			weapons.weapons[0].owner = 1;
 			Person::players[0]->weaponactive = -1;
 			Person::players[0]->num_weapons = 0;
 			Person::players[1]->weaponactive = 0;
@@ -242,14 +242,14 @@ void Tutorial::Do(float multiplier, bool bloodtoggle)
 			maxtime = 300;
 			break;
 		case 46:
-			weapons[0].owner = 1;
+			weapons.weapons[0].owner = 1;
 			Person::players[0]->weaponactive = -1;
 			Person::players[0]->num_weapons = 0;
 			Person::players[1]->weaponactive = 0;
 			Person::players[1]->num_weapons = 1;
 			Person::players[1]->weaponids[0] = 0;
 
-			weapons[0].setType(sword);
+			weapons.weapons[0].setType(sword);
 
 			maxtime = 300;
 			break;
@@ -277,10 +277,10 @@ void Tutorial::Do(float multiplier, bool bloodtoggle)
 			w.firstfree = 1;
 			w.physics = 1;
 
-			weapons.push_back(w);
+			weapons.weapons.push_back(w);
 
-			weapons[0].owner = 1;
-			weapons[1].owner = 0;
+			weapons.weapons[0].owner = 1;
+			weapons.weapons[1].owner = 0;
 			Person::players[0]->weaponactive = 0;
 			Person::players[0]->num_weapons = 1;
 			Person::players[0]->weaponids[0] = 1;
@@ -296,8 +296,8 @@ void Tutorial::Do(float multiplier, bool bloodtoggle)
 
 			maxtime = 15;
 
-			weapons[0].owner = 1;
-			weapons[1].owner = 0;
+			weapons.weapons[0].owner = 1;
+			weapons.weapons[1].owner = 0;
 			Person::players[0]->weaponactive = 0;
 			Person::players[0]->num_weapons = 1;
 			Person::players[0]->weaponids[0] = 1;
@@ -306,10 +306,10 @@ void Tutorial::Do(float multiplier, bool bloodtoggle)
 			Person::players[1]->weaponids[0] = 0;
 
 			if (Person::players[0]->hasWeapon()) {
-				weapons[Person::players[0]->weaponids[Person::players[0]->weaponactive]].setType(staff);
+				weapons.weapons[Person::players[0]->weaponids[Person::players[0]->weaponactive]].setType(staff);
 			}
 			else {
-				weapons[0].setType(staff);
+				weapons.weapons[0].setType(staff);
 			}
 			break;
 		case 49:
@@ -319,12 +319,12 @@ void Tutorial::Do(float multiplier, bool bloodtoggle)
 
 			maxtime = 200;
 
-			weapons[1].position = 1000;
-			weapons[1].tippoint = 1000;
+			weapons.weapons[1].position = 1000;
+			weapons.weapons[1].tippoint = 1000;
 
-			weapons[0].setType(knife);
+			weapons.weapons[0].setType(knife);
 
-			weapons[0].owner = 0;
+			weapons.weapons[0].owner = 0;
 			Person::players[1]->weaponactive = -1;
 			Person::players[1]->num_weapons = 0;
 			Person::players[0]->weaponactive = 0;
@@ -360,7 +360,7 @@ void Tutorial::Do(float multiplier, bool bloodtoggle)
 			Person::players[1]->weaponstuck = -1;
 			Person::players[1]->weaponactive = -1;
 
-			weapons.clear();
+			weapons.weapons.clear();
 		} break;
 		case 51:
 			maxtime = 80000;
@@ -667,7 +667,7 @@ void Tutorial::DrawTextInfo()
 		break;
 	case 25:
 		string1 = "Dodge by pressing back and attack. Dodging is essential";
-		string2 = "against enemies with swords or other long weapons.";
+		string2 = "against enemies with swords or other long  weapons.weapons.";
 		break;
 	case 26:
 		string1 = "REVERSALS AND COUNTER-REVERSALS";

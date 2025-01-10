@@ -189,6 +189,7 @@ int Frustum::SphereInFrustum(float x, float y, float z, float radius) const
 			return 0;
 		}
 	}
+
 	if (c2 >= 6) {
 		return 2;
 	}

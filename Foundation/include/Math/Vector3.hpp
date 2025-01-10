@@ -21,7 +21,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _QUATERNIONS_HPP_
 #define _QUATERNIONS_HPP_
 
-#include <math.h>
+#include <cmath>
 #include <json/value.h>
 
 class Vector3
