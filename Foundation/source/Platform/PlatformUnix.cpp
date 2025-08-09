@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifdef PLATFORM_UNIX
+#ifndef _WIN32
 
 #include "Platform/Platform.hpp"
 

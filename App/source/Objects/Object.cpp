@@ -19,6 +19,9 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Objects/Object.hpp"
+#include <algorithm>
+using std::min;
+using std::max;
 
 std::vector<std::unique_ptr<Object>> Object::objects;
 Vector3 Object::center;

@@ -20,8 +20,8 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Utils/ImageIO.hpp"
 #include "Utils/Folders.hpp"
-#include "utils/LoadPng.h"
-#include "utils/LoadJpeg.h"
+#include "Utils/LoadPng.h"
+#include "Utils/LoadJpeg.h"
 #include "Platform/Platform.hpp"
 
 #include <cstdio>

@@ -24,6 +24,13 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdarg.h>
 #include <stddef.h>
 
+#if defined(__APPLE__)
+  #include <stdint.h>
+  #ifndef BinIO_STDINT_HEADER
+    #define BinIO_STDINT_HEADER <stdint.h>
+  #endif
+#endif
+
 #define BinIO_TYPE_IGNORE_BYTE         'x'
 #define BinIO_TYPE_BYTE                'b'
 #define BinIO_TYPE_INT16               's'

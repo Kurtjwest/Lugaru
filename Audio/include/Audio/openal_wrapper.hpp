@@ -24,13 +24,13 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Math/Vector3.hpp"
 #include "Platform/Platform.hpp"
 
-#ifdef __APPLE__
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#else
+// #ifdef __APPLE__
+// #include <OpenAL/al.h>
+// #include <OpenAL/alc.h>
+// #else
 #include <AL/al.h>
 #include <AL/alc.h>
-#endif
+// #endif
 
 #include <vorbis/vorbisfile.h>
 

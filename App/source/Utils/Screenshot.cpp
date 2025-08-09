@@ -12,6 +12,10 @@
 #include "Utils/Folders.hpp"
 #include "Platform/Platform.hpp"
 
+#if !defined(_WIN32)
+    #include <unistd.h>
+#endif
+
 /* These two are needed for screenshot */
 extern int kContextWidth;
 extern int kContextHeight;

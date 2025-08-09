@@ -25,7 +25,11 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Game.hpp"
 #include "Utils/Folders.hpp"
 
+#if defined(_WIN32)
 #include "Utils/dirent.h"
+#else
+#include <dirent.h>
+#endif
 
 // Global canpaign values
 std::vector<CampaignLevel> campaignlevels;

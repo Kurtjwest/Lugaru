@@ -20,7 +20,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 target_compile_definitions(${PROJECT_NAME} 
-	PRIVATE $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
+	PRIVATE $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS;NOMINMAX>
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -35,6 +35,7 @@ target_include_directories(${PROJECT_NAME}
 
 target_compile_options(${PROJECT_NAME} 
   PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/W2 /wd4305 /wd4244>
+  PRIVATE $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:-Wno-logical-op-parentheses -Wno-error=logical-op-parentheses>
   #$<$<CXX_COMPILER_ID:MSVC>:/WX /W4>
   PRIVATE $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Werror>
   # -Wextra -Wpedantic 

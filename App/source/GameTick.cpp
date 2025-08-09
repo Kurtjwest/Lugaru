@@ -37,18 +37,21 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "User/Settings.hpp"
 #include "Utils/Folders.hpp"
 #include "Utils/Input.hpp"
-#include "Utils/dirent.h"
 #include "Math/Math.h"
 
-#if PLATFORM_UNIX
+#if defined(_WIN32)
+#include "Utils/dirent.h"
+#include <direct.h>
+#else
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#else
-#include <direct.h>
+#include <dirent.h>
 #endif
 
 #include <algorithm>
+using std::min;
+using std::max;
 #include <cmath>
 #include <ctime>
 #include <limits>
@@ -288,7 +291,7 @@ void Screenshot(void)
 	char filename[1024];
 	time_t t = time(NULL);
 	struct tm* tme = localtime(&t);
-	sprintf(filename, "Screenshot-%04d%02d%02d-%02d%02d%02d.png",
+	snprintf(filename, sizeof filename, "Screenshot-%04d%02d%02d-%02d%02d%02d.png",
 		tme->tm_year + 1900, tme->tm_mon + 1, tme->tm_mday, tme->tm_hour, tme->tm_min, tme->tm_sec);
 
 	save_screenshot(filename);
@@ -445,7 +448,7 @@ bool Game::LoadLevel(int which)
 	}
 	else if (which >= 0 && which <= 15) {
 		char buf[32];
-		sprintf(buf, "map%d", which + 1); // challenges
+		snprintf(buf, sizeof buf, "map%d", which + 1); // challenges
 		return LoadLevel(buf);
 	}
 	else {

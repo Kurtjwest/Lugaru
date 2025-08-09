@@ -363,7 +363,7 @@ void Weapon::doStuff(int i, bool tutorialActive, bool inDialog, AwardCallback aw
 				tippoint.z = M[14];
 				glPopMatrix();
 				position -= tippoint * .15;
-				Vector3 temppoint1, temppoint2;
+				// Vector3 temppoint1, temppoint2;
 
 				rotation3 = 0;
 				smallrotation = 90;

@@ -370,6 +370,7 @@ void DoFrameRate(int update)
 			frames = 0;
 		}
 	}
+(void)frames;
 }
 
 void DoUpdate()
@@ -697,7 +698,8 @@ int main(int argc, char** argv)
 		std::string e = "Caught std::exception: ";
 		e += error.what();
 
-		LOG(e);
+		// LOG(e);
+		std::cerr << e << std::endl;
 
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Exception caught", error.what(), NULL);
 

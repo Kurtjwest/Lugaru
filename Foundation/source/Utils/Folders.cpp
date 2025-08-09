@@ -23,17 +23,15 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <cerrno>
 #include <cstdlib>
 #include <cstring>
-//#include <unistd.h>
-
-#if PLATFORM_UNIX
-#include <pwd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#endif
 
 #if _WIN32
 #include <shlobj.h> // to get paths related functions
 #include <windows.h>
+#else
+#include <unistd.h>
+#include <pwd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #endif
 
 const std::string Folders::dataDir = DATA_DIR;
@@ -102,7 +100,7 @@ std::string Folders::getGenericDirectory(const char* ENVVAR, const std::string& 
 }
 #endif
 
-#if PLATFORM_UNIX
+#if !defined(_WIN32)
 const char* Folders::getHomeDirectory()
 {
     const char* homedir = getenv("HOME");
