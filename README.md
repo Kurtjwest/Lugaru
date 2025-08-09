@@ -13,7 +13,7 @@ Development is done with
 * Conan 2.x
 * CMake 3.27.x
 * Windows: Visual Studio 2022 Community Edition
-* Linux: Make
+* Linux/macOS: Make
 
 ## Building
 
@@ -32,14 +32,14 @@ On Windows
 cmake --preset conan-default
 ```
 
-On Linux
+On Linux/macOS
 ```
 cmake --preset conan-debug
 cmake --preset conan-release
 ```
 
 On Windows, open the generaed solution file in the build folder.
-On Linux use
+On Linux/macOS use
 ```
 cmake --build build/Debug
 cmake --build build/Release
