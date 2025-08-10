@@ -59,6 +59,8 @@ int kContextHeight = 0;
 
 //-----------------------------------------------------------------------------------------------------------------------
 
+static Point gMidPoint;
+
 // OpenGL Drawing
 
 void initGL()
@@ -110,7 +112,7 @@ void initGL()
 	}
 }
 
-void toggleFullscreen()
+/* void toggleFullscreen()
 {
 	fullscreen = !fullscreen;
 	Uint32 flags = SDL_GetWindowFlags(sdlwindow);
@@ -121,46 +123,89 @@ void toggleFullscreen()
 		flags |= SDL_WINDOW_FULLSCREEN;
 	}
 	SDL_SetWindowFullscreen(sdlwindow, flags);
+} */
+void toggleFullscreen() {
+    fullscreen = !fullscreen;
+    if (fullscreen) {
+        SDL_SetWindowFullscreen(sdlwindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    } else {
+        SDL_SetWindowFullscreen(sdlwindow, 0);
+    }
+}
+
+static inline void UpdateWindowMetricsFromSDL()
+{
+    int w = 0, h = 0;
+    SDL_GetWindowSize(sdlwindow, &w, &h);
+    kContextWidth  = w;
+    kContextHeight = h;
+
+    int dw = 0, dh = 0;
+    SDL_GL_GetDrawableSize(sdlwindow, &dw, &dh);
+    if (dw <= 0 || dh <= 0) { dw = w; dh = h; }
+
+    screenwidth  = dw;
+    screenheight = dh;
+
+    glViewport(0, 0, screenwidth, screenheight);
+
+    gMidPoint.h = kContextWidth  / 2;
+    gMidPoint.v = kContextHeight / 2;
+
+}
+
+static inline void SyncFullscreenFlagFromSDL()
+{
+    const Uint32 flags = SDL_GetWindowFlags(sdlwindow);
+    fullscreen = (flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP)) != 0;
 }
 
 SDL_bool sdlEventProc(const SDL_Event& e)
 {
-	switch (e.type) {
-	case SDL_QUIT:
-		return SDL_FALSE;
+    switch (e.type) {
+    case SDL_QUIT:
+        return SDL_FALSE;
 
-	case SDL_WINDOWEVENT:
-		if (e.window.event == SDL_WINDOWEVENT_CLOSE) {
-			return SDL_FALSE;
+    case SDL_WINDOWEVENT:
+    	switch (e.window.event) {
+    	case SDL_WINDOWEVENT_CLOSE:
+        	return SDL_FALSE;
+
+    	case SDL_WINDOWEVENT_SIZE_CHANGED:
+    	case SDL_WINDOWEVENT_RESIZED:
+    	case SDL_WINDOWEVENT_MAXIMIZED:
+    	case SDL_WINDOWEVENT_RESTORED:
+    	case SDL_WINDOWEVENT_DISPLAY_CHANGED:
+        	UpdateWindowMetricsFromSDL();
+        	SyncFullscreenFlagFromSDL();  // green-button native fullscreen will be reflected
+        	break;
+
+    	default: break;
 		}
 		break;
 
-	case SDL_MOUSEMOTION:
-		deltah += e.motion.xrel;
-		deltav += e.motion.yrel;
-		break;
+    case SDL_MOUSEMOTION:
+        deltah += e.motion.xrel;
+        deltav += e.motion.yrel;
+        break;
 
-	case SDL_KEYDOWN:
-		if ((e.key.keysym.scancode == SDL_SCANCODE_G) &&
-			(e.key.keysym.mod & KMOD_CTRL)) {
-			SDL_bool mode = SDL_TRUE;
-			if ((SDL_GetWindowFlags(sdlwindow) & SDL_WINDOW_FULLSCREEN) == 0) {
-				mode = (SDL_GetWindowGrab(sdlwindow) ? SDL_FALSE : SDL_TRUE);
-			}
-			SDL_SetWindowGrab(sdlwindow, mode);
-			SDL_SetRelativeMouseMode(mode);
-		}
-		else if ((e.key.keysym.scancode == SDL_SCANCODE_RETURN) && (e.key.keysym.mod & KMOD_ALT)) {
-			toggleFullscreen();
-		}
-		break;
-	}
-	return SDL_TRUE;
+    case SDL_KEYDOWN:
+        if ((e.key.keysym.scancode == SDL_SCANCODE_G) && (e.key.keysym.mod & KMOD_CTRL)) {
+            SDL_bool mode = SDL_TRUE;
+            if ((SDL_GetWindowFlags(sdlwindow) & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP)) == 0) {
+                mode = (SDL_GetWindowGrab(sdlwindow) ? SDL_FALSE : SDL_TRUE);
+            }
+            SDL_SetWindowGrab(sdlwindow, mode);
+            SDL_SetRelativeMouseMode(mode);
+        } else if ((e.key.keysym.scancode == SDL_SCANCODE_RETURN) && (e.key.keysym.mod & KMOD_ALT)) {
+            toggleFullscreen();
+        }
+        break;
+    }
+    return SDL_TRUE;
 }
 
 // --------------------------------------------------------------------------
-
-static Point gMidPoint;
 
 bool SetUp()
 {
@@ -219,14 +264,15 @@ bool SetUp()
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 1);
+	SDL_SetHint(SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES, "1");
 
 	// TODO High DPI fix necessary?
-	Uint32 sdlflags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN; // | SDL_WINDOW_ALLOW_HIGHDPI;
+	Uint32 sdlflags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE; // | SDL_WINDOW_ALLOW_HIGHDPI;
 	if (commandLineOptions[FULLSCREEN]) {
 		fullscreen = commandLineOptions[FULLSCREEN].last()->type();
 	}
 	if (fullscreen) {
-		sdlflags |= SDL_WINDOW_FULLSCREEN;
+		sdlflags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 	}
 	if (!commandLineOptions[NOMOUSEGRAB].last()->type()) {
 		sdlflags |= SDL_WINDOW_INPUT_GRABBED;
@@ -234,6 +280,7 @@ bool SetUp()
 
 	sdlwindow = SDL_CreateWindow("Lugaru", SDL_WINDOWPOS_CENTERED_DISPLAY(0), SDL_WINDOWPOS_CENTERED_DISPLAY(0),
 		kContextWidth, kContextHeight, sdlflags);
+	SyncFullscreenFlagFromSDL();
 
 	if (!sdlwindow) {
 		fprintf(stderr, "SDL_CreateWindow() failed: %s\n", SDL_GetError());
@@ -375,6 +422,7 @@ void DoFrameRate(int update)
 
 void DoUpdate()
 {
+	SyncFullscreenFlagFromSDL();
 	static float sps = 200;
 	static int count;
 	static float oldmult;

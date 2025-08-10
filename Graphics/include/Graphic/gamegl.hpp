@@ -30,7 +30,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 #include <string>
 
-#ifdef WIN32
+#ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #define Polygon WinPolygon
 #include <windows.h>
@@ -39,6 +39,9 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #define GL_GLEXT_PROTOTYPES 1
 #ifdef __APPLE__
+#ifndef GL_SILENCE_DEPRECATION
+  #define GL_SILENCE_DEPRECATION 1
+#endif
 #include <OpenGL/gl.h>
 #include <OpenGL/glext.h>
 #include <OpenGL/glu.h>
